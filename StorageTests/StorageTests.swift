@@ -28,8 +28,46 @@ class StorageTests: XCTestCase {
         }
     }
     
+    struct NestedDefault: Storable {
+        let names: [String]
+        let numbers: [Int]
+        let ages: [Float]
+        
+        init(names: [String], numbers: [Int], ages: [Float]) {
+            self.names = names
+            self.numbers = numbers
+            self.ages = ages
+        }
+        
+        init(warehouse: JSONWarehouse) {
+            self.names = warehouse.get("names") ?? []
+            self.numbers = warehouse.get("numbers") ?? []
+            self.ages = warehouse.get("ages") ?? []
+        }
+    }
+    
+//    struct NestedStorable: Storable {
+//        let name: String
+//        let basics: [Basic]
+//        
+//        init(name: String, basics: [Basic]) {
+//            self.name = name
+//            self.basics = basics
+//        }
+//        
+//        init(warehouse: JSONWarehouse) {
+//            self.name = warehouse.get("name") ?? "default"
+//            self.basics = warehouse.get("basics") ?? []
+//        }
+//    }
+    
     override func setUp() {
         super.setUp()
+        
+        var token: dispatch_once_t = 0
+        dispatch_once(&token) {
+            print("testing in",JSONWarehouse(key: "basic").cacheFileURL())
+        }
     }
     
     override func tearDown() {
@@ -41,7 +79,51 @@ class StorageTests: XCTestCase {
         super.tearDown()
     }
     
-    func testBasicStruct() {
+    func testDefaultTypes() {
+        let string: String = "Hello"
+        let int: Int = 4
+        let float: Float = 10.2
+        
+        Storage.pack(string, key: "ourTestString")
+        Storage.pack(int, key: "ourTestInt")
+        Storage.pack(float, key: "ourTestFloat")
+        
+        if let unpackedString: String = Storage.unpack("ourTestString") {
+            XCTAssert(unpackedString == "Hello", "default string was incorrect")
+        } else {
+            XCTFail("no default string could be unpacked")
+        }
+        if let unpackedInt: Int = Storage.unpack("ourTestInt") {
+            XCTAssert(unpackedInt == 4, "default int was incorrect")
+        } else {
+            XCTFail("no default int could be unpacked")
+        }
+        if let unpackedFloat: Float = Storage.unpack("ourTestFloat") {
+            XCTAssert(unpackedFloat == 10.2, "default float was incorrect")
+        } else {
+            XCTFail("no default float could be unpacked")
+        }
+    }
+    
+    func testDefaultArray() {
+        let defaults = [0,1,2,3,4]
+        
+        Storage.pack(defaults, key: "defaults_array")
+        
+        if let unpackedDefaultsArray: [Int] = Storage.unpack("defaults_array") {
+            let first = unpackedDefaultsArray[0]
+            let second = unpackedDefaultsArray[2]
+            let third = unpackedDefaultsArray[4]
+            
+            XCTAssert(first == 0, "default array first was incorrect")
+            XCTAssert(second == 2, "default array second was incorrect")
+            XCTAssert(third == 4, "default array third was incorrect")
+        } else {
+            XCTFail("no default array could be unpacked")
+        }
+    }
+    
+    func testStorableStruct() {
         let basic = Basic(name: "Nick", age: 31.5, number: 42)
         
         Storage.pack(basic, key: "basic")
@@ -55,7 +137,7 @@ class StorageTests: XCTestCase {
         }
     }
     
-    func testBasicStructArray() {
+    func testStorableArray() {
         let first = Basic(name: "Nick", age: 31.5, number: 42)
         let second = Basic(name: "Rebecca", age: 28.3, number: 87)
         let third = Basic(name: "Bob", age: 60, number: 23)
@@ -82,44 +164,42 @@ class StorageTests: XCTestCase {
         } else {
             XCTFail("no basic struct array could be unpacked")
         }
-
     }
     
-    func testDefaultTypes() {
-        let string: String = "Hello"
-        let int: Int = 4
-        let float: Float = 10.2
+    //
+    func testNestedArray() {
+        let nested = NestedDefault(names: ["Nested","Default","Array"], numbers: [1,3,5,7,9], ages: [31.5, 42.0, 23.1])
         
-        Storage.pack(string, key: "ourTestString")
-        Storage.pack(int, key: "ourTestInt")
-        Storage.pack(float, key: "ourTestFloat")
+        Storage.pack(nested, key: "nested_default")
         
-        if let unpackedString: String = Storage.unpack("ourTestString") {
-            XCTAssert(unpackedString == "Hello", "default string was incorrect")
-        }
-        if let unpackedInt: Int = Storage.unpack("ourTestInt") {
-            XCTAssert(unpackedInt == 4, "default int was incorrect")
-        }
-        if let unpackedFloat: Float = Storage.unpack("ourTestFloat") {
-            XCTAssert(unpackedFloat == 10.2, "default float was incorrect")
+        if let unpackedNested: NestedDefault = Storage.unpack("nested_default") {
+            let names = unpackedNested.names
+            
+            XCTAssert(names.count == 3, "nested string array was incorrect")
+            XCTAssert(names[2] == "Array", "nested string was incorrect")
+
+            let numbers = unpackedNested.numbers
+            
+            XCTAssert(numbers.count == 5, "nested int array was incorrect")
+            XCTAssert(numbers[0] == 1, "nested int was incorrect")
+
+            let ages = unpackedNested.ages
+            
+            XCTAssert(ages.count == 3, "nested float array was incorrect")
+            XCTAssert(ages[1] == 42.0, "nested float was incorrect")
+        } else {
+            XCTFail("no nested defaults array could be unpacked")
         }
     }
     
-    func testDefaultArray() {
-        let defaults = [0,1,2,3,4]
-        
-        Storage.pack(defaults, key: "defaults_array")
-        
-        if let unpackedDefaultsArray: [Int] = Storage.unpack("defaults_array") {
-            let first = unpackedDefaultsArray[0]
-            let second = unpackedDefaultsArray[2]
-            let third = unpackedDefaultsArray[4]
-
-            XCTAssert(first == 0, "default array first was incorrect")
-            XCTAssert(second == 2, "default array second was incorrect")
-            XCTAssert(third == 4, "default array third was incorrect")
-        }
-    }
+//    func testNestedStorableArray() {
+//        let first = Basic(name: "Nick", age: 31.5, number: 42)
+//        let second = Basic(name: "Rebecca", age: 28.3, number: 87)
+//        
+//        let nested = NestedStorable(name: "Nested", basics: [first, second])
+//        
+//        Storage.pack(nested, key: "nested_storable")
+//    }
     
 //    func testPerformanceExample() {
 //        // This is an example of a performance test case.

@@ -34,18 +34,18 @@ public class Storage {
         }
     }
     
-    static func pack<T: StorableDefaultType>(objects: [T], key: String) {
-        let warehouse = JSONWarehouse(key: key)
-        
-        if let json = warehouse.toJSON(objects) {
-            warehouse.write(json)
-        }
-    }
-
     static func pack<T: StorableDefaultType>(object: T, key: String) {
         let warehouse = JSONWarehouse(key: key)
         
         if let json = warehouse.toJSON(object) {
+            warehouse.write(json)
+        }
+    }
+
+    static func pack<T: StorableDefaultType>(objects: [T], key: String) {
+        let warehouse = JSONWarehouse(key: key)
+        
+        if let json = warehouse.toJSON(objects) {
             warehouse.write(json)
         }
     }
@@ -167,6 +167,24 @@ public class JSONWarehouse {
         return nil
     }
     
+    func get<T: StorableDefaultType>(valueKey: String) -> [T]? {
+        if let dictionary = loadCache() as? Dictionary<String, AnyObject> {
+            if let result = dictionary[valueKey] as? Array<AnyObject> {
+                var unpackedItems = [T]()
+                
+                for item in result {
+                    if let item = item as? T {
+                        unpackedItems.append(item)
+                    }
+                }
+                return unpackedItems
+            }
+        }
+        
+        return nil
+    }
+
+    
 //  TODO: I'm not sure why I can't do <T: StorableDefaultType> here
     func toJSON<T>(object: T) -> AnyObject? {
         return object as? AnyObject
@@ -200,6 +218,18 @@ public class JSONWarehouse {
         
         return subobject as AnyObject
     }
+    
+    func toJSON<T: StorableDefaultType>(objects: [T]) -> AnyObject? {
+        var subobject = [AnyObject]()
+        for item in objects {
+            if let itemInJSON = self.toJSON(item) {
+                subobject.append(itemInJSON)
+            }
+        }
+        
+        return subobject as AnyObject
+    }
+
     
     func write(object: AnyObject) {
         let cacheLocation = cacheFileURL()
