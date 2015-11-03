@@ -166,7 +166,7 @@ class StorageTests: XCTestCase {
         }
     }
     
-    //
+    // nested arrays of default types
     func testNestedArray() {
         let nested = NestedDefault(names: ["Nested","Default","Array"], numbers: [1,3,5,7,9], ages: [31.5, 42.0, 23.1])
         
@@ -176,17 +176,25 @@ class StorageTests: XCTestCase {
             let names = unpackedNested.names
             
             XCTAssert(names.count == 3, "nested string array was incorrect")
+            XCTAssert(names[0] == "Nested", "nested string was incorrect")
+            XCTAssert(names[1] == "Default", "nested string was incorrect")
             XCTAssert(names[2] == "Array", "nested string was incorrect")
 
             let numbers = unpackedNested.numbers
             
             XCTAssert(numbers.count == 5, "nested int array was incorrect")
             XCTAssert(numbers[0] == 1, "nested int was incorrect")
+            XCTAssert(numbers[1] == 3, "nested int was incorrect")
+            XCTAssert(numbers[2] == 5, "nested int was incorrect")
+            XCTAssert(numbers[3] == 7, "nested int was incorrect")
+            XCTAssert(numbers[4] == 9, "nested int was incorrect")
 
             let ages = unpackedNested.ages
             
             XCTAssert(ages.count == 3, "nested float array was incorrect")
+            XCTAssert(ages[0] == 31.5, "nested float was incorrect")
             XCTAssert(ages[1] == 42.0, "nested float was incorrect")
+            XCTAssert(ages[2] == 23.1, "nested float was incorrect")
         } else {
             XCTFail("no nested defaults array could be unpacked")
         }

@@ -199,6 +199,8 @@ public class JSONWarehouse {
             for (key, value) in mirror.children {
                 if let value = value as? StorableDefaultType {
                     result[key!] = self.toJSON(value)
+                } else {
+                    result[key!] = self.toJSON(value)
                 }
             }
             
