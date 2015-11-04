@@ -46,20 +46,35 @@ class StorageTests: XCTestCase {
         }
     }
     
-//    struct NestedStorable: Storable {
-//        let name: String
-//        let basics: [Basic]
-//        
-//        init(name: String, basics: [Basic]) {
-//            self.name = name
-//            self.basics = basics
-//        }
-//        
-//        init(warehouse: JSONWarehouse) {
-//            self.name = warehouse.get("name") ?? "default"
-//            self.basics = warehouse.get("basics") ?? []
-//        }
-//    }
+    struct NestedStorable: Storable {
+        let name: String
+        let basic: Basic?
+        
+        init(name: String, basic: Basic? = nil) {
+            self.name = name
+            self.basic = basic
+        }
+        
+        init(warehouse: JSONWarehouse) {
+            self.name = warehouse.get("name") ?? "default"
+            self.basic = warehouse.get("basic")
+        }
+    }
+    
+    struct NestedStorableArray: Storable {
+        let name: String
+        let basics: [Basic]
+        
+        init(name: String, basics: [Basic]) {
+            self.name = name
+            self.basics = basics
+        }
+        
+        init(warehouse: JSONWarehouse) {
+            self.name = warehouse.get("name") ?? "default"
+            self.basics = warehouse.get("basics") ?? []
+        }
+    }
     
     override func setUp() {
         super.setUp()
@@ -166,6 +181,31 @@ class StorageTests: XCTestCase {
         }
     }
     
+    // nested storable types
+    // TODO: this doesn't work because we can't infer the nested type, see issue #1
+    func xtestNestedStorable() {
+        let first = Basic(name: "Nick", age: 31.5, number: 42)
+        
+        let nested = NestedStorable(name: "Top", basic: first)
+        
+        Storage.pack(nested, key: "nested_storable")
+        
+        if let unpackedNested: NestedStorable = Storage.unpack("nested_storable") {
+            XCTAssert(unpackedNested.name == "Top", "nested name was incorrect")
+            
+            if let basic = unpackedNested.basic {
+                XCTAssert(basic.name == "Nick", "nested storable name was incorrect")
+                XCTAssert(basic.age == 31.5, "nested storable age was incorrect")
+                XCTAssert(basic.number == 42, "nested storable number was incorrect")
+            } else {
+                XCTFail("nested storable doesn't exist")
+            }
+            
+        } else {
+            XCTFail("no nested storable could be unpacked")
+        }
+    }
+    
     // nested arrays of default types
     func testNestedArray() {
         let nested = NestedDefault(names: ["Nested","Default","Array"], numbers: [1,3,5,7,9], ages: [31.5, 42.0, 23.1])
@@ -200,14 +240,34 @@ class StorageTests: XCTestCase {
         }
     }
     
-//    func testNestedStorableArray() {
-//        let first = Basic(name: "Nick", age: 31.5, number: 42)
-//        let second = Basic(name: "Rebecca", age: 28.3, number: 87)
-//        
-//        let nested = NestedStorable(name: "Nested", basics: [first, second])
-//        
-//        Storage.pack(nested, key: "nested_storable")
-//    }
+    // nested arrays of storable types
+    // TODO: this doesn't work because we can't infer the nested type, see issue #1
+    func xtestNestedStorableArray() {
+        let first = Basic(name: "Nick", age: 31.5, number: 42)
+        let second = Basic(name: "Rebecca", age: 28.3, number: 87)
+        
+        let nested = NestedStorableArray(name: "Nested", basics: [first, second])
+        
+        Storage.pack(nested, key: "nested_storable_array")
+        
+        if let unpackedNested: NestedStorableArray = Storage.unpack("nested_storable_array") {
+            XCTAssert(unpackedNested.name == "Nested", "nested name was incorrect")
+            
+            XCTAssert(unpackedNested.basics.count == 2, "nested storable array count was incorrect")
+            
+            let unpackedFirst = unpackedNested.basics[0]
+            XCTAssert(unpackedFirst.name == "Nick", "nested storable array name was incorrect")
+            XCTAssert(unpackedFirst.age == 31.5, "nested storable array age was incorrect")
+            XCTAssert(unpackedFirst.number == 42, "nested storable array number was incorrect")
+
+            let unpackedSecond = unpackedNested.basics[1]
+            XCTAssert(unpackedSecond.name == "Rebecca", "nested storable array name was incorrect")
+            XCTAssert(unpackedSecond.age == 28.3, "nested storable array age was incorrect")
+            XCTAssert(unpackedSecond.number == 87, "nested storable array number was incorrect")
+        } else {
+            XCTFail("no nested storable array could be unpacked")
+        }
+    }
     
 //    func testPerformanceExample() {
 //        // This is an example of a performance test case.

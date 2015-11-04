@@ -137,8 +137,8 @@ public class Storage {
 public protocol StorableDefaultType { }
 
 extension String: StorableDefaultType { }
-extension Int: StorableDefaultType { }
-extension Float: StorableDefaultType { }
+extension Int:    StorableDefaultType { }
+extension Float:  StorableDefaultType { }
 
 // MARK: warehouse is a thing that serializes and deserializes data
 
@@ -183,9 +183,38 @@ public class JSONWarehouse {
         
         return nil
     }
-
     
-//  TODO: I'm not sure why I can't do <T: StorableDefaultType> here
+    func get<T: Storable>(valueKey: String) -> T? {
+        if let dictionary = loadCache() as? Dictionary<String, AnyObject> {
+            if let result = dictionary[valueKey] {
+                let warehouse = JSONWarehouse(context: result)
+                return T(warehouse: warehouse)
+            }
+        }
+        
+        return nil
+    }
+    
+    func get<T: Storable>(valueKey: String) -> [T]? {
+        if let dictionary = loadCache() as? Dictionary<String, AnyObject> {
+            if let result = dictionary[valueKey] as? Array<AnyObject> {
+                var unpackedItems = [T]()
+                
+                for item in result {
+                    if let item = item as? Dictionary<String, AnyObject> {
+                        let warehouse = JSONWarehouse(context: item)
+                        let item = T(warehouse: warehouse)
+                        unpackedItems.append(item)
+                    }
+                }
+                return unpackedItems
+            }
+        }
+        
+        return nil
+    }
+
+    // TODO: this should be T: StorableDefaultType when we get actual types
     func toJSON<T>(object: T) -> AnyObject? {
         return object as? AnyObject
     }
@@ -197,10 +226,39 @@ public class JSONWarehouse {
             var result = Dictionary<String, AnyObject>()
             
             for (key, value) in mirror.children {
-                if let value = value as? StorableDefaultType {
-                    result[key!] = self.toJSON(value)
-                } else {
-                    result[key!] = self.toJSON(value)
+                if let value = value as? AnyObject {
+                    if value is Storable {
+                        // TODO: figure out how to get value as the actual struct type
+                    } else {
+                        // TODO: replace with switch to get actual type
+                        result[key!] = self.toJSON(value)
+                    }
+                    
+                    // we can check that these are Storable or StorableDefaultType
+                    // but we can't cast them as such to send them to toJSON?
+//                    if value is StorableDefaultType {
+//                        switch (value) {
+//                        case let intValue as Int:
+//                            result[key!] = self.toJSON(value as! Int)
+//                        case let floatValue as Float:
+//                            result[key!] = self.toJSON(value as! Float)
+//                        case let stringValue as String:
+//                            result[key!] = self.toJSON(value as! String)
+//                        default:
+//                            break
+//                        }
+//                    } else if value is [StorableDefaultType] {
+//                        switch (value) {
+//                        case let intValue as Int:
+//                            result[key!] = self.toJSON(value as! [Int])
+//                        case let floatValue as Float:
+//                            result[key!] = self.toJSON(value as! [Float])
+//                        case let stringValue as String:
+//                            result[key!] = self.toJSON(value as! [String])
+//                        default:
+//                            break
+//                        }
+//                    }
                 }
             }
             
