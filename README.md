@@ -12,9 +12,11 @@
 
 <p align="center">
     <a href="#installation">Installation</a>
-  • <a href="https://github.com/nickoneill/PermissionScope/issues">Issues</a>
+  • <a href="https://github.com/nickoneill/Storage/issues">Issues</a>
   • <a href="#license">License</a>
 </p>
+
+#### Storage is new and very beta! Please join us in [issues](https://github.com/nickoneill/Storage/issues) if you'd like to help us get to 1.0
 
 Storage is a lightweight way to persist structs containing user data, cached content or other relevant objects for later retrieval.
 
