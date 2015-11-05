@@ -183,7 +183,7 @@ class StorageTests: XCTestCase {
     
     // nested storable types
     // TODO: this doesn't work because we can't infer the nested type, see issue #1
-    func xtestNestedStorable() {
+    func testNestedStorable() {
         let first = Basic(name: "Nick", age: 31.5, number: 42)
         
         let nested = NestedStorable(name: "Top", basic: first)
@@ -242,7 +242,7 @@ class StorageTests: XCTestCase {
     
     // nested arrays of storable types
     // TODO: this doesn't work because we can't infer the nested type, see issue #1
-    func xtestNestedStorableArray() {
+    func testNestedStorableArray() {
         let first = Basic(name: "Nick", age: 31.5, number: 42)
         let second = Basic(name: "Rebecca", age: 28.3, number: 87)
         
