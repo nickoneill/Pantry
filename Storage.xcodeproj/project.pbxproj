@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D0577A551BEACF4A00A8B8FF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0577A541BEACF4A00A8B8FF /* AppDelegate.swift */; };
+		D0577A571BEACF4A00A8B8FF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0577A561BEACF4A00A8B8FF /* ViewController.swift */; };
+		D0577A5A1BEACF4A00A8B8FF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0577A581BEACF4A00A8B8FF /* Main.storyboard */; };
+		D0577A5C1BEACF4A00A8B8FF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0577A5B1BEACF4A00A8B8FF /* Assets.xcassets */; };
+		D0577A5F1BEACF4A00A8B8FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0577A5D1BEACF4A00A8B8FF /* LaunchScreen.storyboard */; };
+		D0577A641BEACF6400A8B8FF /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0A3D71BE2B82900FB703A /* Storage.swift */; };
 		D0C0A3C11BE2B80300FB703A /* Storage.h in Headers */ = {isa = PBXBuildFile; fileRef = D0C0A3C01BE2B80300FB703A /* Storage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D0C0A3C81BE2B80300FB703A /* Storage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0C0A3BD1BE2B80300FB703A /* Storage.framework */; };
 		D0C0A3CD1BE2B80300FB703A /* StorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0A3CC1BE2B80300FB703A /* StorageTests.swift */; };
@@ -25,6 +31,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D0577A521BEACF4A00A8B8FF /* StorageExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StorageExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0577A541BEACF4A00A8B8FF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		D0577A561BEACF4A00A8B8FF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		D0577A591BEACF4A00A8B8FF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		D0577A5B1BEACF4A00A8B8FF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D0577A5E1BEACF4A00A8B8FF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		D0577A601BEACF4A00A8B8FF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D0C0A3BD1BE2B80300FB703A /* Storage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Storage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0C0A3C01BE2B80300FB703A /* Storage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Storage.h; sourceTree = "<group>"; };
 		D0C0A3C21BE2B80300FB703A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -35,6 +48,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		D0577A4F1BEACF4A00A8B8FF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D0C0A3B91BE2B80300FB703A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -53,11 +73,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D0577A531BEACF4A00A8B8FF /* StorageExample */ = {
+			isa = PBXGroup;
+			children = (
+				D0577A541BEACF4A00A8B8FF /* AppDelegate.swift */,
+				D0577A561BEACF4A00A8B8FF /* ViewController.swift */,
+				D0577A581BEACF4A00A8B8FF /* Main.storyboard */,
+				D0577A5B1BEACF4A00A8B8FF /* Assets.xcassets */,
+				D0577A5D1BEACF4A00A8B8FF /* LaunchScreen.storyboard */,
+				D0577A601BEACF4A00A8B8FF /* Info.plist */,
+			);
+			path = StorageExample;
+			sourceTree = "<group>";
+		};
 		D0C0A3B31BE2B80300FB703A = {
 			isa = PBXGroup;
 			children = (
 				D0C0A3BF1BE2B80300FB703A /* Storage */,
 				D0C0A3CB1BE2B80300FB703A /* StorageTests */,
+				D0577A531BEACF4A00A8B8FF /* StorageExample */,
 				D0C0A3BE1BE2B80300FB703A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -67,6 +101,7 @@
 			children = (
 				D0C0A3BD1BE2B80300FB703A /* Storage.framework */,
 				D0C0A3C71BE2B80300FB703A /* StorageTests.xctest */,
+				D0577A521BEACF4A00A8B8FF /* StorageExample.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -104,6 +139,23 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		D0577A511BEACF4A00A8B8FF /* StorageExample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D0577A631BEACF4A00A8B8FF /* Build configuration list for PBXNativeTarget "StorageExample" */;
+			buildPhases = (
+				D0577A4E1BEACF4A00A8B8FF /* Sources */,
+				D0577A4F1BEACF4A00A8B8FF /* Frameworks */,
+				D0577A501BEACF4A00A8B8FF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = StorageExample;
+			productName = StorageExample;
+			productReference = D0577A521BEACF4A00A8B8FF /* StorageExample.app */;
+			productType = "com.apple.product-type.application";
+		};
 		D0C0A3BC1BE2B80300FB703A /* Storage */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D0C0A3D11BE2B80300FB703A /* Build configuration list for PBXNativeTarget "Storage" */;
@@ -150,6 +202,9 @@
 				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = "That Thing in Swift";
 				TargetAttributes = {
+					D0577A511BEACF4A00A8B8FF = {
+						CreatedOnToolsVersion = 7.1;
+					};
 					D0C0A3BC1BE2B80300FB703A = {
 						CreatedOnToolsVersion = 7.1;
 					};
@@ -164,6 +219,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = D0C0A3B31BE2B80300FB703A;
 			productRefGroup = D0C0A3BE1BE2B80300FB703A /* Products */;
@@ -172,11 +228,22 @@
 			targets = (
 				D0C0A3BC1BE2B80300FB703A /* Storage */,
 				D0C0A3C61BE2B80300FB703A /* StorageTests */,
+				D0577A511BEACF4A00A8B8FF /* StorageExample */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		D0577A501BEACF4A00A8B8FF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D0577A5F1BEACF4A00A8B8FF /* LaunchScreen.storyboard in Resources */,
+				D0577A5C1BEACF4A00A8B8FF /* Assets.xcassets in Resources */,
+				D0577A5A1BEACF4A00A8B8FF /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D0C0A3BB1BE2B80300FB703A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -194,6 +261,16 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		D0577A4E1BEACF4A00A8B8FF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D0577A571BEACF4A00A8B8FF /* ViewController.swift in Sources */,
+				D0577A551BEACF4A00A8B8FF /* AppDelegate.swift in Sources */,
+				D0577A641BEACF6400A8B8FF /* Storage.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D0C0A3B81BE2B80300FB703A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -221,7 +298,48 @@
 		};
 /* End PBXTargetDependency section */
 
+/* Begin PBXVariantGroup section */
+		D0577A581BEACF4A00A8B8FF /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D0577A591BEACF4A00A8B8FF /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		D0577A5D1BEACF4A00A8B8FF /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D0577A5E1BEACF4A00A8B8FF /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
+		D0577A611BEACF4A00A8B8FF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = StorageExample/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.thatthinginswift.StorageExample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		D0577A621BEACF4A00A8B8FF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = StorageExample/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.thatthinginswift.StorageExample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		D0C0A3CF1BE2B80300FB703A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -369,6 +487,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		D0577A631BEACF4A00A8B8FF /* Build configuration list for PBXNativeTarget "StorageExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D0577A611BEACF4A00A8B8FF /* Debug */,
+				D0577A621BEACF4A00A8B8FF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		D0C0A3B71BE2B80300FB703A /* Build configuration list for PBXProject "Storage" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -385,6 +511,7 @@
 				D0C0A3D31BE2B80300FB703A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D0C0A3D41BE2B80300FB703A /* Build configuration list for PBXNativeTarget "StorageTests" */ = {
 			isa = XCConfigurationList;
@@ -393,6 +520,7 @@
 				D0C0A3D61BE2B80300FB703A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
