@@ -9,6 +9,8 @@
 import XCTest
 @testable import Storage
 
+var token: dispatch_once_t = 0
+
 class StorageTests: XCTestCase {
     struct Basic: Storable {
         let name: String
@@ -25,6 +27,24 @@ class StorageTests: XCTestCase {
             self.name = warehouse.get("name") ?? "default"
             self.age = warehouse.get("age") ?? 20.5
             self.number = warehouse.get("number") ?? 10
+        }
+    }
+    
+    struct BasicOptional: Storable {
+        let lastName: String?
+        let dogsAge: Float?
+        let leastFavoriteNumber: Int?
+
+        init(lastName: String?, dogsAge: Float?, leastFavoriteNumber: Int?) {
+            self.lastName = lastName
+            self.dogsAge = dogsAge
+            self.leastFavoriteNumber = leastFavoriteNumber
+        }
+        
+        init(warehouse: JSONWarehouse) {
+            self.lastName = warehouse.get("lastName")
+            self.dogsAge = warehouse.get("dogsAge")
+            self.leastFavoriteNumber = warehouse.get("leastFavoriteNumber")
         }
     }
     
@@ -79,18 +99,21 @@ class StorageTests: XCTestCase {
     override func setUp() {
         super.setUp()
         
-        var token: dispatch_once_t = 0
         dispatch_once(&token) {
-            print("testing in",JSONWarehouse(key: "basic").cacheFileURL())
+            let testFolder = JSONWarehouse(key: "basic").cacheFileURL().URLByDeletingLastPathComponent!
+            print("testing in",testFolder)
+            
+            // remove old files before our test
+            let urls = try? NSFileManager.defaultManager().contentsOfDirectoryAtURL(testFolder, includingPropertiesForKeys: nil, options: [.SkipsSubdirectoryDescendants, .SkipsHiddenFiles])
+            if let urls = urls {
+                for url in urls {
+                    let _ = try? NSFileManager.defaultManager().removeItemAtURL(url)
+                }
+            }
         }
     }
     
     override func tearDown() {
-        let basicLocation = JSONWarehouse(key: "basic").cacheFileURL()
-        let _ = try? NSFileManager.defaultManager().removeItemAtURL(basicLocation)
-        let basicArrayLocation = JSONWarehouse(key: "basic_array").cacheFileURL()
-        let _ = try? NSFileManager.defaultManager().removeItemAtURL(basicArrayLocation)
-        
         super.tearDown()
     }
     
@@ -120,21 +143,79 @@ class StorageTests: XCTestCase {
         }
     }
     
-    func testDefaultArray() {
-        let defaults = [0,1,2,3,4]
+    func testOptionalTypes() {
+        let string: String? = "Hello"
+        let int: Int? = 4
+        let float: Float? = 10.2
         
-        Storage.pack(defaults, key: "defaults_array")
+        Storage.pack(string, key: "ourOptionalTestString")
+        Storage.pack(int, key: "ourOptionalTestInt")
+        Storage.pack(float, key: "ourOptionalTestFloat")
         
-        if let unpackedDefaultsArray: [Int] = Storage.unpack("defaults_array") {
-            let first = unpackedDefaultsArray[0]
-            let second = unpackedDefaultsArray[2]
-            let third = unpackedDefaultsArray[4]
-            
-            XCTAssert(first == 0, "default array first was incorrect")
-            XCTAssert(second == 2, "default array second was incorrect")
-            XCTAssert(third == 4, "default array third was incorrect")
+        if let unpackedString: String? = Storage.unpack("ourOptionalTestString") {
+            XCTAssert(unpackedString == "Hello", "optional string was incorrect")
         } else {
-            XCTFail("no default array could be unpacked")
+            XCTFail("no optional string could be unpacked")
+        }
+        if let unpackedInt: Int? = Storage.unpack("ourOptionalTestInt") {
+            XCTAssert(unpackedInt == 4, "optional int was incorrect")
+        } else {
+            XCTFail("no optional int could be unpacked")
+        }
+        if let unpackedFloat: Float? = Storage.unpack("ourOptionalTestFloat") {
+            XCTAssert(unpackedFloat == 10.2, "optional float was incorrect")
+        } else {
+            XCTFail("no optional float could be unpacked")
+        }
+    }
+    
+    func testDefaultArray() {
+        let defaultStrings = ["Default","Types","Strings"]
+        let defaultInts = [0,1,2,3,4]
+        let defaultFloats: [Float] = [10.2,31.5,28.3]
+        
+        Storage.pack(defaultStrings, key: "default_strings_array")
+        Storage.pack(defaultInts, key: "default_ints_array")
+        Storage.pack(defaultFloats, key: "default_floats_array")
+        
+        if let unpackedDefaultStringsArray: [String] = Storage.unpack("default_strings_array") {
+            
+            if unpackedDefaultStringsArray.count == 3 {
+                XCTAssert(unpackedDefaultStringsArray[0] == "Default", "string array first was incorrect")
+                XCTAssert(unpackedDefaultStringsArray[1] == "Types", "string array second was incorrect")
+                XCTAssert(unpackedDefaultStringsArray[2] == "Strings", "string array third was incorrect")
+            } else {
+                XCTFail("string array was incorrect")
+            }
+        } else {
+            XCTFail("no string array could be unpacked")
+        }
+
+        if let unpackedDefaultIntsArray: [Int] = Storage.unpack("default_ints_array") {
+            
+            if unpackedDefaultIntsArray.count == 5 {
+                XCTAssert(unpackedDefaultIntsArray[0] == 0, "int array first was incorrect")
+                XCTAssert(unpackedDefaultIntsArray[2] == 2, "int array second was incorrect")
+                XCTAssert(unpackedDefaultIntsArray[4] == 4, "int array third was incorrect")
+                
+            } else {
+                XCTFail("int array was incorrect")
+            }
+        } else {
+            XCTFail("no int array could be unpacked")
+        }
+        
+        if let unpackedDefaultFloatsArray: [Float] = Storage.unpack("default_floats_array") {
+            
+            if unpackedDefaultFloatsArray.count == 3 {
+                XCTAssert(unpackedDefaultFloatsArray[0] == 10.2, "float array first was incorrect")
+                XCTAssert(unpackedDefaultFloatsArray[1] == 31.5, "float array second was incorrect")
+                XCTAssert(unpackedDefaultFloatsArray[2] == 28.3, "float array third was incorrect")
+            } else {
+                XCTFail("float array was incorrect")
+            }
+        } else {
+            XCTFail("no float array could be unpacked")
         }
     }
     
@@ -215,26 +296,35 @@ class StorageTests: XCTestCase {
         if let unpackedNested: NestedDefault = Storage.unpack("nested_default") {
             let names = unpackedNested.names
             
-            XCTAssert(names.count == 3, "nested string array was incorrect")
-            XCTAssert(names[0] == "Nested", "nested string was incorrect")
-            XCTAssert(names[1] == "Default", "nested string was incorrect")
-            XCTAssert(names[2] == "Array", "nested string was incorrect")
+            if names.count == 3 {
+                XCTAssert(names[0] == "Nested", "nested string was incorrect")
+                XCTAssert(names[1] == "Default", "nested string was incorrect")
+                XCTAssert(names[2] == "Array", "nested string was incorrect")
+            } else {
+                XCTFail("nested string array was incorrect")
+            }
 
             let numbers = unpackedNested.numbers
             
-            XCTAssert(numbers.count == 5, "nested int array was incorrect")
-            XCTAssert(numbers[0] == 1, "nested int was incorrect")
-            XCTAssert(numbers[1] == 3, "nested int was incorrect")
-            XCTAssert(numbers[2] == 5, "nested int was incorrect")
-            XCTAssert(numbers[3] == 7, "nested int was incorrect")
-            XCTAssert(numbers[4] == 9, "nested int was incorrect")
+            if numbers.count == 5 {
+                XCTAssert(numbers[0] == 1, "nested int was incorrect")
+                XCTAssert(numbers[1] == 3, "nested int was incorrect")
+                XCTAssert(numbers[2] == 5, "nested int was incorrect")
+                XCTAssert(numbers[3] == 7, "nested int was incorrect")
+                XCTAssert(numbers[4] == 9, "nested int was incorrect")
+            } else {
+                XCTFail("nested int array was incorrect")
+            }
 
             let ages = unpackedNested.ages
             
-            XCTAssert(ages.count == 3, "nested float array was incorrect")
-            XCTAssert(ages[0] == 31.5, "nested float was incorrect")
-            XCTAssert(ages[1] == 42.0, "nested float was incorrect")
-            XCTAssert(ages[2] == 23.1, "nested float was incorrect")
+            if ages.count == 3 {
+                XCTAssert(ages[0] == 31.5, "nested float was incorrect")
+                XCTAssert(ages[1] == 42.0, "nested float was incorrect")
+                XCTAssert(ages[2] == 23.1, "nested float was incorrect")
+            } else {
+                XCTFail("nested float array was incorrect")
+            }
         } else {
             XCTFail("no nested defaults array could be unpacked")
         }
