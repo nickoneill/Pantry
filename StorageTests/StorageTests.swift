@@ -255,15 +255,21 @@ class StorageTests: XCTestCase {
             
             XCTAssert(unpackedNested.basics.count == 2, "nested storable array count was incorrect")
             
-            let unpackedFirst = unpackedNested.basics[0]
-            XCTAssert(unpackedFirst.name == "Nick", "nested storable array name was incorrect")
-            XCTAssert(unpackedFirst.age == 31.5, "nested storable array age was incorrect")
-            XCTAssert(unpackedFirst.number == 42, "nested storable array number was incorrect")
+            if let unpackedFirst = unpackedNested.basics.first {
+                XCTAssert(unpackedFirst.name == "Nick", "nested storable array name was incorrect")
+                XCTAssert(unpackedFirst.age == 31.5, "nested storable array age was incorrect")
+                XCTAssert(unpackedFirst.number == 42, "nested storable array number was incorrect")
+            } else {
+                XCTFail("first nested storable incorrect")
+            }
 
-            let unpackedSecond = unpackedNested.basics[1]
-            XCTAssert(unpackedSecond.name == "Rebecca", "nested storable array name was incorrect")
-            XCTAssert(unpackedSecond.age == 28.3, "nested storable array age was incorrect")
-            XCTAssert(unpackedSecond.number == 87, "nested storable array number was incorrect")
+            if let unpackedSecond = unpackedNested.basics.last {
+                XCTAssert(unpackedSecond.name == "Rebecca", "nested storable array name was incorrect")
+                XCTAssert(unpackedSecond.age == 28.3, "nested storable array age was incorrect")
+                XCTAssert(unpackedSecond.number == 87, "nested storable array number was incorrect")
+            } else {
+                XCTFail("second nested storable incorrect")
+            }
         } else {
             XCTFail("no nested storable array could be unpacked")
         }
