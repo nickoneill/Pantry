@@ -16,7 +16,7 @@
   • <a href="#license">License</a>
 </p>
 
-#### Storage is new and very beta! Please join us in [issues](https://github.com/nickoneill/Storage/issues) if you'd like to help us get to 1.0
+#### Storage is new! Please join us in [issues](https://github.com/nickoneill/Storage/issues) if you'd like to help us get to 1.0
 
 Storage is a lightweight way to persist structs containing user data, cached content or other relevant objects for later retrieval.
 
@@ -32,6 +32,15 @@ if let unpackedCustomStruct: SomeCustomStruct = Storage.unpack("user_data") {
   print("there was no struct data to get")
 }
 ```
+
+You can store:
+* [x] Structs
+* [x] Strings, Ints and Floats (our default types)
+* [x] Arrays of structs and default types
+* [x] Nested structs
+* [ ] Nested Arrays
+
+Check out [the tests](https://github.com/nickoneill/Storage/blob/master/StorageTests/StorageTests.swift) for a detailed look at the varied types you can easily store.
 
 ## Compatibility
 
@@ -57,11 +66,19 @@ And `import Storage` in the files you'd like to use it.
 
 Add the `Storable` protocol to any struct you want stored and then ensure they comply by implementing an init method:
 ```swift
+struct Basic: Storable {
+    let name: String
+    let age: Float
+    let number: Int
 
+    init(warehouse: JSONWarehouse) {
+        self.name = warehouse.get("name") ?? "default"
+        self.age = warehouse.get("age") ?? 20.5
+        self.number = warehouse.get("number") ?? 10
+    }
+}
 ```
-
-For
 
 ## License
 
-PermissionScope uses the MIT license. Please file an issue if you have any questions or if you'd like to share how you're using this tool.
+Storage uses the MIT license. Please file an issue if you have any questions or if you'd like to share how you're using this tool.
