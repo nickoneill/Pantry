@@ -40,10 +40,23 @@ extension Storable {
             } else {
                 // non-collection types, toDictionary or just cast default types
                 // optionals need to be checked and unwrapped
+                let childMirror = Mirror(reflecting: child.value)
+
                 if let value = child.value as? Storable {
                     return combine(result, addition: [key: value.toDictionary()])
                 } else if let value = child.value as? AnyObject {
                     return combine(result, addition: [key: value])
+                } else if childMirror.displayStyle == .Optional {
+                    // yes, this is how you detect and unwrap an Optional
+                    // disguised as an Any
+                    if childMirror.children.count != 0 {
+                        let (_, some) = childMirror.children.first!
+                        if let some = some as? Storable {
+                            return combine(result, addition: [key: some.toDictionary()])
+                        }
+                    }
+                } else {
+                    // throw an error? not a type we support
                 }
             }
             
