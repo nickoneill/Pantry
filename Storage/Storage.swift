@@ -16,6 +16,7 @@ public protocol Storable {
 }
 
 extension Storable {
+    // Adapted from @IanKeen's https://gist.github.com/IanKeen/3a6c3b9a42aaf9fea982
     func toDictionary() -> [String: AnyObject] {
         let mirror = Mirror(reflecting: self)
         return mirror.children.reduce([:]) { result, child in
@@ -38,6 +39,7 @@ extension Storable {
                 
             } else {
                 // non-collection types, toDictionary or just cast default types
+                // optionals need to be checked and unwrapped
                 if let value = child.value as? Storable {
                     return combine(result, addition: [key: value.toDictionary()])
                 } else if let value = child.value as? AnyObject {
