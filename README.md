@@ -64,7 +64,7 @@ And `import Storage` in the files you'd like to use it.
 
 ## Usage
 
-Add the `Storable` protocol to any struct you want stored and then ensure they comply by implementing an init method:
+Add the `Storable` protocol to any struct you want stored and then ensure they comply by implementing an init method that gets each property from the warehouse:
 ```swift
 struct Basic: Storable {
     let name: String
@@ -78,6 +78,12 @@ struct Basic: Storable {
     }
 }
 ```
+
+Getters always provide an optional value, leaving you the opportunity to fill in a default if a value isn't available. This makes for hassle-free property additions to your structs.
+
+## Also
+
+Storage works great with network data when paired with a JSON struct decoder such as [Unbox](https://github.com/JohnSundell/Unbox). Download JSON, decode it with Unbox, save it with Storage and have it available for as long as you need. The architecture of Storage is heavily influenced by Unbox, it's worth a look in any case.
 
 ## License
 
