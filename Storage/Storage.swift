@@ -12,6 +12,51 @@ import Foundation
 
 public protocol Storable {
     init(warehouse: JSONWarehouse)
+    func toDictionary() -> [String: AnyObject]
+}
+
+extension Storable {
+    func toDictionary() -> [String: AnyObject] {
+        let mirror = Mirror(reflecting: self)
+        return mirror.children.reduce([:]) { result, child in
+            guard let key = child.label else { return result }
+            
+            let childMirror = Mirror(reflecting: child.value)
+            if let style = childMirror.displayStyle where style == .Collection {
+                // collections need to be unwrapped, children tested and
+                // toDictionary called on each
+                let converted: [AnyObject] = childMirror.children
+                    .filter { $0.value is Storable || $0.value is AnyObject }
+                    .map { collectionChild in
+                        if let convertable = collectionChild.value as? Storable {
+                            return convertable.toDictionary()
+                        } else {
+                            return collectionChild.value as! AnyObject
+                        }
+                    }
+                return combine(result, addition: [key: converted])
+                
+            } else {
+                // non-collection types, toDictionary or just cast default types
+                if let value = child.value as? Storable {
+                    return combine(result, addition: [key: value.toDictionary()])
+                } else if let value = child.value as? AnyObject {
+                    return combine(result, addition: [key: value])
+                }
+            }
+            
+            return result
+        }
+    }
+    
+    // convenience for combining dictionaries
+    func combine(from: [String: AnyObject], addition: [String: AnyObject]) -> [String: AnyObject] {
+        var result = [String: AnyObject]()
+        [from, addition].forEach { dict in
+            dict.forEach { result[$0.0] = $0.1 }
+        }
+        return result
+    }
 }
 
 // MARK: the main public class
@@ -21,34 +66,48 @@ public class Storage {
     static func pack<T: Storable>(object: T, key: String) {
         let warehouse = JSONWarehouse(key: key)
         
-        if let json = warehouse.toJSON(object) {
-            warehouse.write(json)
-        }
+        warehouse.write(object.toDictionary())
     }
     
     static func pack<T: Storable>(objects: [T], key: String) {
         let warehouse = JSONWarehouse(key: key)
         
-        if let json = warehouse.toJSON(objects) {
-            warehouse.write(json)
+        var result = [AnyObject]()
+        for object in objects {
+            result.append(object.toDictionary())
         }
+
+        warehouse.write(result)
     }
     
-    static func pack<T: StorableDefaultType>(object: T, key: String) {
+    static func pack<T: StorableDefaultType>(object: T?, key: String) {
         let warehouse = JSONWarehouse(key: key)
         
-        if let json = warehouse.toJSON(object) {
-            warehouse.write(json)
-        }
+        warehouse.write(object as! AnyObject)
     }
 
     static func pack<T: StorableDefaultType>(objects: [T], key: String) {
         let warehouse = JSONWarehouse(key: key)
         
-        if let json = warehouse.toJSON(objects) {
-            warehouse.write(json)
+        var result = [AnyObject]()
+        for object in objects {
+            result.append(object as! AnyObject)
         }
+        
+        warehouse.write(result)
     }
+    
+    static func pack<T: StorableDefaultType>(objects: [T?], key: String) {
+        let warehouse = JSONWarehouse(key: key)
+        
+        var result = [AnyObject]()
+        for object in objects {
+            result.append(object as! AnyObject)
+        }
+        
+        warehouse.write(result)
+    }
+
 
     // MARK: unpack generics
     
@@ -134,11 +193,12 @@ public class Storage {
 
 // MARK: default types that are supported
 
-public protocol StorableDefaultType { }
+public protocol StorableDefaultType {
+}
 
 extension String: StorableDefaultType { }
-extension Int:    StorableDefaultType { }
-extension Float:  StorableDefaultType { }
+extension Int: StorableDefaultType { }
+extension Float: StorableDefaultType { }
 
 // MARK: warehouse is a thing that serializes and deserializes data
 
@@ -213,92 +273,15 @@ public class JSONWarehouse {
         
         return nil
     }
-
-    // TODO: this should be T: StorableDefaultType when we get actual types
-    func toJSON<T>(object: T) -> AnyObject? {
-        return object as? AnyObject
-    }
-    
-    func toJSON<T: Storable>(object: T) -> AnyObject? {
-        let mirror = Mirror(reflecting: object)
-        
-        if mirror.children.count > 0 {
-            var result = Dictionary<String, AnyObject>()
-            
-            for (key, value) in mirror.children {
-                if let value = value as? AnyObject {
-                    if value is Storable {
-                        // TODO: figure out how to get value as the actual struct type
-                    } else {
-                        // TODO: replace with switch to get actual type
-                        result[key!] = self.toJSON(value)
-                    }
-                    
-                    // we can check that these are Storable or StorableDefaultType
-                    // but we can't cast them as such to send them to toJSON?
-//                    if value is StorableDefaultType {
-//                        switch (value) {
-//                        case let intValue as Int:
-//                            result[key!] = self.toJSON(value as! Int)
-//                        case let floatValue as Float:
-//                            result[key!] = self.toJSON(value as! Float)
-//                        case let stringValue as String:
-//                            result[key!] = self.toJSON(value as! String)
-//                        default:
-//                            break
-//                        }
-//                    } else if value is [StorableDefaultType] {
-//                        switch (value) {
-//                        case let intValue as Int:
-//                            result[key!] = self.toJSON(value as! [Int])
-//                        case let floatValue as Float:
-//                            result[key!] = self.toJSON(value as! [Float])
-//                        case let stringValue as String:
-//                            result[key!] = self.toJSON(value as! [String])
-//                        default:
-//                            break
-//                        }
-//                    }
-                }
-            }
-            
-            return result
-        } else {
-            return object as? AnyObject
-        }
-    }
-    
-    func toJSON<T: Storable>(objects: [T]) -> AnyObject? {
-        var subobject = [AnyObject]()
-        for item in objects {
-            if let itemInJSON = self.toJSON(item) {
-                subobject.append(itemInJSON)
-            }
-        }
-        
-        return subobject as AnyObject
-    }
-    
-    func toJSON<T: StorableDefaultType>(objects: [T]) -> AnyObject? {
-        var subobject = [AnyObject]()
-        for item in objects {
-            if let itemInJSON = self.toJSON(item) {
-                subobject.append(itemInJSON)
-            }
-        }
-        
-        return subobject as AnyObject
-    }
-
     
     func write(object: AnyObject) {
         let cacheLocation = cacheFileURL()
-        var storableDictionary = Dictionary<String, AnyObject>()
+        var storableDictionary = [String: AnyObject]()
         
         storableDictionary["storage"] = object
+        print("attempting to write",storableDictionary)
         
         let success = (storableDictionary as NSDictionary).writeToURL(cacheLocation, atomically: true)
-        //        print("wrote to",cacheLocation)
         print("writing",success)
     }
     
