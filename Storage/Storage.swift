@@ -78,13 +78,13 @@ extension Storable {
 
 public class Storage {
     // pack generics
-    static func pack<T: Storable>(object: T, key: String) {
+    public static func pack<T: Storable>(object: T, key: String) {
         let warehouse = JSONWarehouse(key: key)
         
         warehouse.write(object.toDictionary())
     }
     
-    static func pack<T: Storable>(objects: [T], key: String) {
+    public static func pack<T: Storable>(objects: [T], key: String) {
         let warehouse = JSONWarehouse(key: key)
         
         var result = [AnyObject]()
@@ -95,13 +95,13 @@ public class Storage {
         warehouse.write(result)
     }
     
-    static func pack<T: StorableDefaultType>(object: T?, key: String) {
+    public static func pack<T: StorableDefaultType>(object: T?, key: String) {
         let warehouse = JSONWarehouse(key: key)
         
         warehouse.write(object as! AnyObject)
     }
 
-    static func pack<T: StorableDefaultType>(objects: [T], key: String) {
+    public static func pack<T: StorableDefaultType>(objects: [T], key: String) {
         let warehouse = JSONWarehouse(key: key)
         
         var result = [AnyObject]()
@@ -112,7 +112,7 @@ public class Storage {
         warehouse.write(result)
     }
     
-    static func pack<T: StorableDefaultType>(objects: [T?], key: String) {
+    public static func pack<T: StorableDefaultType>(objects: [T?], key: String) {
         let warehouse = JSONWarehouse(key: key)
         
         var result = [AnyObject]()
@@ -127,7 +127,7 @@ public class Storage {
     // MARK: unpack generics
     
     // storable type (struct)
-    static func unpack<T: Storable>(key: String) -> T? {
+    public static func unpack<T: Storable>(key: String) -> T? {
         let json = JSONWarehouse(key: key)
         
         if json.cacheExists() {
@@ -138,7 +138,7 @@ public class Storage {
     }
     
     // arrays of storable type
-    static func unpack<T: Storable>(key: String) -> [T]? {
+    public static func unpack<T: Storable>(key: String) -> [T]? {
         let json = JSONWarehouse(key: key)
         
         if json.cacheExists() {
@@ -160,7 +160,7 @@ public class Storage {
     }
     
     // arrays of default types
-    static func unpack<T: StorableDefaultType>(key: String) -> [T]? {
+    public static func unpack<T: StorableDefaultType>(key: String) -> [T]? {
         let json = JSONWarehouse(key: key)
         
         if json.cacheExists() {
@@ -180,7 +180,7 @@ public class Storage {
     }
     
     // regular default types
-    static func unpack<T: StorableDefaultType>(key: String) -> T? {
+    public static func unpack<T: StorableDefaultType>(key: String) -> T? {
         let json = JSONWarehouse(key: key)
         
         if json.cacheExists() {
@@ -199,7 +199,7 @@ public class Storage {
         return T(warehouse: json)
     }
     
-    static func expire(key: String) {
+    public static func expire(key: String) {
         let warehouse = JSONWarehouse(key: key)
         
         warehouse.removeCache(key)
@@ -211,6 +211,7 @@ public class Storage {
 public protocol StorableDefaultType {
 }
 
+extension Bool: StorableDefaultType { }
 extension String: StorableDefaultType { }
 extension Int: StorableDefaultType { }
 extension Float: StorableDefaultType { }
