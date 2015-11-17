@@ -74,14 +74,31 @@ extension Storable {
     }
 }
 
+public enum StorageExpiry {
+    case Never
+    case Seconds(NSTimeInterval)
+    case Date(NSDate)
+    
+    func toDate() -> NSDate {
+        switch self {
+        case Never:
+            return NSDate.distantFuture()
+        case Seconds(let timeInterval):
+            return NSDate(timeIntervalSinceNow: timeInterval)
+        case Date(let date):
+            return date
+        }
+    }
+}
+
 // MARK: the main public class
 
 public class Storage {
     // pack generics
-    public static func pack<T: Storable>(object: T, key: String) {
+    public static func pack<T: Storable>(object: T, key: String, expires: StorageExpiry = .Never) {
         let warehouse = JSONWarehouse(key: key)
         
-        warehouse.write(object.toDictionary())
+        warehouse.write(object.toDictionary(), expires: expires)
     }
     
     public static func pack<T: Storable>(objects: [T], key: String) {
@@ -92,13 +109,13 @@ public class Storage {
             result.append(object.toDictionary())
         }
 
-        warehouse.write(result)
+        warehouse.write(result, expires: .Never)
     }
     
-    public static func pack<T: StorableDefaultType>(object: T?, key: String) {
+    public static func pack<T: StorableDefaultType>(object: T, key: String, expires: StorageExpiry = .Never) {
         let warehouse = JSONWarehouse(key: key)
         
-        warehouse.write(object as! AnyObject)
+        warehouse.write(object as! AnyObject, expires: expires)
     }
 
     public static func pack<T: StorableDefaultType>(objects: [T], key: String) {
@@ -109,7 +126,7 @@ public class Storage {
             result.append(object as! AnyObject)
         }
         
-        warehouse.write(result)
+        warehouse.write(result, expires: .Never)
     }
     
     public static func pack<T: StorableDefaultType>(objects: [T?], key: String) {
@@ -120,7 +137,7 @@ public class Storage {
             result.append(object as! AnyObject)
         }
         
-        warehouse.write(result)
+        warehouse.write(result, expires: .Never)
     }
 
 
@@ -202,7 +219,7 @@ public class Storage {
     public static func expire(key: String) {
         let warehouse = JSONWarehouse(key: key)
         
-        warehouse.removeCache(key)
+        warehouse.removeCache()
     }
 }
 
@@ -290,21 +307,18 @@ public class JSONWarehouse {
         return nil
     }
     
-    func write(object: AnyObject) {
+    func write(object: AnyObject, expires: StorageExpiry) {
         let cacheLocation = cacheFileURL()
         var storableDictionary = [String: AnyObject]()
         
+        storableDictionary["expires"] = expires.toDate().timeIntervalSince1970
         storableDictionary["storage"] = object
-        print("attempting to write",storableDictionary)
         
-        let success = (storableDictionary as NSDictionary).writeToURL(cacheLocation, atomically: true)
-        print("writing",success)
+        let _ = (storableDictionary as NSDictionary).writeToURL(cacheLocation, atomically: true)
     }
     
-    func removeCache(key: String) {
-        if cacheExists() {
-            try! NSFileManager.defaultManager().removeItemAtURL(cacheFileURL())
-        }
+    func removeCache() {
+        try! NSFileManager.defaultManager().removeItemAtURL(cacheFileURL())
     }
     
     func loadCache() -> AnyObject? {
@@ -325,7 +339,23 @@ public class JSONWarehouse {
     
     func cacheExists() -> Bool {
         if NSFileManager.defaultManager().fileExistsAtPath(cacheFileURL().path!) {
-            return true
+            let cacheLocation = cacheFileURL()
+            
+            if let metaDictionary = NSDictionary(contentsOfURL: cacheLocation) {
+                if let expires = metaDictionary["expires"] as? NSTimeInterval {
+                    let nowInterval = NSDate().timeIntervalSince1970
+                    
+                    if expires > nowInterval {
+                        return true
+                    } else {
+                        removeCache()
+                        return false
+                    }
+                } else {
+                    // no expires time means old cache, never expires
+                    return true
+                }
+            }
         }
         
         return false
