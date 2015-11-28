@@ -12,12 +12,12 @@
 		D0577A5A1BEACF4A00A8B8FF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0577A581BEACF4A00A8B8FF /* Main.storyboard */; };
 		D0577A5C1BEACF4A00A8B8FF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0577A5B1BEACF4A00A8B8FF /* Assets.xcassets */; };
 		D0577A5F1BEACF4A00A8B8FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0577A5D1BEACF4A00A8B8FF /* LaunchScreen.storyboard */; };
-		D0577A641BEACF6400A8B8FF /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0A3D71BE2B82900FB703A /* Storage.swift */; };
-		D0C0A3C11BE2B80300FB703A /* Storage.h in Headers */ = {isa = PBXBuildFile; fileRef = D0C0A3C01BE2B80300FB703A /* Storage.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D0C0A3C81BE2B80300FB703A /* Storage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0C0A3BD1BE2B80300FB703A /* Storage.framework */; };
-		D0C0A3CD1BE2B80300FB703A /* StorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0A3CC1BE2B80300FB703A /* StorageTests.swift */; };
-		D0C0A3D81BE2B82900FB703A /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0A3D71BE2B82900FB703A /* Storage.swift */; };
-		D0C0A3D91BE2B82C00FB703A /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0A3D71BE2B82900FB703A /* Storage.swift */; };
+		D0577A641BEACF6400A8B8FF /* Pantry.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0A3D71BE2B82900FB703A /* Pantry.swift */; };
+		D0C0A3C11BE2B80300FB703A /* Pantry.h in Headers */ = {isa = PBXBuildFile; fileRef = D0C0A3C01BE2B80300FB703A /* Pantry.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D0C0A3C81BE2B80300FB703A /* Pantry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0C0A3BD1BE2B80300FB703A /* Pantry.framework */; };
+		D0C0A3CD1BE2B80300FB703A /* PantryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0A3CC1BE2B80300FB703A /* PantryTests.swift */; };
+		D0C0A3D81BE2B82900FB703A /* Pantry.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0A3D71BE2B82900FB703A /* Pantry.swift */; };
+		D0C0A3D91BE2B82C00FB703A /* Pantry.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0A3D71BE2B82900FB703A /* Pantry.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,20 +31,20 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		D0577A521BEACF4A00A8B8FF /* StorageExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StorageExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0577A521BEACF4A00A8B8FF /* Pantry.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pantry.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0577A541BEACF4A00A8B8FF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D0577A561BEACF4A00A8B8FF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D0577A591BEACF4A00A8B8FF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D0577A5B1BEACF4A00A8B8FF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D0577A5E1BEACF4A00A8B8FF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D0577A601BEACF4A00A8B8FF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D0C0A3BD1BE2B80300FB703A /* Storage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Storage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D0C0A3C01BE2B80300FB703A /* Storage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Storage.h; sourceTree = "<group>"; };
+		D0C0A3BD1BE2B80300FB703A /* Pantry.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pantry.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0C0A3C01BE2B80300FB703A /* Pantry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Pantry.h; sourceTree = "<group>"; };
 		D0C0A3C21BE2B80300FB703A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D0C0A3C71BE2B80300FB703A /* StorageTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StorageTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		D0C0A3CC1BE2B80300FB703A /* StorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageTests.swift; sourceTree = "<group>"; };
+		D0C0A3C71BE2B80300FB703A /* Pantry.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Pantry.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0C0A3CC1BE2B80300FB703A /* PantryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryTests.swift; sourceTree = "<group>"; };
 		D0C0A3CE1BE2B80300FB703A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D0C0A3D71BE2B82900FB703A /* Storage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
+		D0C0A3D71BE2B82900FB703A /* Pantry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pantry.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,14 +66,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D0C0A3C81BE2B80300FB703A /* Storage.framework in Frameworks */,
+				D0C0A3C81BE2B80300FB703A /* Pantry.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		D0577A531BEACF4A00A8B8FF /* StorageExample */ = {
+		D0577A531BEACF4A00A8B8FF /* PantryExample */ = {
 			isa = PBXGroup;
 			children = (
 				D0577A541BEACF4A00A8B8FF /* AppDelegate.swift */,
@@ -83,15 +83,16 @@
 				D0577A5D1BEACF4A00A8B8FF /* LaunchScreen.storyboard */,
 				D0577A601BEACF4A00A8B8FF /* Info.plist */,
 			);
+			name = PantryExample;
 			path = StorageExample;
 			sourceTree = "<group>";
 		};
 		D0C0A3B31BE2B80300FB703A = {
 			isa = PBXGroup;
 			children = (
-				D0C0A3BF1BE2B80300FB703A /* Storage */,
-				D0C0A3CB1BE2B80300FB703A /* StorageTests */,
-				D0577A531BEACF4A00A8B8FF /* StorageExample */,
+				D0C0A3BF1BE2B80300FB703A /* Pantry */,
+				D0C0A3CB1BE2B80300FB703A /* PantryTests */,
+				D0577A531BEACF4A00A8B8FF /* PantryExample */,
 				D0C0A3BE1BE2B80300FB703A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -99,29 +100,31 @@
 		D0C0A3BE1BE2B80300FB703A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D0C0A3BD1BE2B80300FB703A /* Storage.framework */,
-				D0C0A3C71BE2B80300FB703A /* StorageTests.xctest */,
-				D0577A521BEACF4A00A8B8FF /* StorageExample.app */,
+				D0C0A3BD1BE2B80300FB703A /* Pantry.framework */,
+				D0C0A3C71BE2B80300FB703A /* Pantry.xctest */,
+				D0577A521BEACF4A00A8B8FF /* Pantry.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		D0C0A3BF1BE2B80300FB703A /* Storage */ = {
+		D0C0A3BF1BE2B80300FB703A /* Pantry */ = {
 			isa = PBXGroup;
 			children = (
-				D0C0A3C01BE2B80300FB703A /* Storage.h */,
-				D0C0A3D71BE2B82900FB703A /* Storage.swift */,
+				D0C0A3C01BE2B80300FB703A /* Pantry.h */,
+				D0C0A3D71BE2B82900FB703A /* Pantry.swift */,
 				D0C0A3C21BE2B80300FB703A /* Info.plist */,
 			);
+			name = Pantry;
 			path = Storage;
 			sourceTree = "<group>";
 		};
-		D0C0A3CB1BE2B80300FB703A /* StorageTests */ = {
+		D0C0A3CB1BE2B80300FB703A /* PantryTests */ = {
 			isa = PBXGroup;
 			children = (
-				D0C0A3CC1BE2B80300FB703A /* StorageTests.swift */,
+				D0C0A3CC1BE2B80300FB703A /* PantryTests.swift */,
 				D0C0A3CE1BE2B80300FB703A /* Info.plist */,
 			);
+			name = PantryTests;
 			path = StorageTests;
 			sourceTree = "<group>";
 		};
@@ -132,16 +135,16 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D0C0A3C11BE2B80300FB703A /* Storage.h in Headers */,
+				D0C0A3C11BE2B80300FB703A /* Pantry.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		D0577A511BEACF4A00A8B8FF /* StorageExample */ = {
+		D0577A511BEACF4A00A8B8FF /* PantryExample */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D0577A631BEACF4A00A8B8FF /* Build configuration list for PBXNativeTarget "StorageExample" */;
+			buildConfigurationList = D0577A631BEACF4A00A8B8FF /* Build configuration list for PBXNativeTarget "PantryExample" */;
 			buildPhases = (
 				D0577A4E1BEACF4A00A8B8FF /* Sources */,
 				D0577A4F1BEACF4A00A8B8FF /* Frameworks */,
@@ -151,14 +154,14 @@
 			);
 			dependencies = (
 			);
-			name = StorageExample;
+			name = PantryExample;
 			productName = StorageExample;
-			productReference = D0577A521BEACF4A00A8B8FF /* StorageExample.app */;
+			productReference = D0577A521BEACF4A00A8B8FF /* Pantry.app */;
 			productType = "com.apple.product-type.application";
 		};
-		D0C0A3BC1BE2B80300FB703A /* Storage */ = {
+		D0C0A3BC1BE2B80300FB703A /* Pantry */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D0C0A3D11BE2B80300FB703A /* Build configuration list for PBXNativeTarget "Storage" */;
+			buildConfigurationList = D0C0A3D11BE2B80300FB703A /* Build configuration list for PBXNativeTarget "Pantry" */;
 			buildPhases = (
 				D0C0A3B81BE2B80300FB703A /* Sources */,
 				D0C0A3B91BE2B80300FB703A /* Frameworks */,
@@ -169,14 +172,14 @@
 			);
 			dependencies = (
 			);
-			name = Storage;
+			name = Pantry;
 			productName = Storage;
-			productReference = D0C0A3BD1BE2B80300FB703A /* Storage.framework */;
+			productReference = D0C0A3BD1BE2B80300FB703A /* Pantry.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		D0C0A3C61BE2B80300FB703A /* StorageTests */ = {
+		D0C0A3C61BE2B80300FB703A /* PantryTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D0C0A3D41BE2B80300FB703A /* Build configuration list for PBXNativeTarget "StorageTests" */;
+			buildConfigurationList = D0C0A3D41BE2B80300FB703A /* Build configuration list for PBXNativeTarget "PantryTests" */;
 			buildPhases = (
 				D0C0A3C31BE2B80300FB703A /* Sources */,
 				D0C0A3C41BE2B80300FB703A /* Frameworks */,
@@ -187,9 +190,9 @@
 			dependencies = (
 				D0C0A3CA1BE2B80300FB703A /* PBXTargetDependency */,
 			);
-			name = StorageTests;
+			name = PantryTests;
 			productName = StorageTests;
-			productReference = D0C0A3C71BE2B80300FB703A /* StorageTests.xctest */;
+			productReference = D0C0A3C71BE2B80300FB703A /* Pantry.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -213,7 +216,7 @@
 					};
 				};
 			};
-			buildConfigurationList = D0C0A3B71BE2B80300FB703A /* Build configuration list for PBXProject "Storage" */;
+			buildConfigurationList = D0C0A3B71BE2B80300FB703A /* Build configuration list for PBXProject "Pantry" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -226,9 +229,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D0C0A3BC1BE2B80300FB703A /* Storage */,
-				D0C0A3C61BE2B80300FB703A /* StorageTests */,
-				D0577A511BEACF4A00A8B8FF /* StorageExample */,
+				D0C0A3BC1BE2B80300FB703A /* Pantry */,
+				D0C0A3C61BE2B80300FB703A /* PantryTests */,
+				D0577A511BEACF4A00A8B8FF /* PantryExample */,
 			);
 		};
 /* End PBXProject section */
@@ -267,7 +270,7 @@
 			files = (
 				D0577A571BEACF4A00A8B8FF /* ViewController.swift in Sources */,
 				D0577A551BEACF4A00A8B8FF /* AppDelegate.swift in Sources */,
-				D0577A641BEACF6400A8B8FF /* Storage.swift in Sources */,
+				D0577A641BEACF6400A8B8FF /* Pantry.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -275,7 +278,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D0C0A3D81BE2B82900FB703A /* Storage.swift in Sources */,
+				D0C0A3D81BE2B82900FB703A /* Pantry.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -283,8 +286,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D0C0A3CD1BE2B80300FB703A /* StorageTests.swift in Sources */,
-				D0C0A3D91BE2B82C00FB703A /* Storage.swift in Sources */,
+				D0C0A3CD1BE2B80300FB703A /* PantryTests.swift in Sources */,
+				D0C0A3D91BE2B82C00FB703A /* Pantry.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -293,7 +296,7 @@
 /* Begin PBXTargetDependency section */
 		D0C0A3CA1BE2B80300FB703A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = D0C0A3BC1BE2B80300FB703A /* Storage */;
+			target = D0C0A3BC1BE2B80300FB703A /* Pantry */;
 			targetProxy = D0C0A3C91BE2B80300FB703A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -325,7 +328,7 @@
 				INFOPLIST_FILE = StorageExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.thatthinginswift.StorageExample;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Pantry;
 			};
 			name = Debug;
 		};
@@ -336,7 +339,7 @@
 				INFOPLIST_FILE = StorageExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.thatthinginswift.StorageExample;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Pantry;
 			};
 			name = Release;
 		};
@@ -441,8 +444,8 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.thatthinginswift.Storage;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.thatthinginswift.Pantrry;
+				PRODUCT_NAME = Pantry;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -460,8 +463,8 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.thatthinginswift.Storage;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.thatthinginswift.Pantrry;
+				PRODUCT_NAME = Pantry;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -472,7 +475,7 @@
 				INFOPLIST_FILE = StorageTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.thatthinginswift.StorageTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Pantry;
 			};
 			name = Debug;
 		};
@@ -482,14 +485,14 @@
 				INFOPLIST_FILE = StorageTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.thatthinginswift.StorageTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Pantry;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D0577A631BEACF4A00A8B8FF /* Build configuration list for PBXNativeTarget "StorageExample" */ = {
+		D0577A631BEACF4A00A8B8FF /* Build configuration list for PBXNativeTarget "PantryExample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D0577A611BEACF4A00A8B8FF /* Debug */,
@@ -498,7 +501,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D0C0A3B71BE2B80300FB703A /* Build configuration list for PBXProject "Storage" */ = {
+		D0C0A3B71BE2B80300FB703A /* Build configuration list for PBXProject "Pantry" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D0C0A3CF1BE2B80300FB703A /* Debug */,
@@ -507,7 +510,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D0C0A3D11BE2B80300FB703A /* Build configuration list for PBXNativeTarget "Storage" */ = {
+		D0C0A3D11BE2B80300FB703A /* Build configuration list for PBXNativeTarget "Pantry" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D0C0A3D21BE2B80300FB703A /* Debug */,
@@ -516,7 +519,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D0C0A3D41BE2B80300FB703A /* Build configuration list for PBXNativeTarget "StorageTests" */ = {
+		D0C0A3D41BE2B80300FB703A /* Build configuration list for PBXNativeTarget "PantryTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D0C0A3D51BE2B80300FB703A /* Debug */,

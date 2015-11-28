@@ -1,6 +1,6 @@
 //
-//  Storage.swift
-//  Storage
+//  Pantry.swift
+//  Pantry
 //
 //  Created by Nick O'Neill on 10/29/15.
 //  Copyright © 2015 That Thing in Swift. All rights reserved.
@@ -93,7 +93,7 @@ public enum StorageExpiry {
 
 // MARK: the main public class
 
-public class Storage {
+public class Pantry {
     // pack generics
     public static func pack<T: Storable>(object: T, key: String, expires: StorageExpiry = .Never) {
         let warehouse = JSONWarehouse(key: key)
@@ -364,7 +364,7 @@ public class JSONWarehouse {
     func cacheFileURL() -> NSURL {
         let url = NSFileManager.defaultManager().URLsForDirectory(.CachesDirectory, inDomains: .UserDomainMask).first!
         
-        let writeDirectory = url.URLByAppendingPathComponent("com.thatthinginswift.storage")
+        let writeDirectory = url.URLByAppendingPathComponent("com.thatthinginswift.pantry")
         let cacheLocation = writeDirectory.URLByAppendingPathComponent(self.key)
         //        print("cache",writeDirectory)
         

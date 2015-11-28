@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Storage
+import Pantry
 
 class ViewController: UIViewController {
     @IBOutlet var textField: UITextField!
@@ -18,14 +18,14 @@ class ViewController: UIViewController {
 
     @IBAction func saveText() {
         if let text = textField.text where !text.isEmpty {
-            Storage.pack(text, key: "saved_text")
+            Pantry.pack(text, key: "saved_text")
             textField.text = ""
             print("Stored text")
         }
     }
     
     @IBAction func loadText() {
-        if let unpackedText: String = Storage.unpack("saved_text") {
+        if let unpackedText: String = Pantry.unpack("saved_text") {
             textField.text = unpackedText
             print("Loaded text")
         }

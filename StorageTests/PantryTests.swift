@@ -1,17 +1,17 @@
 //
-//  StorageTests.swift
-//  StorageTests
+//  PantryTests.swift
+//  PantryTests
 //
 //  Created by Nick O'Neill on 10/29/15.
 //  Copyright © 2015 That Thing in Swift. All rights reserved.
 //
 
 import XCTest
-@testable import Storage
+@testable import Pantry
 
 var token: dispatch_once_t = 0
 
-class StorageTests: XCTestCase {
+class PantryTests: XCTestCase {
     struct Basic: Storable {
         let name: String
         let age: Float
@@ -122,63 +122,37 @@ class StorageTests: XCTestCase {
         let int: Int = 4
         let float: Float = 10.2
         
-        Storage.pack(string, key: "ourTestString")
-        Storage.pack(int, key: "ourTestInt")
-        Storage.pack(float, key: "ourTestFloat")
+        Pantry.pack(string, key: "ourTestString")
+        Pantry.pack(int, key: "ourTestInt")
+        Pantry.pack(float, key: "ourTestFloat")
         
-        if let unpackedString: String = Storage.unpack("ourTestString") {
+        if let unpackedString: String = Pantry.unpack("ourTestString") {
             XCTAssert(unpackedString == "Hello", "default string was incorrect")
         } else {
             XCTFail("no default string could be unpacked")
         }
-        if let unpackedInt: Int = Storage.unpack("ourTestInt") {
+        if let unpackedInt: Int = Pantry.unpack("ourTestInt") {
             XCTAssert(unpackedInt == 4, "default int was incorrect")
         } else {
             XCTFail("no default int could be unpacked")
         }
-        if let unpackedFloat: Float = Storage.unpack("ourTestFloat") {
+        if let unpackedFloat: Float = Pantry.unpack("ourTestFloat") {
             XCTAssert(unpackedFloat == 10.2, "default float was incorrect")
         } else {
             XCTFail("no default float could be unpacked")
         }
     }
-    
-    func testOptionalTypes() {
-        let string: String? = "Hello"
-        let int: Int? = 4
-        let float: Float? = 10.2
-        
-        Storage.pack(string, key: "ourOptionalTestString")
-        Storage.pack(int, key: "ourOptionalTestInt")
-        Storage.pack(float, key: "ourOptionalTestFloat")
-        
-        if let unpackedString: String? = Storage.unpack("ourOptionalTestString") {
-            XCTAssert(unpackedString == "Hello", "optional string was incorrect")
-        } else {
-            XCTFail("no optional string could be unpacked")
-        }
-        if let unpackedInt: Int? = Storage.unpack("ourOptionalTestInt") {
-            XCTAssert(unpackedInt == 4, "optional int was incorrect")
-        } else {
-            XCTFail("no optional int could be unpacked")
-        }
-        if let unpackedFloat: Float? = Storage.unpack("ourOptionalTestFloat") {
-            XCTAssert(unpackedFloat == 10.2, "optional float was incorrect")
-        } else {
-            XCTFail("no optional float could be unpacked")
-        }
-    }
-    
+
     func testDefaultArray() {
         let defaultStrings = ["Default","Types","Strings"]
         let defaultInts = [0,1,2,3,4]
         let defaultFloats: [Float] = [10.2,31.5,28.3]
         
-        Storage.pack(defaultStrings, key: "default_strings_array")
-        Storage.pack(defaultInts, key: "default_ints_array")
-        Storage.pack(defaultFloats, key: "default_floats_array")
-        
-        if let unpackedDefaultStringsArray: [String] = Storage.unpack("default_strings_array") {
+        Pantry.pack(defaultStrings, key: "default_strings_array")
+        Pantry.pack(defaultInts, key: "default_ints_array")
+        Pantry.pack(defaultFloats, key: "default_floats_array")
+
+        if let unpackedDefaultStringsArray: [String] = Pantry.unpack("default_strings_array") {
             
             if unpackedDefaultStringsArray.count == 3 {
                 XCTAssert(unpackedDefaultStringsArray[0] == "Default", "string array first was incorrect")
@@ -191,7 +165,7 @@ class StorageTests: XCTestCase {
             XCTFail("no string array could be unpacked")
         }
 
-        if let unpackedDefaultIntsArray: [Int] = Storage.unpack("default_ints_array") {
+        if let unpackedDefaultIntsArray: [Int] = Pantry.unpack("default_ints_array") {
             
             if unpackedDefaultIntsArray.count == 5 {
                 XCTAssert(unpackedDefaultIntsArray[0] == 0, "int array first was incorrect")
@@ -205,7 +179,7 @@ class StorageTests: XCTestCase {
             XCTFail("no int array could be unpacked")
         }
         
-        if let unpackedDefaultFloatsArray: [Float] = Storage.unpack("default_floats_array") {
+        if let unpackedDefaultFloatsArray: [Float] = Pantry.unpack("default_floats_array") {
             
             if unpackedDefaultFloatsArray.count == 3 {
                 XCTAssert(unpackedDefaultFloatsArray[0] == 10.2, "float array first was incorrect")
@@ -222,9 +196,9 @@ class StorageTests: XCTestCase {
     func testStorableStruct() {
         let basic = Basic(name: "Nick", age: 31.5, number: 42)
         
-        Storage.pack(basic, key: "basic")
+        Pantry.pack(basic, key: "basic")
         
-        if let unpackedBasic: Basic = Storage.unpack("basic") {
+        if let unpackedBasic: Basic = Pantry.unpack("basic") {
             XCTAssert(unpackedBasic.name == "Nick", "basic string was incorrect")
             XCTAssert(unpackedBasic.age == 31.5, "basic float was incorrect")
             XCTAssert(unpackedBasic.number == 42, "basic int was incorrect")
@@ -241,9 +215,9 @@ class StorageTests: XCTestCase {
 
         let basics = [Basic](arrayLiteral: first, second, third, fourth)
         
-        Storage.pack(basics, key: "basic_array")
+        Pantry.pack(basics, key: "basic_array")
         
-        if let unpackedBasicArray: [Basic] = Storage.unpack("basic_array") {
+        if let unpackedBasicArray: [Basic] = Pantry.unpack("basic_array") {
             XCTAssert(unpackedBasicArray.count == 4, "basic array didn't contain the right amount of structs")
             
             let unpackedFirst = unpackedBasicArray[0]
@@ -268,9 +242,9 @@ class StorageTests: XCTestCase {
         
         let nested = NestedStorable(name: "Top", basic: first)
         
-        Storage.pack(nested, key: "nested_storable")
+        Pantry.pack(nested, key: "nested_storable")
         
-        if let unpackedNested: NestedStorable = Storage.unpack("nested_storable") {
+        if let unpackedNested: NestedStorable = Pantry.unpack("nested_storable") {
             XCTAssert(unpackedNested.name == "Top", "nested name was incorrect")
             
             if let basic = unpackedNested.basic {
@@ -290,9 +264,9 @@ class StorageTests: XCTestCase {
     func testNestedArray() {
         let nested = NestedDefault(names: ["Nested","Default","Array"], numbers: [1,3,5,7,9], ages: [31.5, 42.0, 23.1])
         
-        Storage.pack(nested, key: "nested_default")
+        Pantry.pack(nested, key: "nested_default")
         
-        if let unpackedNested: NestedDefault = Storage.unpack("nested_default") {
+        if let unpackedNested: NestedDefault = Pantry.unpack("nested_default") {
             let names = unpackedNested.names
             
             if names.count == 3 {
@@ -336,9 +310,9 @@ class StorageTests: XCTestCase {
         
         let nested = NestedStorableArray(name: "Nested", basics: [first, second])
         
-        Storage.pack(nested, key: "nested_storable_array")
+        Pantry.pack(nested, key: "nested_storable_array")
         
-        if let unpackedNested: NestedStorableArray = Storage.unpack("nested_storable_array") {
+        if let unpackedNested: NestedStorableArray = Pantry.unpack("nested_storable_array") {
             XCTAssert(unpackedNested.name == "Nested", "nested name was incorrect")
             
             XCTAssert(unpackedNested.basics.count == 2, "nested storable array count was incorrect")
