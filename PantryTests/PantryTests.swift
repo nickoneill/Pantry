@@ -7,7 +7,6 @@
 //
 
 import XCTest
-@testable import Pantry
 
 var token: dispatch_once_t = 0
 
