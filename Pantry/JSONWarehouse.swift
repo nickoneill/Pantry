@@ -8,8 +8,6 @@
 
 import Foundation
 
-// MARK: warehouse is a thing that serializes and deserializes data
-
 /** 
 JSONWarehouse serializes and deserializes data 
 
