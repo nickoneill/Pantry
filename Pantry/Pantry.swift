@@ -8,16 +8,50 @@
 
 import Foundation
 
-// MARK: the main public class
+/** 
+ # Pantry 
 
+ Pantry is a lightweight way to persist structs containing user data, 
+ cached content or other relevant objects for later retrieval.
+ 
+ ### Storage sample
+
+ ```swift
+ let someCustomStruct = SomeCustomStruct(...)
+ Pantry.pack(someCustomStruct, "user_data")
+ ```
+
+ ### Retrieval sample
+
+ ```swift
+ if let unpackedCustomStruct: SomeCustomStruct = Pantry.unpack("user_data") {
+    eprint("got my data out", unpackedCustomStruct)
+ } else {
+    print("there was no struct data to get")
+ }
+ ```
+ */
 public class Pantry {
-    // pack generics
+
+    // MARK: pack generics
+
+    /**
+     Packs a generic struct that conforms to the `Storable` protocol
+     - parameter object: Generic object that will be stored
+     - parameter key: The object's key
+     - parameter expires: The storage expiration. Defaults to `Never`
+     */
     public static func pack<T: Storable>(object: T, key: String, expires: StorageExpiry = .Never) {
         let warehouse = JSONWarehouse(key: key)
         
         warehouse.write(object.toDictionary(), expires: expires)
     }
-    
+
+    /**
+     Packs a generic collection of structs that conform to the `Storable` protocol
+     - parameter objects: Generic collection of objects that will be stored
+     - parameter key: The objects' key
+     */
     public static func pack<T: Storable>(objects: [T], key: String) {
         let warehouse = JSONWarehouse(key: key)
         
@@ -28,13 +62,28 @@ public class Pantry {
 
         warehouse.write(result, expires: .Never)
     }
-    
+
+    /**
+     Packs a default storage type.
+     - parameter object: Default object that will be stored
+     - parameter key: The object's key
+     - parameter expires: The storage expiration. Defaults to `Never`
+     
+     - SeeAlso: `StorableDefaultType`
+     */
     public static func pack<T: StorableDefaultType>(object: T, key: String, expires: StorageExpiry = .Never) {
         let warehouse = JSONWarehouse(key: key)
         
         warehouse.write(object as! AnyObject, expires: expires)
     }
 
+    /**
+     Packs a collection of default storage types.
+     - parameter objects: Collection of objects that will be stored
+     - parameter key: The object's key
+
+     - SeeAlso: `StorableDefaultType`
+     */
     public static func pack<T: StorableDefaultType>(objects: [T], key: String) {
         let warehouse = JSONWarehouse(key: key)
         
@@ -45,7 +94,14 @@ public class Pantry {
         
         warehouse.write(result, expires: .Never)
     }
-    
+
+    /**
+     Packs a collection of optional default storage types.
+     - parameter objects: Collection of optional objects that will be stored
+     - parameter key: The object's key
+
+     - SeeAlso: `StorableDefaultType`
+     */
     public static func pack<T: StorableDefaultType>(objects: [T?], key: String) {
         let warehouse = JSONWarehouse(key: key)
         
@@ -137,156 +193,5 @@ public class Pantry {
         let warehouse = JSONWarehouse(key: key)
         
         warehouse.removeCache()
-    }
-}
-
-// MARK: default types that are supported
-
-public protocol StorableDefaultType {
-}
-
-extension Bool: StorableDefaultType { }
-extension String: StorableDefaultType { }
-extension Int: StorableDefaultType { }
-extension Float: StorableDefaultType { }
-
-// MARK: warehouse is a thing that serializes and deserializes data
-
-public class JSONWarehouse {
-    var key: String
-    var context: AnyObject?
-    
-    init(key: String) {
-        self.key = key
-    }
-    
-    init(context: AnyObject) {
-        self.key = ""
-        self.context = context
-    }
-
-    func get<T: StorableDefaultType>(valueKey: String) -> T? {
-        if let dictionary = loadCache() {
-            if let result = dictionary[valueKey] {
-                if let result = result as? T {
-                    return result
-                }
-            }
-        }
-        
-        return nil
-    }
-    
-    func get<T: StorableDefaultType>(valueKey: String) -> [T]? {
-        if let dictionary = loadCache() as? Dictionary<String, AnyObject> {
-            if let result = dictionary[valueKey] as? Array<AnyObject> {
-                var unpackedItems = [T]()
-                
-                for item in result {
-                    if let item = item as? T {
-                        unpackedItems.append(item)
-                    }
-                }
-                return unpackedItems
-            }
-        }
-        
-        return nil
-    }
-    
-    func get<T: Storable>(valueKey: String) -> T? {
-        if let dictionary = loadCache() as? Dictionary<String, AnyObject> {
-            if let result = dictionary[valueKey] {
-                let warehouse = JSONWarehouse(context: result)
-                return T(warehouse: warehouse)
-            }
-        }
-        
-        return nil
-    }
-    
-    func get<T: Storable>(valueKey: String) -> [T]? {
-        if let dictionary = loadCache() as? Dictionary<String, AnyObject> {
-            if let result = dictionary[valueKey] as? Array<AnyObject> {
-                var unpackedItems = [T]()
-                
-                for item in result {
-                    if let item = item as? Dictionary<String, AnyObject> {
-                        let warehouse = JSONWarehouse(context: item)
-                        let item = T(warehouse: warehouse)
-                        unpackedItems.append(item)
-                    }
-                }
-                return unpackedItems
-            }
-        }
-        
-        return nil
-    }
-    
-    func write(object: AnyObject, expires: StorageExpiry) {
-        let cacheLocation = cacheFileURL()
-        var storableDictionary = [String: AnyObject]()
-        
-        storableDictionary["expires"] = expires.toDate().timeIntervalSince1970
-        storableDictionary["storage"] = object
-        
-        let _ = (storableDictionary as NSDictionary).writeToURL(cacheLocation, atomically: true)
-    }
-    
-    func removeCache() {
-        try! NSFileManager.defaultManager().removeItemAtURL(cacheFileURL())
-    }
-    
-    func loadCache() -> AnyObject? {
-        if context == nil {
-            let cacheLocation = cacheFileURL()
-            
-            if let metaDictionary = NSDictionary(contentsOfURL: cacheLocation) {
-                if let cache = metaDictionary["storage"] {
-                    return cache
-                }
-            }
-        } else {
-            return context
-        }
-        
-        return nil
-    }
-    
-    func cacheExists() -> Bool {
-        if NSFileManager.defaultManager().fileExistsAtPath(cacheFileURL().path!) {
-            let cacheLocation = cacheFileURL()
-            
-            if let metaDictionary = NSDictionary(contentsOfURL: cacheLocation) {
-                if let expires = metaDictionary["expires"] as? NSTimeInterval {
-                    let nowInterval = NSDate().timeIntervalSince1970
-                    
-                    if expires > nowInterval {
-                        return true
-                    } else {
-                        removeCache()
-                        return false
-                    }
-                } else {
-                    // no expires time means old cache, never expires
-                    return true
-                }
-            }
-        }
-        
-        return false
-    }
-    
-    func cacheFileURL() -> NSURL {
-        let url = NSFileManager.defaultManager().URLsForDirectory(.CachesDirectory, inDomains: .UserDomainMask).first!
-        
-        let writeDirectory = url.URLByAppendingPathComponent("com.thatthinginswift.pantry")
-        let cacheLocation = writeDirectory.URLByAppendingPathComponent(self.key)
-        //        print("cache",writeDirectory)
-        
-        try! NSFileManager.defaultManager().createDirectoryAtURL(writeDirectory, withIntermediateDirectories: true, attributes: nil)
-        
-        return cacheLocation
     }
 }

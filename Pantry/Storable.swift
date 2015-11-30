@@ -1,6 +1,6 @@
 //
-//  Pantry.swift
-//  Pantry
+//  Storable.swift
+//  Storable
 //
 //  Created by Nick O'Neill on 10/29/15.
 //  Copyright © 2015 That Thing in Swift. All rights reserved.
@@ -139,3 +139,18 @@ public enum StorageExpiry {
         }
     }
 }
+
+// MARK: default types that are supported
+
+/**
+Default storable types
+
+Default types are `Bool`, `String`, `Int`, `Float`
+*/
+public protocol StorableDefaultType {
+}
+
+extension Bool: StorableDefaultType { }
+extension String: StorableDefaultType { }
+extension Int: StorableDefaultType { }
+extension Float: StorableDefaultType { }
