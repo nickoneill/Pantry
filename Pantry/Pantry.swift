@@ -116,7 +116,11 @@ public class Pantry {
 
     // MARK: unpack generics
     
-    // storable type (struct)
+    /**
+    Unpacks a generic struct that conforms to the `Storable` protocol
+    - parameter key: The object's key
+    - returns: T?
+    */
     public static func unpack<T: Storable>(key: String) -> T? {
         let json = JSONWarehouse(key: key)
         
@@ -127,7 +131,11 @@ public class Pantry {
         return nil
     }
     
-    // arrays of storable type
+    /**
+     Unpacks a generic collection of structs that conform to the `Storable` protocol
+     - parameter key: The objects' key
+     - returns: [T]?
+     */
     public static func unpack<T: Storable>(key: String) -> [T]? {
         let json = JSONWarehouse(key: key)
         
@@ -149,7 +157,13 @@ public class Pantry {
         return nil
     }
     
-    // arrays of default types
+    /**
+     Unpacks a collection of default storage types.
+     - parameter key: The object's key
+     - returns: [T]?
+
+     - SeeAlso: `StorableDefaultType`
+     */
     public static func unpack<T: StorableDefaultType>(key: String) -> [T]? {
         let json = JSONWarehouse(key: key)
         
@@ -169,7 +183,12 @@ public class Pantry {
         return nil
     }
     
-    // regular default types
+    /**
+     Unacks a default storage type.
+     - parameter key: The object's key
+
+     - SeeAlso: `StorableDefaultType`
+     */
     public static func unpack<T: StorableDefaultType>(key: String) -> T? {
         let json = JSONWarehouse(key: key)
         
@@ -181,17 +200,21 @@ public class Pantry {
         
         return nil
     }
-    
-    //
+
+    /**
+     Expire a given object
+     - parameter key: The object's key
+     */
+    public static func expire(key: String) {
+        let warehouse = JSONWarehouse(key: key)
+
+        warehouse.removeCache()
+    }
+
     static func unpack<T: Storable>(dictionary: Dictionary<String, AnyObject>) -> T? {
         let json = JSONWarehouse(context: dictionary)
         
         return T(warehouse: json)
     }
-    
-    public static func expire(key: String) {
-        let warehouse = JSONWarehouse(key: key)
-        
-        warehouse.removeCache()
-    }
+
 }
