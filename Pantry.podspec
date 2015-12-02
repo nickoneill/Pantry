@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = 'Pantry'
-  s.version = '0.2'
+  s.version = '0.2.1'
   s.license = 'MIT'
   s.summary = 'The missing light persistence layer for Swift'
   s.homepage = 'https://github.com/nickoneill/Pantry'
