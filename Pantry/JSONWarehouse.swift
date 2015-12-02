@@ -26,7 +26,7 @@ public class JSONWarehouse {
         self.context = context
     }
 
-    func get<T: StorableDefaultType>(valueKey: String) -> T? {
+    public func get<T: StorableDefaultType>(valueKey: String) -> T? {
         if let dictionary = loadCache() {
             if let result = dictionary[valueKey] {
                 if let result = result as? T {
@@ -38,7 +38,7 @@ public class JSONWarehouse {
         return nil
     }
     
-    func get<T: StorableDefaultType>(valueKey: String) -> [T]? {
+    public func get<T: StorableDefaultType>(valueKey: String) -> [T]? {
         if let dictionary = loadCache() as? Dictionary<String, AnyObject> {
             if let result = dictionary[valueKey] as? Array<AnyObject> {
                 var unpackedItems = [T]()
@@ -55,7 +55,7 @@ public class JSONWarehouse {
         return nil
     }
     
-    func get<T: Storable>(valueKey: String) -> T? {
+    public func get<T: Storable>(valueKey: String) -> T? {
         if let dictionary = loadCache() as? Dictionary<String, AnyObject> {
             if let result = dictionary[valueKey] {
                 let warehouse = JSONWarehouse(context: result)
@@ -66,7 +66,7 @@ public class JSONWarehouse {
         return nil
     }
     
-    func get<T: Storable>(valueKey: String) -> [T]? {
+    public func get<T: Storable>(valueKey: String) -> [T]? {
         if let dictionary = loadCache() as? Dictionary<String, AnyObject> {
             if let result = dictionary[valueKey] as? Array<AnyObject> {
                 var unpackedItems = [T]()
