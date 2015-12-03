@@ -17,7 +17,7 @@
   • <a href="#license">License</a>
 </p>
 
-#### Pantry is new! Please join us in [issues](https://github.com/nickoneill/Pantry/issues) if you'd like to help us get to 1.0
+#### Pantry is new! Please join us in [issues](https://github.com/nickoneill/Pantry/issues) if you'd like to help us get to 1.0. And read about more [use cases for Pantry](https://medium.com/ios-os-x-development/the-missing-light-persistence-layer-for-swift-35ce75d02d47).
 
 Pantry is a lightweight way to persist structs containing user data, cached content or other relevant objects for later retrieval.
 
