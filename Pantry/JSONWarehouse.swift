@@ -26,6 +26,13 @@ public class JSONWarehouse {
         self.context = context
     }
 
+    /**
+     Retrieve a `StorableDefaultType` for a given key
+     - parameter valueKey: The item's key
+     - returns: T?
+
+     - SeeAlso: `StorableDefaultType`
+     */
     public func get<T: StorableDefaultType>(valueKey: String) -> T? {
         if let dictionary = loadCache() {
             if let result = dictionary[valueKey] {
@@ -37,7 +44,14 @@ public class JSONWarehouse {
         
         return nil
     }
-    
+
+    /**
+     Retrieve a collection of `StorableDefaultType`s for a given key
+     - parameter valueKey: The item's key
+     - returns: [T]?
+
+     - SeeAlso: `StorableDefaultType`
+     */
     public func get<T: StorableDefaultType>(valueKey: String) -> [T]? {
         if let dictionary = loadCache() as? Dictionary<String, AnyObject> {
             if let result = dictionary[valueKey] as? Array<AnyObject> {
@@ -54,7 +68,14 @@ public class JSONWarehouse {
         
         return nil
     }
-    
+
+    /**
+     Retrieve a generic object conforming to `Storable` for a given key
+     - parameter valueKey: The item's key
+     - returns: T?
+
+     - SeeAlso: `Storable`
+     */
     public func get<T: Storable>(valueKey: String) -> T? {
         if let dictionary = loadCache() as? Dictionary<String, AnyObject> {
             if let result = dictionary[valueKey] {
@@ -65,7 +86,14 @@ public class JSONWarehouse {
         
         return nil
     }
-    
+
+    /**
+     Retrieve a collection of generic objects conforming to `Storable` for a given key
+     - parameter valueKey: The item's key
+     - returns: [T]?
+
+     - SeeAlso: `Storable`
+     */
     public func get<T: Storable>(valueKey: String) -> [T]? {
         if let dictionary = loadCache() as? Dictionary<String, AnyObject> {
             if let result = dictionary[valueKey] as? Array<AnyObject> {
