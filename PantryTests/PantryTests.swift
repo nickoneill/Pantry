@@ -336,6 +336,50 @@ class PantryTests: XCTestCase {
         }
     }
     
+    func testOptionalValueShouldCache() {
+        let optional1 = BasicOptional(lastName: "Jhihguan", dogsAge: nil, leastFavoriteNumber: 1)
+        let optional2 = BasicOptional(lastName: "Wane", dogsAge: 10, leastFavoriteNumber: nil)
+        let optional3 = BasicOptional(lastName: nil, dogsAge: nil, leastFavoriteNumber: 1)
+        let optional4 = BasicOptional(lastName: nil, dogsAge: 5, leastFavoriteNumber: nil)
+        
+        Pantry.pack(optional1, key: "optionalValueTest1")
+        Pantry.pack(optional2, key: "optionalValueTest2")
+        Pantry.pack(optional3, key: "optionalValueTest3")
+        Pantry.pack(optional4, key: "optionalValueTest4")
+        
+        if let unpackOption1: BasicOptional = Pantry.unpack("optionalValueTest1") {
+            XCTAssert(unpackOption1.lastName == "Jhihguan", "unpackOption1 field lastName should have value")
+            XCTAssert(unpackOption1.dogsAge == nil, "unpackOption1 field dogsAge should be nil")
+            XCTAssert(unpackOption1.leastFavoriteNumber == 1, "unpackOption1 field leastFavoriteNumber should have value")
+        } else {
+            XCTFail("no basicoptional struct could be unpacked")
+        }
+        
+        if let unpackOption2: BasicOptional = Pantry.unpack("optionalValueTest2") {
+            XCTAssert(unpackOption2.lastName == "Wane", "unpackOption2 field lastName should have value")
+            XCTAssert(unpackOption2.dogsAge == 10, "unpackOption2 field dogsAge should have value")
+            XCTAssert(unpackOption2.leastFavoriteNumber == nil, "unpackOption2 field leastFavoriteNumber should not be nil")
+        } else {
+            XCTFail("no basicoptional struct could be unpacked")
+        }
+        
+        if let unpackOption3: BasicOptional = Pantry.unpack("optionalValueTest3") {
+            XCTAssert(unpackOption3.lastName == nil, "unpackOption3 field lastName should be nil")
+            XCTAssert(unpackOption3.dogsAge != 10 && unpackOption3.dogsAge == nil, "unpackOption3 field dogsAge should be nil")
+            XCTAssert(unpackOption3.leastFavoriteNumber != nil, "unpackOption3 field leastFavoriteNumber should have value")
+        } else {
+            XCTFail("no basicoptional struct could be unpacked")
+        }
+        
+        if let unpackOption4: BasicOptional = Pantry.unpack("optionalValueTest4") {
+            XCTAssert(unpackOption4.lastName == nil, "unpackOption4 field lastName should be nil")
+            XCTAssert(unpackOption4.dogsAge != 10 && unpackOption4.dogsAge != nil, "unpackOption4 field dogsAge should be nil")
+            XCTAssert(unpackOption4.leastFavoriteNumber == nil, "unpackOption4 field leastFavoriteNumber should be nil")
+        } else {
+            XCTFail("no basicoptional struct could be unpacked")
+        }
+    }
+    
 //    func testPerformanceExample() {
 //        // This is an example of a performance test case.
 //        self.measureBlock {
