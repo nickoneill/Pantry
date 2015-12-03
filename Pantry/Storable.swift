@@ -112,14 +112,13 @@ extension Storable {
 
 /**
  Storage expiry
-
- - Never: the storage never expires
- - Seconds: the storage expires after a given timeout in seconds (`NSTimeInterval`)
- - Date: the storage expires at a given date
  */
 public enum StorageExpiry {
+    /// the storage never expires
     case Never
+    /// the storage expires after a given timeout in seconds (`NSTimeInterval`)
     case Seconds(NSTimeInterval)
+    /// the storage expires at a given date (`NSDate`)
     case Date(NSDate)
 
     /**

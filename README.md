@@ -7,6 +7,7 @@
     <a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/language-swift2-f48041.svg?style=flat" alt="Language: Swift 2" /></a>
     <a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" alt="Carthage compatible" /></a>
     <a href="https://cocoapods.org/pods/Pantry"><img src="https://cocoapod-badges.herokuapp.com/v/Pantry/badge.png" alt="Cocoapods compatible" /></a>
+    <a href="http://cocoadocs.org/docsets/Pantry"><img src="https://img.shields.io/cocoapods/metrics/doc-percent/Pantry.svg" alt="Docs" /></a>
     <img src="http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat" alt="License: MIT" />
 </p>
 
