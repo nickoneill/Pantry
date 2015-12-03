@@ -45,7 +45,7 @@ public protocol Storable {
     func toDictionary() -> [String: AnyObject]
 }
 
-extension Storable {
+public extension Storable {
     /**
      Dictionary representation
      Returns the dictioanry representation of the current struct
