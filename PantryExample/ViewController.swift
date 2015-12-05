@@ -10,6 +10,23 @@ import UIKit
 
 class ViewController: UIViewController {
     @IBOutlet var textField: UITextField!
+    @IBOutlet var persistTextField: UITextField! {
+        didSet {
+            persistTextField.text = autopersist
+        }
+    }
+
+    var autopersist: String? {
+        set {
+            if let newValue = newValue {
+                Pantry.pack(newValue, key: "autopersist")
+                persistTextField.text = newValue
+            }
+        }
+        get {
+            return Pantry.unpack("autopersist")
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +44,19 @@ class ViewController: UIViewController {
         if let unpackedText: String = Pantry.unpack("saved_text") {
             textField.text = unpackedText
             print("Loaded text")
+        }
+    }
+
+    @IBAction func segmentTapped(sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0:
+            autopersist = "first"
+        case 1:
+            autopersist = "second"
+        case 2:
+            autopersist = "third"
+        default:
+            break
         }
     }
 }
