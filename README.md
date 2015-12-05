@@ -7,6 +7,7 @@
     <a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/language-swift2-f48041.svg?style=flat" alt="Language: Swift 2" /></a>
     <a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" alt="Carthage compatible" /></a>
     <a href="https://cocoapods.org/pods/Pantry"><img src="https://cocoapod-badges.herokuapp.com/v/Pantry/badge.png" alt="Cocoapods compatible" /></a>
+    <a href="http://cocoadocs.org/docsets/Pantry"><img src="https://img.shields.io/cocoapods/metrics/doc-percent/Pantry.svg" alt="Docs" /></a>
     <img src="http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat" alt="License: MIT" />
 </p>
 
@@ -16,7 +17,7 @@
   • <a href="#license">License</a>
 </p>
 
-#### Pantry is new! Please join us in [issues](https://github.com/nickoneill/Pantry/issues) if you'd like to help us get to 1.0
+#### Pantry is new! Please join us in [issues](https://github.com/nickoneill/Pantry/issues) if you'd like to help us get to 1.0. And read about more [use cases for Pantry](https://medium.com/ios-os-x-development/the-missing-light-persistence-layer-for-swift-35ce75d02d47).
 
 Pantry is a lightweight way to persist structs containing user data, cached content or other relevant objects for later retrieval.
 
@@ -50,7 +51,7 @@ Pantry requires iOS 8+ and is compatible with **Swift 2** projects. Objective-C 
 
 Installation for [Carthage](https://github.com/Carthage/Carthage) is simple enough:
 
-`github "nickoneill/Pantry" ~> 0.2`
+`github "nickoneill/Pantry" ~> 0.2.1`
 
 As for [Cocoapods](https://cocoapods.org), use this to get the latest release:
 

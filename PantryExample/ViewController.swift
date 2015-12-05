@@ -28,10 +28,6 @@ class ViewController: UIViewController {
         }
     }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-
     @IBAction func saveText() {
         if let text = textField.text where !text.isEmpty {
             Pantry.pack(text, key: "saved_text")
