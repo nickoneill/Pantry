@@ -65,6 +65,43 @@ And `import Pantry` in the files you'd like to use it.
 
 ## Usage
 
+### Basic types
+Pantry provides serialization of some basic types (`String`, `Int`, `Float`, `Bool`) with no setup. You can use it as a simple expiring cache like this:
+
+```swift
+if let available: Bool = Pantry.unpack("promptAvailable") {
+    completion(available: available)
+} else {
+    anExpensiveOperationToDetermineAvailability({ (available) -> () in
+      Pantry.pack(available, key: "promptAvailable", expires: .Seconds(60 * 10))
+      completion(available: available)
+    })
+}
+```
+
+### Automagic Persistent Variables
+Use Swift's get/set to automatically persist the value of a variable on write and get the latest value on read.
+
+```swift
+var autopersist: String? {
+    set {
+        if let newValue = newValue {
+            Pantry.pack(newValue, key: "autopersist")
+        }
+    }
+    get {
+        return Pantry.unpack("autopersist")
+    }
+}
+
+...later...
+
+autopersist = "Hello!"
+// restart app, reboot phone, etc
+print(autopersist) // Hello!
+```
+
+### Structs
 Add the `Storable` protocol to any struct you want stored and then ensure they comply by implementing an init method that gets each property from the warehouse:
 ```swift
 struct Basic: Storable {
