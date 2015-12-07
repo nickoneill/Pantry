@@ -32,9 +32,9 @@ public protocol Storable {
     /** 
      Struct initialization  
 
-     - parameter warehouse: the `JSONWarehouse` object from which you can extract your struct's properties
+     - parameter warehouse: the `Warehouseable` object from which you can extract your struct's properties
      */
-    init(warehouse: JSONWarehouse)
+    init(warehouse: Warehouseable)
 
     /**
      Dictionary representation  

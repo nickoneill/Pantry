@@ -23,6 +23,14 @@
 		658AA90D1C0C823800DD4834 /* JSONWarehouse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658AA90C1C0C823800DD4834 /* JSONWarehouse.swift */; };
 		658AA90E1C0C823800DD4834 /* JSONWarehouse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658AA90C1C0C823800DD4834 /* JSONWarehouse.swift */; };
 		658AA90F1C0C823800DD4834 /* JSONWarehouse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658AA90C1C0C823800DD4834 /* JSONWarehouse.swift */; };
+		AF5486571C160B2200E00CD0 /* Warehousable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5486561C160B2200E00CD0 /* Warehousable.swift */; };
+		AF5486581C161ECD00E00CD0 /* Warehousable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5486561C160B2200E00CD0 /* Warehousable.swift */; };
+		AF54865A1C16269A00E00CD0 /* MemoryWarehouse.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5486591C16269A00E00CD0 /* MemoryWarehouse.swift */; };
+		AF54865B1C16269A00E00CD0 /* MemoryWarehouse.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5486591C16269A00E00CD0 /* MemoryWarehouse.swift */; };
+		AF54865D1C162B6A00E00CD0 /* WarehouseCacheable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF54865C1C162B6A00E00CD0 /* WarehouseCacheable.swift */; };
+		AF54865E1C162B6A00E00CD0 /* WarehouseCacheable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF54865C1C162B6A00E00CD0 /* WarehouseCacheable.swift */; };
+		AF5486601C16360C00E00CD0 /* MemoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF54865F1C16360C00E00CD0 /* MemoryTests.swift */; };
+		AF5486621C16385500E00CD0 /* TestTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5486611C16385500E00CD0 /* TestTypes.swift */; };
 		D0C0A3C81BE2B80300FB703A /* Pantry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0C0A3BD1BE2B80300FB703A /* Pantry.framework */; };
 /* End PBXBuildFile section */
 
@@ -50,6 +58,11 @@
 		658AA9071C0C6E1800DD4834 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = PantryExample/Info.plist; sourceTree = SOURCE_ROOT; };
 		658AA9081C0C7CC700DD4834 /* Storable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Storable.swift; path = Pantry/Storable.swift; sourceTree = SOURCE_ROOT; };
 		658AA90C1C0C823800DD4834 /* JSONWarehouse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JSONWarehouse.swift; path = Pantry/JSONWarehouse.swift; sourceTree = SOURCE_ROOT; };
+		AF5486561C160B2200E00CD0 /* Warehousable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Warehousable.swift; path = Pantry/Warehousable.swift; sourceTree = SOURCE_ROOT; };
+		AF5486591C16269A00E00CD0 /* MemoryWarehouse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MemoryWarehouse.swift; path = Pantry/MemoryWarehouse.swift; sourceTree = SOURCE_ROOT; };
+		AF54865C1C162B6A00E00CD0 /* WarehouseCacheable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WarehouseCacheable.swift; path = Pantry/WarehouseCacheable.swift; sourceTree = SOURCE_ROOT; };
+		AF54865F1C16360C00E00CD0 /* MemoryTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MemoryTests.swift; path = PantryTests/MemoryTests.swift; sourceTree = SOURCE_ROOT; };
+		AF5486611C16385500E00CD0 /* TestTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TestTypes.swift; path = PantryTests/TestTypes.swift; sourceTree = SOURCE_ROOT; };
 		D0577A521BEACF4A00A8B8FF /* Pantry.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pantry.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0C0A3BD1BE2B80300FB703A /* Pantry.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pantry.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0C0A3C71BE2B80300FB703A /* Pantry.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Pantry.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -118,11 +131,14 @@
 		D0C0A3BF1BE2B80300FB703A /* Pantry */ = {
 			isa = PBXGroup;
 			children = (
+				658AA8FA1C0C6DB400DD4834 /* Info.plist */,
+				AF5486591C16269A00E00CD0 /* MemoryWarehouse.swift */,
+				658AA90C1C0C823800DD4834 /* JSONWarehouse.swift */,
 				658AA8F41C0C6D9B00DD4834 /* Pantry.h */,
 				658AA8F61C0C6DA200DD4834 /* Pantry.swift */,
 				658AA9081C0C7CC700DD4834 /* Storable.swift */,
-				658AA90C1C0C823800DD4834 /* JSONWarehouse.swift */,
-				658AA8FA1C0C6DB400DD4834 /* Info.plist */,
+				AF5486561C160B2200E00CD0 /* Warehousable.swift */,
+				AF54865C1C162B6A00E00CD0 /* WarehouseCacheable.swift */,
 			);
 			name = Pantry;
 			path = Storage;
@@ -131,8 +147,10 @@
 		D0C0A3CB1BE2B80300FB703A /* PantryTests */ = {
 			isa = PBXGroup;
 			children = (
-				658AA8F21C0C6D8A00DD4834 /* PantryTests.swift */,
 				658AA8F11C0C6D7E00DD4834 /* Info.plist */,
+				AF54865F1C16360C00E00CD0 /* MemoryTests.swift */,
+				658AA8F21C0C6D8A00DD4834 /* PantryTests.swift */,
+				AF5486611C16385500E00CD0 /* TestTypes.swift */,
 			);
 			name = PantryTests;
 			path = StorageTests;
@@ -292,7 +310,10 @@
 			files = (
 				658AA8F71C0C6DA200DD4834 /* Pantry.swift in Sources */,
 				658AA9091C0C7CC700DD4834 /* Storable.swift in Sources */,
+				AF54865D1C162B6A00E00CD0 /* WarehouseCacheable.swift in Sources */,
+				AF54865A1C16269A00E00CD0 /* MemoryWarehouse.swift in Sources */,
 				658AA90D1C0C823800DD4834 /* JSONWarehouse.swift in Sources */,
+				AF5486571C160B2200E00CD0 /* Warehousable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -300,10 +321,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AF5486601C16360C00E00CD0 /* MemoryTests.swift in Sources */,
 				658AA90A1C0C7CC700DD4834 /* Storable.swift in Sources */,
 				658AA8F81C0C6DA200DD4834 /* Pantry.swift in Sources */,
 				658AA8F31C0C6D8A00DD4834 /* PantryTests.swift in Sources */,
 				658AA90E1C0C823800DD4834 /* JSONWarehouse.swift in Sources */,
+				AF5486581C161ECD00E00CD0 /* Warehousable.swift in Sources */,
+				AF54865B1C16269A00E00CD0 /* MemoryWarehouse.swift in Sources */,
+				AF54865E1C162B6A00E00CD0 /* WarehouseCacheable.swift in Sources */,
+				AF5486621C16385500E00CD0 /* TestTypes.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
