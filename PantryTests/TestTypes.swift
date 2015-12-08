@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Pantry
 
 struct Basic: Storable {
     let name: String

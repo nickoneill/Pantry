@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import Pantry
 
 class MemoryTests: XCTestCase {
     
