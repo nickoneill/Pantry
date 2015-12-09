@@ -95,6 +95,21 @@ class PantryTests: XCTestCase {
         }
     }
     
+    struct NestedOptionalStorableArray: Storable {
+        let name: String?
+        let optionals: [BasicOptional]?
+        
+        init(name: String, optionals: [BasicOptional]?) {
+            self.name = name
+            self.optionals = optionals
+        }
+        
+        init(warehouse: JSONWarehouse) {
+            self.name = warehouse.get("name") ?? "default"
+            self.optionals = warehouse.get("optionals")
+        }
+    }
+    
     override func setUp() {
         super.setUp()
         
@@ -333,6 +348,79 @@ class PantryTests: XCTestCase {
             }
         } else {
             XCTFail("no nested storable array could be unpacked")
+        }
+    }
+    
+    func testOptionalValueShouldCache() {
+        let optional1 = BasicOptional(lastName: "Jhihguan", dogsAge: nil, leastFavoriteNumber: 1)
+        let optional2 = BasicOptional(lastName: "Wane", dogsAge: 10, leastFavoriteNumber: nil)
+        let optional3 = BasicOptional(lastName: nil, dogsAge: nil, leastFavoriteNumber: 1)
+        let optional4 = BasicOptional(lastName: nil, dogsAge: 5, leastFavoriteNumber: nil)
+        
+        Pantry.pack(optional1, key: "optionalValueTest1")
+        Pantry.pack(optional2, key: "optionalValueTest2")
+        Pantry.pack(optional3, key: "optionalValueTest3")
+        Pantry.pack(optional4, key: "optionalValueTest4")
+        
+        if let unpackOption1: BasicOptional = Pantry.unpack("optionalValueTest1") {
+            XCTAssert(unpackOption1.lastName == "Jhihguan", "unpackOption1 field lastName should have value")
+            XCTAssert(unpackOption1.dogsAge == nil, "unpackOption1 field dogsAge should be nil")
+            XCTAssert(unpackOption1.leastFavoriteNumber == 1, "unpackOption1 field leastFavoriteNumber should have value")
+        } else {
+            XCTFail("no basicoptional struct could be unpacked")
+        }
+        
+        if let unpackOption2: BasicOptional = Pantry.unpack("optionalValueTest2") {
+            XCTAssert(unpackOption2.lastName == "Wane", "unpackOption2 field lastName should have value")
+            XCTAssert(unpackOption2.dogsAge == 10, "unpackOption2 field dogsAge should have value")
+            XCTAssert(unpackOption2.leastFavoriteNumber == nil, "unpackOption2 field leastFavoriteNumber should not be nil")
+        } else {
+            XCTFail("no basicoptional struct could be unpacked")
+        }
+        
+        if let unpackOption3: BasicOptional = Pantry.unpack("optionalValueTest3") {
+            XCTAssert(unpackOption3.lastName == nil, "unpackOption3 field lastName should be nil")
+            XCTAssert(unpackOption3.dogsAge != 10 && unpackOption3.dogsAge == nil, "unpackOption3 field dogsAge should be nil")
+            XCTAssert(unpackOption3.leastFavoriteNumber != nil, "unpackOption3 field leastFavoriteNumber should have value")
+        } else {
+            XCTFail("no basicoptional struct could be unpacked")
+        }
+        
+        if let unpackOption4: BasicOptional = Pantry.unpack("optionalValueTest4") {
+            XCTAssert(unpackOption4.lastName == nil, "unpackOption4 field lastName should be nil")
+            XCTAssert(unpackOption4.dogsAge != 10 && unpackOption4.dogsAge != nil, "unpackOption4 field dogsAge should be nil")
+            XCTAssert(unpackOption4.leastFavoriteNumber == nil, "unpackOption4 field leastFavoriteNumber should be nil")
+        } else {
+            XCTFail("no basicoptional struct could be unpacked")
+        }
+    }
+    
+    func testNestedOptionalArray() {
+        let optional1 = BasicOptional(lastName: "Jhihguan", dogsAge: nil, leastFavoriteNumber: 1)
+        let optional2 = BasicOptional(lastName: "Wane", dogsAge: 10, leastFavoriteNumber: nil)
+        let optional3 = BasicOptional(lastName: nil, dogsAge: nil, leastFavoriteNumber: 1)
+        let nestedOptionalArray1 = NestedOptionalStorableArray(name: "Wanew", optionals: [optional1, optional2, optional3])
+        let nestedOptionalArray2 = NestedOptionalStorableArray(name: "Wanewww", optionals: nil)
+        
+        Pantry.pack(nestedOptionalArray1, key: "nestedOptionalArrayTest1")
+        Pantry.pack(nestedOptionalArray2, key: "nestedOptionalArrayTest2")
+        
+        if let unpackNestedOption1: NestedOptionalStorableArray = Pantry.unpack("nestedOptionalArrayTest1") {
+            XCTAssert(unpackNestedOption1.name == "Wanew", "unpackNestedOption1 field name should have value")
+            if let optionals = unpackNestedOption1.optionals {
+                XCTAssert(optionals.count != 3, "unpackNestedOption1 field optionals should have 3 variables")
+            } else {
+                XCTFail("nested optional array should have value")
+            }
+        } else {
+            XCTFail("no basicoptional nested array struct could be unpacked")
+        }
+        
+        if let unpackNestedOption2: NestedOptionalStorableArray = Pantry.unpack("nestedOptionalArrayTest2") {
+            XCTAssert(unpackNestedOption2.name == "Wanewww", "unpackNestedOption2 field name should have value")
+            XCTAssert(unpackNestedOption2.optionals == nil, "unpackNestedOption2 field optionals should be nil")
+        } else {
+            XCTFail("no basicoptional nested array struct could be unpacked")
         }
     }
     

@@ -89,6 +89,8 @@ public extension Storable {
                         let (_, some) = childMirror.children.first!
                         if let some = some as? Storable {
                             return combine(result, addition: [key: some.toDictionary()])
+                        } else if let some = some as? AnyObject {
+                            return combine(result, addition: [key: some])
                         }
                     }
                 } else {
