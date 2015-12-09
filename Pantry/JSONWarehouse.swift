@@ -13,15 +13,15 @@ JSONWarehouse serializes and deserializes data
 
 A `JSONWarehouse` is passed in the init function of a struct that conforms to `Storable`
 */
-public class JSONWarehouse {
+public class JSONWarehouse: Warehouseable, WarehouseCacheable {
     var key: String
     var context: AnyObject?
     
-    init(key: String) {
+    public init(key: String) {
         self.key = key
     }
     
-    init(context: AnyObject) {
+    public init(context: AnyObject) {
         self.key = ""
         self.context = context
     }
