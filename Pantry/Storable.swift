@@ -57,8 +57,14 @@ public extension Storable {
         let mirror = Mirror(reflecting: self)
         return mirror.children.reduce([:]) { result, child in
             guard let key = child.label else { return result }
+            var actualValue = child.value
+            var childMirror = Mirror(reflecting: child.value)
+            if let style = childMirror.displayStyle where style == .Optional && childMirror.children.count > 0 {
+                // unwrap Optional type first
+                actualValue = childMirror.children.first!.value
+                childMirror = Mirror(reflecting: childMirror.children.first!.value)
+            }
             
-            let childMirror = Mirror(reflecting: child.value)
             if let style = childMirror.displayStyle where style == .Collection {
                 // collections need to be unwrapped, children tested and
                 // toDictionary called on each
@@ -75,24 +81,10 @@ public extension Storable {
                 
             } else {
                 // non-collection types, toDictionary or just cast default types
-                // optionals need to be checked and unwrapped
-                let childMirror = Mirror(reflecting: child.value)
-
-                if let value = child.value as? Storable {
+                if let value = actualValue as? Storable {
                     return combine(result, addition: [key: value.toDictionary()])
-                } else if let value = child.value as? AnyObject {
+                } else if let value = actualValue as? AnyObject {
                     return combine(result, addition: [key: value])
-                } else if childMirror.displayStyle == .Optional {
-                    // yes, this is how you detect and unwrap an Optional
-                    // disguised as an Any
-                    if childMirror.children.count != 0 {
-                        let (_, some) = childMirror.children.first!
-                        if let some = some as? Storable {
-                            return combine(result, addition: [key: some.toDictionary()])
-                        } else if let some = some as? AnyObject {
-                            return combine(result, addition: [key: some])
-                        }
-                    }
                 } else {
                     // throw an error? not a type we support
                 }
