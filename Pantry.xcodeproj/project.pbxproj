@@ -3,27 +3,27 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 47;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		658AA8F31C0C6D8A00DD4834 /* PantryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658AA8F21C0C6D8A00DD4834 /* PantryTests.swift */; };
 		658AA8F51C0C6D9B00DD4834 /* Pantry.h in Headers */ = {isa = PBXBuildFile; fileRef = 658AA8F41C0C6D9B00DD4834 /* Pantry.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		658AA8F71C0C6DA200DD4834 /* Pantry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658AA8F61C0C6DA200DD4834 /* Pantry.swift */; };
 		658AA8FD1C0C6DF900DD4834 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658AA8FB1C0C6DF900DD4834 /* AppDelegate.swift */; };
 		658AA8FE1C0C6DF900DD4834 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658AA8FC1C0C6DF900DD4834 /* ViewController.swift */; };
 		658AA9001C0C6E0C00DD4834 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 658AA8FF1C0C6E0C00DD4834 /* Assets.xcassets */; };
 		658AA9051C0C6E1100DD4834 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 658AA9011C0C6E1100DD4834 /* LaunchScreen.storyboard */; };
 		658AA9061C0C6E1100DD4834 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 658AA9031C0C6E1100DD4834 /* Main.storyboard */; };
-		658AA9091C0C7CC700DD4834 /* Storable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658AA9081C0C7CC700DD4834 /* Storable.swift */; };
-		658AA90D1C0C823800DD4834 /* JSONWarehouse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658AA90C1C0C823800DD4834 /* JSONWarehouse.swift */; };
-		AF5486571C160B2200E00CD0 /* Warehousable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5486561C160B2200E00CD0 /* Warehousable.swift */; };
-		AF54865A1C16269A00E00CD0 /* MemoryWarehouse.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5486591C16269A00E00CD0 /* MemoryWarehouse.swift */; };
-		AF54865D1C162B6A00E00CD0 /* WarehouseCacheable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF54865C1C162B6A00E00CD0 /* WarehouseCacheable.swift */; };
 		AF5486601C16360C00E00CD0 /* MemoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF54865F1C16360C00E00CD0 /* MemoryTests.swift */; };
 		AF5486621C16385500E00CD0 /* TestTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5486611C16385500E00CD0 /* TestTypes.swift */; };
 		AFDF24B11C165E340064C578 /* Pantry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0C0A3BD1BE2B80300FB703A /* Pantry.framework */; };
 		D0C0A3C81BE2B80300FB703A /* Pantry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0C0A3BD1BE2B80300FB703A /* Pantry.framework */; };
+		E3E39F201C19D574008989E9 /* MemoryWarehouse.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5486591C16269A00E00CD0 /* MemoryWarehouse.swift */; };
+		E3E39F211C19D574008989E9 /* JSONWarehouse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658AA90C1C0C823800DD4834 /* JSONWarehouse.swift */; };
+		E3E39F221C19D574008989E9 /* Pantry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658AA8F61C0C6DA200DD4834 /* Pantry.swift */; };
+		E3E39F231C19D574008989E9 /* Storable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658AA9081C0C7CC700DD4834 /* Storable.swift */; };
+		E3E39F241C19D574008989E9 /* Warehousable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5486561C160B2200E00CD0 /* Warehousable.swift */; };
+		E3E39F251C19D574008989E9 /* WarehouseCacheable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF54865C1C162B6A00E00CD0 /* WarehouseCacheable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -246,7 +246,7 @@
 				};
 			};
 			buildConfigurationList = D0C0A3B71BE2B80300FB703A /* Build configuration list for PBXProject "Pantry" */;
-			compatibilityVersion = "Xcode 3.2";
+			compatibilityVersion = "Xcode 6.3";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -306,12 +306,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				658AA8F71C0C6DA200DD4834 /* Pantry.swift in Sources */,
-				658AA9091C0C7CC700DD4834 /* Storable.swift in Sources */,
-				AF54865D1C162B6A00E00CD0 /* WarehouseCacheable.swift in Sources */,
-				AF54865A1C16269A00E00CD0 /* MemoryWarehouse.swift in Sources */,
-				658AA90D1C0C823800DD4834 /* JSONWarehouse.swift in Sources */,
-				AF5486571C160B2200E00CD0 /* Warehousable.swift in Sources */,
+				E3E39F201C19D574008989E9 /* MemoryWarehouse.swift in Sources */,
+				E3E39F211C19D574008989E9 /* JSONWarehouse.swift in Sources */,
+				E3E39F221C19D574008989E9 /* Pantry.swift in Sources */,
+				E3E39F231C19D574008989E9 /* Storable.swift in Sources */,
+				E3E39F241C19D574008989E9 /* Warehousable.swift in Sources */,
+				E3E39F251C19D574008989E9 /* WarehouseCacheable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -421,7 +421,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -463,7 +463,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
