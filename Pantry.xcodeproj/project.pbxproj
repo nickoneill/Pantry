@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3297DBA21C1CB680004EE72E /* Mirror+Serialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3297DBA11C1CB680004EE72E /* Mirror+Serialization.swift */; };
+		3297DBA51C1CB68C004EE72E /* PantryClassTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3297DBA31C1CB68C004EE72E /* PantryClassTests.swift */; };
+		3297DBA61C1CB68C004EE72E /* TestClassTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3297DBA41C1CB68C004EE72E /* TestClassTypes.swift */; };
 		658AA8F31C0C6D8A00DD4834 /* PantryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658AA8F21C0C6D8A00DD4834 /* PantryTests.swift */; };
 		658AA8F51C0C6D9B00DD4834 /* Pantry.h in Headers */ = {isa = PBXBuildFile; fileRef = 658AA8F41C0C6D9B00DD4834 /* Pantry.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		658AA8FD1C0C6DF900DD4834 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658AA8FB1C0C6DF900DD4834 /* AppDelegate.swift */; };
@@ -44,6 +47,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3297DBA11C1CB680004EE72E /* Mirror+Serialization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Mirror+Serialization.swift"; path = "Pantry/Mirror+Serialization.swift"; sourceTree = SOURCE_ROOT; };
+		3297DBA31C1CB68C004EE72E /* PantryClassTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PantryClassTests.swift; path = PantryTests/PantryClassTests.swift; sourceTree = SOURCE_ROOT; };
+		3297DBA41C1CB68C004EE72E /* TestClassTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TestClassTypes.swift; path = PantryTests/TestClassTypes.swift; sourceTree = SOURCE_ROOT; };
 		658AA8F11C0C6D7E00DD4834 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = PantryTests/Info.plist; sourceTree = SOURCE_ROOT; };
 		658AA8F21C0C6D8A00DD4834 /* PantryTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PantryTests.swift; path = PantryTests/PantryTests.swift; sourceTree = SOURCE_ROOT; };
 		658AA8F41C0C6D9B00DD4834 /* Pantry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Pantry.h; path = Pantry/Pantry.h; sourceTree = SOURCE_ROOT; };
@@ -139,6 +145,7 @@
 				658AA9081C0C7CC700DD4834 /* Storable.swift */,
 				AF5486561C160B2200E00CD0 /* Warehousable.swift */,
 				AF54865C1C162B6A00E00CD0 /* WarehouseCacheable.swift */,
+				3297DBA11C1CB680004EE72E /* Mirror+Serialization.swift */,
 			);
 			name = Pantry;
 			path = Storage;
@@ -151,6 +158,8 @@
 				AF54865F1C16360C00E00CD0 /* MemoryTests.swift */,
 				658AA8F21C0C6D8A00DD4834 /* PantryTests.swift */,
 				AF5486611C16385500E00CD0 /* TestTypes.swift */,
+				3297DBA31C1CB68C004EE72E /* PantryClassTests.swift */,
+				3297DBA41C1CB68C004EE72E /* TestClassTypes.swift */,
 			);
 			name = PantryTests;
 			path = StorageTests;
@@ -308,6 +317,7 @@
 			files = (
 				E3E39F201C19D574008989E9 /* MemoryWarehouse.swift in Sources */,
 				E3E39F211C19D574008989E9 /* JSONWarehouse.swift in Sources */,
+				3297DBA21C1CB680004EE72E /* Mirror+Serialization.swift in Sources */,
 				E3E39F221C19D574008989E9 /* Pantry.swift in Sources */,
 				E3E39F231C19D574008989E9 /* Storable.swift in Sources */,
 				E3E39F241C19D574008989E9 /* Warehousable.swift in Sources */,
@@ -319,9 +329,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3297DBA51C1CB68C004EE72E /* PantryClassTests.swift in Sources */,
 				AF5486601C16360C00E00CD0 /* MemoryTests.swift in Sources */,
 				658AA8F31C0C6D8A00DD4834 /* PantryTests.swift in Sources */,
 				AF5486621C16385500E00CD0 /* TestTypes.swift in Sources */,
+				3297DBA61C1CB68C004EE72E /* TestClassTypes.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
