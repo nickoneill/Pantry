@@ -33,7 +33,7 @@ class PantryClassTests: XCTestCase {
         super.tearDown()
     }
     
-    func testStorableStruct() {
+    func testStorableClass() {
         let basic = BasicClass(name: "Nick", age: 31.5, number: 42)
         
         Pantry.pack(basic, key: "basic")
@@ -47,7 +47,7 @@ class PantryClassTests: XCTestCase {
         }
     }
     
-    func testStorableArray() {
+    func testStorableClassArray() {
         let first = BasicClass(name: "Nick", age: 31.5, number: 42)
         let second = BasicClass(name: "Rebecca", age: 28.3, number: 87)
         let third = BasicClass(name: "Bob", age: 60, number: 23)
@@ -77,7 +77,7 @@ class PantryClassTests: XCTestCase {
     }
     
     // nested storable types
-    func testNestedStorable() {
+    func testNestedStorableClass() {
         let first = BasicClass(name: "Nick", age: 31.5, number: 42)
         
         let nested = NestedStorableClass(name: "Top", basic: first)
@@ -101,7 +101,7 @@ class PantryClassTests: XCTestCase {
     }
     
     // nested arrays of default types
-    func testNestedArray() {
+    func testClassNestedArray() {
         let nested = NestedDefaultClass(names: ["Nested","Default","Array"], numbers: [1,3,5,7,9], ages: [31.5, 42.0, 23.1])
         
         Pantry.pack(nested, key: "nested_default")
@@ -144,7 +144,7 @@ class PantryClassTests: XCTestCase {
     }
     
     // nested arrays of storable types
-    func testNestedStorableArray() {
+    func testNestedClassArray() {
         let first = BasicClass(name: "Nick", age: 31.5, number: 42)
         let second = BasicClass(name: "Rebecca", age: 28.3, number: 87)
         
@@ -177,7 +177,7 @@ class PantryClassTests: XCTestCase {
         }
     }
     
-    func testOptionalValueShouldCache() {
+    func testOptionalClassValueShouldCache() {
         let optional1 = BasicOptionalClass(lastName: "Jhihguan", dogsAge: nil, leastFavoriteNumber: 1)
         let optional2 = BasicOptionalClass(lastName: "Wane", dogsAge: 10, leastFavoriteNumber: nil)
         let optional3 = BasicOptionalClass(lastName: nil, dogsAge: nil, leastFavoriteNumber: 1)
@@ -221,7 +221,7 @@ class PantryClassTests: XCTestCase {
         }
     }
     
-    func testNestedOptionalArray() {
+    func testNestedOptionalClassArray() {
         let optional1 = BasicOptionalClass(lastName: "Jhihguan", dogsAge: nil, leastFavoriteNumber: 1)
         let optional2 = BasicOptionalClass(lastName: "Wane", dogsAge: 10, leastFavoriteNumber: nil)
         let optional3 = BasicOptionalClass(lastName: nil, dogsAge: nil, leastFavoriteNumber: 1)
