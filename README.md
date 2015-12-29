@@ -40,8 +40,11 @@ You can store:
 * [x] Arrays of structs and default types
 * [x] Nested structs
 * [ ] Nested Arrays
+* [x] Classes
+* [x] Arrays of classes and default types
+* [x] Nested classes
 
-Check out [the tests](https://github.com/nickoneill/Pantry/blob/master/PantryTests/PantryTests.swift) for a detailed look at the varied types you can easily store.
+Check out [the tests](https://github.com/nickoneill/Pantry/blob/master/PantryTests/) for a detailed look at the varied types you can easily store.
 
 ## Compatibility
 
