@@ -122,6 +122,33 @@ struct Basic: Storable {
 
 Getters always provide an optional value, leaving you the opportunity to fill in a default if a value isn't available. This makes for hassle-free property additions to your structs.
 
+### Classes
+
+Classes are also supported and can be setup the same way Structs are however the init method must be marked `required` in this case. Class inheritance and nested `Storable` properties are also possible:
+```swift
+class ModelBase: Storable {
+    var id: String
+    
+    required init(warehouse: Warehouseable) {
+        self.id = warehouse.get("id") ?? "default_id"
+    }
+}
+
+class BasicClassModel: ModelBase {
+    let name: String
+    let age: Float
+    let number: Int
+    
+    required init(warehouse: Warehouseable) {
+        self.name = warehouse.get("name") ?? "default"
+        self.age = warehouse.get("age") ?? 20.5
+        self.number = warehouse.get("number") ?? 10
+        
+        super.init(warehouse: warehouse)
+    }
+}
+```
+
 ## Also
 
 Pantry works great with network data when paired with a JSON struct decoder such as [Unbox](https://github.com/JohnSundell/Unbox). Download JSON, decode it with Unbox, save it with Pantry and have it available for as long as you need. The architecture of Pantry is heavily influenced by Unbox, it's worth a look in any case.
