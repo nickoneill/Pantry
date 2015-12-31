@@ -127,7 +127,7 @@ Getters always provide an optional value, leaving you the opportunity to fill in
 Classes are also supported and can be setup the same way Structs are however the init method must be marked `required` in this case. Class inheritance and nested `Storable` properties are also possible:
 ```swift
 class ModelBase: Storable {
-    var id: String
+    let id: String
     
     required init(warehouse: Warehouseable) {
         self.id = warehouse.get("id") ?? "default_id"
