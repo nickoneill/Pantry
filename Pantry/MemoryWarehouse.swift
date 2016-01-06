@@ -77,8 +77,9 @@ extension MemoryWarehouse: Warehouseable {
                 for item in result {
                     if let item = item as? Dictionary<String, AnyObject> {
                         let warehouse = MemoryWarehouse(context: item, inMemoryIdentifier: inMemoryIdentifier)
-                        let item = T(warehouse: warehouse)
-                        unpackedItems.append(item)
+                        if let item = T(warehouse: warehouse) {
+                            unpackedItems.append(item)
+                        }
                     }
                 }
                 return unpackedItems

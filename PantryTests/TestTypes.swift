@@ -27,6 +27,22 @@ struct Basic: Storable {
     }
 }
 
+struct FailingBasic: Storable {
+    let name: String
+    let age: Float
+    let number: Int
+
+    init(name: String, age: Float, number: Int) {
+        self.name = name
+        self.age = age
+        self.number = number
+    }
+
+    init?(warehouse: Warehouseable) {
+        return nil
+    }
+}
+
 struct BasicOptional: Storable {
     let lastName: String?
     let dogsAge: Float?
