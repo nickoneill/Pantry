@@ -34,7 +34,7 @@ public protocol Storable {
 
      - parameter warehouse: the `Warehouseable` object from which you can extract your struct's properties
      */
-    init(warehouse: Warehouseable)
+    init?(warehouse: Warehouseable)
 
     /**
      Dictionary representation  

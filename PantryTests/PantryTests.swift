@@ -122,7 +122,16 @@ class PantryTests: XCTestCase {
             XCTFail("no basic struct could be unpacked")
         }
     }
-    
+
+    func testStorableFailingStruct() {
+        let failing = FailingBasic(name: "Rob", age: 28.3, number: 5)
+
+        Pantry.pack(failing, key: "failing")
+
+        let unpacked: FailingBasic? = Pantry.unpack("failing")
+        XCTAssert(unpacked == nil)
+    }
+
     func testStorableArray() {
         let first = Basic(name: "Nick", age: 31.5, number: 42)
         let second = Basic(name: "Rebecca", age: 28.3, number: 87)

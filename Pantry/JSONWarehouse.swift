@@ -102,8 +102,9 @@ public class JSONWarehouse: Warehouseable, WarehouseCacheable {
                 for item in result {
                     if let item = item as? Dictionary<String, AnyObject> {
                         let warehouse = JSONWarehouse(context: item)
-                        let item = T(warehouse: warehouse)
-                        unpackedItems.append(item)
+                        if let item = T(warehouse: warehouse) {
+                            unpackedItems.append(item)
+                        }
                     }
                 }
                 return unpackedItems
