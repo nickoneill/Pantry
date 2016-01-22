@@ -34,15 +34,12 @@ public class JSONWarehouse: Warehouseable, WarehouseCacheable {
      - SeeAlso: `StorableDefaultType`
      */
     public func get<T: StorableDefaultType>(valueKey: String) -> T? {
-        if let dictionary = loadCache() {
-            if let result = dictionary[valueKey] {
-                if let result = result as? T {
-                    return result
-                }
-            }
+
+        guard let dictionary = loadCache(),
+            let result = dictionary[valueKey] as? T else {
+                return nil
         }
-        
-        return nil
+        return result
     }
 
     /**
@@ -53,20 +50,18 @@ public class JSONWarehouse: Warehouseable, WarehouseCacheable {
      - SeeAlso: `StorableDefaultType`
      */
     public func get<T: StorableDefaultType>(valueKey: String) -> [T]? {
-        if let dictionary = loadCache() as? Dictionary<String, AnyObject> {
-            if let result = dictionary[valueKey] as? Array<AnyObject> {
-                var unpackedItems = [T]()
-                
-                for item in result {
-                    if let item = item as? T {
-                        unpackedItems.append(item)
-                    }
-                }
-                return unpackedItems
-            }
+
+        guard let dictionary = loadCache() as? Dictionary<String, AnyObject>,
+            let result = dictionary[valueKey] as? Array<AnyObject> else {
+                return nil
         }
-        
-        return nil
+
+        var unpackedItems = [T]()
+        for case let item as T in result {
+            unpackedItems.append(item)
+        }
+
+        return unpackedItems
     }
 
     /**
@@ -77,14 +72,14 @@ public class JSONWarehouse: Warehouseable, WarehouseCacheable {
      - SeeAlso: `Storable`
      */
     public func get<T: Storable>(valueKey: String) -> T? {
-        if let dictionary = loadCache() as? Dictionary<String, AnyObject> {
-            if let result = dictionary[valueKey] {
-                let warehouse = JSONWarehouse(context: result)
-                return T(warehouse: warehouse)
-            }
+
+        guard let dictionary = loadCache() as? Dictionary<String, AnyObject>,
+            let result = dictionary[valueKey] else {
+                return nil
         }
-        
-        return nil
+
+        let warehouse = JSONWarehouse(context: result)
+        return T(warehouse: warehouse)
     }
 
     /**
@@ -95,23 +90,21 @@ public class JSONWarehouse: Warehouseable, WarehouseCacheable {
      - SeeAlso: `Storable`
      */
     public func get<T: Storable>(valueKey: String) -> [T]? {
-        if let dictionary = loadCache() as? Dictionary<String, AnyObject> {
-            if let result = dictionary[valueKey] as? Array<AnyObject> {
-                var unpackedItems = [T]()
-                
-                for item in result {
-                    if let item = item as? Dictionary<String, AnyObject> {
-                        let warehouse = JSONWarehouse(context: item)
-                        if let item = T(warehouse: warehouse) {
-                            unpackedItems.append(item)
-                        }
-                    }
-                }
-                return unpackedItems
+
+        guard let dictionary = loadCache() as? Dictionary<String, AnyObject>,
+            let result = dictionary[valueKey] as? Array<AnyObject> else {
+                return nil
+        }
+
+        var unpackedItems = [T]()
+        for case let item as Dictionary<String, AnyObject> in result {
+            let warehouse = JSONWarehouse(context: item)
+            if let item = T(warehouse: warehouse) {
+                unpackedItems.append(item)
             }
         }
-        
-        return nil
+
+        return unpackedItems
     }
     
     func write(object: AnyObject, expires: StorageExpiry) {
@@ -129,43 +122,41 @@ public class JSONWarehouse: Warehouseable, WarehouseCacheable {
     }
     
     func loadCache() -> AnyObject? {
-        if context == nil {
-            let cacheLocation = cacheFileURL()
-            
-            if let metaDictionary = NSDictionary(contentsOfURL: cacheLocation) {
-                if let cache = metaDictionary["storage"] {
-                    return cache
-                }
-            }
-        } else {
+
+        guard context == nil else {
             return context
         }
+
+        let cacheLocation = cacheFileURL()
         
+        if let metaDictionary = NSDictionary(contentsOfURL: cacheLocation),
+            let cache = metaDictionary["storage"] {
+                return cache
+        }
+
         return nil
     }
     
     func cacheExists() -> Bool {
-        if NSFileManager.defaultManager().fileExistsAtPath(cacheFileURL().path!) {
-            let cacheLocation = cacheFileURL()
-            
-            if let metaDictionary = NSDictionary(contentsOfURL: cacheLocation) {
-                if let expires = metaDictionary["expires"] as? NSTimeInterval {
-                    let nowInterval = NSDate().timeIntervalSince1970
-                    
-                    if expires > nowInterval {
-                        return true
-                    } else {
-                        removeCache()
-                        return false
-                    }
-                } else {
-                    // no expires time means old cache, never expires
-                    return true
-                }
-            }
+
+        guard NSFileManager.defaultManager().fileExistsAtPath(cacheFileURL().path!),
+            let metaDictionary = NSDictionary(contentsOfURL: cacheFileURL()) else {
+                return false
         }
+
+        guard let expires = metaDictionary["expires"] as? NSTimeInterval else {
+            // no expire time means old cache, never expires
+            return true
+        }
+
+        let nowInterval = NSDate().timeIntervalSince1970
         
-        return false
+        if expires > nowInterval {
+            return true
+        } else {
+            removeCache()
+            return false
+        }
     }
     
     func cacheFileURL() -> NSURL {

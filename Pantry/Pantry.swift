@@ -185,14 +185,13 @@ public class Pantry {
      */
     public static func unpack<T: StorableDefaultType>(key: String) -> T? {
         let warehouse = getWarehouse(key)
-        
-        if warehouse.cacheExists() {
-            if let cache = warehouse.loadCache() as? T {
-                return cache
-            }
+
+        guard warehouse.cacheExists(),
+            let cache = warehouse.loadCache() as? T else {
+                return nil
         }
-        
-        return nil
+
+        return cache
     }
 
     /**
