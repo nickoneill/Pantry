@@ -357,6 +357,34 @@ class PantryTests: XCTestCase {
             XCTFail("no basicoptional nested array struct could be unpacked")
         }
     }
+
+    func testUpgradedStructFieldRemoved() {
+        let basic = Basic(name: "Nick", age: 31.5, number: 42)
+
+        Pantry.pack(basic, key: "basic")
+
+        if let unpackedBasic: BasicUpgradedFieldRemoved = Pantry.unpack("basic") {
+            XCTAssert(unpackedBasic.name == "Nick", "basic string was incorrect")
+            XCTAssert(unpackedBasic.age == 31.5, "basic float was incorrect")
+        } else {
+            XCTFail("no basic struct could be unpacked")
+        }
+    }
+
+    func testUpgradedStructFieldAdded() {
+        let basic = Basic(name: "Nick", age: 31.5, number: 42)
+
+        Pantry.pack(basic, key: "basic")
+
+        if let unpackedBasic: BasicUpgradedFieldAdded = Pantry.unpack("basic") {
+            XCTAssert(unpackedBasic.name == "Nick", "basic upgraded (field added) string was incorrect")
+            XCTAssert(unpackedBasic.age == 31.5, "basic upgraded (field added) float was incorrect")
+            XCTAssert(unpackedBasic.number == 42, "basic upgraded (field added) int was incorrect")
+            XCTAssert(unpackedBasic.seniorCitizen == false, "basic upgraded (field added) bool was incorrect")
+        } else {
+            XCTFail("no basic struct could be unpacked")
+        }
+    }
     
 //    func testPerformanceExample() {
 //        // This is an example of a performance test case.
