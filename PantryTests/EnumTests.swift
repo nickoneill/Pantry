@@ -11,26 +11,6 @@ import XCTest
 
 class EnumTests: XCTestCase {
 
-    enum TestEnum: Int, StorableRawEnum {
-        case Case1 = 1
-        case Case2 = 2
-    }
-
-    struct TestStruct: Storable {
-        let lastName: String?
-        let cases: TestEnum
-
-        init(lastName: String?, cases: TestEnum) {
-            self.lastName = lastName
-            self.cases = cases
-        }
-
-        init(warehouse: Warehouseable) {
-            self.lastName = warehouse.get("lastName")
-            self.cases = warehouse.get("cases")!
-        }
-    }
-
     override func setUp() {
         super.setUp()
 
@@ -53,27 +33,41 @@ class EnumTests: XCTestCase {
     }
 
     func testEnumStorable() {
-        let first = TestEnum.Case1
+        let intEnum = IntEnum.Case1
+        let stringEnum = StringEnum.Case1
+        let floatEnum = FloatEnum.Case1
 
-        Pantry.pack(first, key: "enum")
+        Pantry.pack(intEnum, key: "int_enum")
+        Pantry.pack(stringEnum, key: "string_enum")
+        Pantry.pack(floatEnum, key: "float_enum")
 
-        if let unpackedNested: TestEnum = Pantry.unpack("enum") {
-            XCTAssert(first == unpackedNested)
+        if let unpackedIntEnum: IntEnum = Pantry.unpack("int_enum") {
+            XCTAssert(unpackedIntEnum == IntEnum.Case1)
         } else {
-            XCTFail("enum storable could be unpacked")
+            XCTFail("no enum storable could be unpacked")
+        }
+        if let unpackedStringEnum: StringEnum = Pantry.unpack("string_enum") {
+            XCTAssert(unpackedStringEnum == StringEnum.Case1)
+        } else {
+            XCTFail("no enum storable could be unpacked")
+        }
+        if let unpackedFloatEnum: FloatEnum = Pantry.unpack("float_enum") {
+            XCTAssert(unpackedFloatEnum == FloatEnum.Case1)
+        } else {
+            XCTFail("no enum storable could be unpacked")
         }
     }
-
+    
     func testEnumInStruct() {
-        let myStruct = TestStruct(lastName: "Plisken", cases: TestEnum.Case2)
+        let myStruct = StructWithEnum(lastName: "Plisken", cases: IntEnum.Case2)
         Pantry.pack(myStruct, key: "myStruct")
 
 
-        if let unpacked: TestStruct = Pantry.unpack("myStruct") {
+        if let unpacked: StructWithEnum = Pantry.unpack("myStruct") {
             XCTAssert(unpacked.lastName == "Plisken")
-            XCTAssert(unpacked.cases == TestEnum.Case2)
+            XCTAssert(unpacked.cases == IntEnum.Case2)
         } else {
-            XCTFail("enum storable could be unpacked")
+            XCTFail("no enum storable could be unpacked")
         }
     }
 }
