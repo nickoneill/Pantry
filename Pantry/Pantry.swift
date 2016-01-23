@@ -141,22 +141,18 @@ public class Pantry {
     public static func unpack<T: Storable>(key: String) -> [T]? {
         let warehouse = getWarehouse(key)
 
-        if warehouse.cacheExists() {
-            if let cache = warehouse.loadCache() as? Array<AnyObject> {
-                var unpackedItems = [T]()
-                
-                for item in cache {
-                    if let item = item as? Dictionary<String, AnyObject> {
-                        if let unpackedItem: T = unpack(item) {
-                            unpackedItems.append(unpackedItem)
-                        }
-                    }
-                }
-                return unpackedItems
-            }
+        guard warehouse.cacheExists(),
+            let cache = warehouse.loadCache() as? Array<AnyObject> else {
+            return nil
         }
         
-        return nil
+        var unpackedItems = [T]()
+        for case let item as Dictionary<String, AnyObject> in cache  {
+            if let unpackedItem: T = unpack(item) {
+                unpackedItems.append(unpackedItem)
+            }
+        }
+        return unpackedItems
     }
     
     /**
@@ -169,20 +165,16 @@ public class Pantry {
     public static func unpack<T: StorableDefaultType>(key: String) -> [T]? {
         let warehouse = getWarehouse(key)
         
-        if warehouse.cacheExists() {
-            if let cache = warehouse.loadCache() as? Array<AnyObject> {
-                var unpackedItems = [T]()
-                
-                for item in cache {
-                    if let item = item as? T {
-                        unpackedItems.append(item)
-                    }
-                }
-                return unpackedItems
-            }
+        guard warehouse.cacheExists(),
+            let cache = warehouse.loadCache() as? Array<AnyObject> else {
+                return nil
         }
         
-        return nil
+        var unpackedItems = [T]()
+        for case let item as T in cache {
+            unpackedItems.append(item)
+        }
+        return unpackedItems
     }
     
     /**
@@ -193,14 +185,13 @@ public class Pantry {
      */
     public static func unpack<T: StorableDefaultType>(key: String) -> T? {
         let warehouse = getWarehouse(key)
-        
-        if warehouse.cacheExists() {
-            if let cache = warehouse.loadCache() as? T {
-                return cache
-            }
+
+        guard warehouse.cacheExists(),
+            let cache = warehouse.loadCache() as? T else {
+                return nil
         }
-        
-        return nil
+
+        return cache
     }
 
     /**

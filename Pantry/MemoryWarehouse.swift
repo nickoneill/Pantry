@@ -30,63 +30,56 @@ public class MemoryWarehouse {
 extension MemoryWarehouse: Warehouseable {
 
     public func get<T: StorableDefaultType>(valueKey: String) -> T? {
-        if let dictionary = loadCache() {
-            if let result = dictionary[valueKey] {
-                if let result = result as? T {
-                    return result
-                }
-            }
-        }
 
-        return nil
+        guard let dictionary = loadCache(),
+            let result = dictionary[valueKey] as? T else {
+            return nil
+        }
+        return result
     }
 
     public func get<T: StorableDefaultType>(valueKey: String) -> [T]? {
-        if let dictionary = loadCache() as? Dictionary<String, AnyObject> {
-            if let result = dictionary[valueKey] as? Array<AnyObject> {
-                var unpackedItems = [T]()
 
-                for item in result {
-                    if let item = item as? T {
-                        unpackedItems.append(item)
-                    }
-                }
-                return unpackedItems
-            }
+        guard let dictionary = loadCache() as? Dictionary<String, AnyObject>,
+            let result = dictionary[valueKey] as? Array<AnyObject> else {
+                return nil
         }
 
-        return nil
+        var unpackedItems = [T]()
+        for case let item as T in result {
+            unpackedItems.append(item)
+        }
+        return unpackedItems
     }
 
     public func get<T: Storable>(valueKey: String) -> T? {
-        if let dictionary = loadCache() as? Dictionary<String, AnyObject> {
-            if let result = dictionary[valueKey] {
-                let warehouse = JSONWarehouse(context: result)
-                return T(warehouse: warehouse)
-            }
+
+        guard let dictionary = loadCache() as? Dictionary<String, AnyObject>,
+            let result = dictionary[valueKey] else {
+                return nil
         }
 
-        return nil
+        let warehouse = JSONWarehouse(context: result)
+        return T(warehouse: warehouse)
     }
 
     public func get<T: Storable>(valueKey: String) -> [T]? {
-        if let dictionary = loadCache() as? Dictionary<String, AnyObject> {
-            if let result = dictionary[valueKey] as? Array<AnyObject> {
-                var unpackedItems = [T]()
 
-                for item in result {
-                    if let item = item as? Dictionary<String, AnyObject> {
-                        let warehouse = MemoryWarehouse(context: item, inMemoryIdentifier: inMemoryIdentifier)
-                        if let item = T(warehouse: warehouse) {
-                            unpackedItems.append(item)
-                        }
-                    }
-                }
-                return unpackedItems
-            }
+        guard let dictionary = loadCache() as? Dictionary<String, AnyObject>,
+            let result = dictionary[valueKey] as? Array<AnyObject> else {
+                return nil
         }
 
-        return nil
+        var unpackedItems = [T]()
+
+        for case let item as Dictionary<String, AnyObject> in result {
+            let warehouse = MemoryWarehouse(context: item, inMemoryIdentifier: inMemoryIdentifier)
+            if let item = T(warehouse: warehouse) {
+                unpackedItems.append(item)
+            }
+        }
+        
+        return unpackedItems
     }
 }
 
@@ -108,14 +101,15 @@ extension MemoryWarehouse: WarehouseCacheable {
     }
 
     func loadCache() -> AnyObject? {
-        if context == nil {
-            if let memoryCache = MemoryWarehouse.globalCache[inMemoryIdentifier],
-                let cacheItem = memoryCache[key],
-                let item = cacheItem["storage"] {
-                    return item
-            }
-        } else {
+
+        guard context == nil else {
             return context
+        }
+
+        if let memoryCache = MemoryWarehouse.globalCache[inMemoryIdentifier],
+            let cacheItem = memoryCache[key],
+            let item = cacheItem["storage"] {
+                return item
         }
 
         return nil
