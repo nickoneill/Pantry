@@ -27,6 +27,42 @@ struct Basic: Storable {
     }
 }
 
+struct BasicUpgradedFieldAdded: Storable {
+    let name: String
+    let age: Float
+    let number: Int
+    let seniorCitizen: Bool
+
+    init(name: String, age: Float, number: Int, seniorCitizen: Bool) {
+        self.name = name
+        self.age = age
+        self.number = number
+        self.seniorCitizen = seniorCitizen
+    }
+
+    init(warehouse: Warehouseable) {
+        self.name = warehouse.get("name") ?? "default"
+        self.age = warehouse.get("age") ?? 20.5
+        self.number = warehouse.get("number") ?? 10
+        self.seniorCitizen = warehouse.get("seniorCitizen") ?? false
+    }
+}
+
+struct BasicUpgradedFieldRemoved: Storable {
+    let name: String
+    let age: Float
+
+    init(name: String, age: Float) {
+        self.name = name
+        self.age = age
+    }
+
+    init(warehouse: Warehouseable) {
+        self.name = warehouse.get("name") ?? "default"
+        self.age = warehouse.get("age") ?? 20.5
+    }
+}
+
 struct FailingBasic: Storable {
     let name: String
     let age: Float
