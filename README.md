@@ -43,6 +43,7 @@ You can store:
 * [x] Classes
 * [x] Arrays of classes and default types
 * [x] Nested classes
+* [x] Enums with raw types
 
 Check out [the tests](https://github.com/nickoneill/Pantry/blob/master/PantryTests/) for a detailed look at the varied types you can easily store.
 
