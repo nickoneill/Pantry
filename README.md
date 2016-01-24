@@ -65,6 +65,26 @@ use_frameworks!
 pod 'Pantry'
 ```
 
+Also works with [Swift Package Manager](https://github.com/apple/swift-package-manager) :
+
+Declare dependency in your `Package.swift`
+
+```swift
+.Package(url: "https://github.com/nickoneill/Pantry", majorVersion: 0)
+```
+
+For example :
+```swift
+import PackageDescription
+
+let package = Package(
+	name: "MyAwesomePackage",
+	dependencies: [
+		.Package(url: "https://github.com/nickoneill/Pantry", majorVersion: 0)
+	]
+)
+```
+
 And `import Pantry` in the files you'd like to use it.
 
 ## Usage
@@ -129,7 +149,7 @@ Classes are also supported and can be setup the same way Structs are however the
 ```swift
 class ModelBase: Storable {
     let id: String
-    
+
     required init(warehouse: Warehouseable) {
         self.id = warehouse.get("id") ?? "default_id"
     }
@@ -139,12 +159,12 @@ class BasicClassModel: ModelBase {
     let name: String
     let age: Float
     let number: Int
-    
+
     required init(warehouse: Warehouseable) {
         self.name = warehouse.get("name") ?? "default"
         self.age = warehouse.get("age") ?? 20.5
         self.number = warehouse.get("number") ?? 10
-        
+
         super.init(warehouse: warehouse)
     }
 }
