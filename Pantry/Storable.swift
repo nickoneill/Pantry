@@ -100,3 +100,37 @@ extension Bool: StorableDefaultType { }
 extension String: StorableDefaultType { }
 extension Int: StorableDefaultType { }
 extension Float: StorableDefaultType { }
+
+// MARK: Enums with Raw Values
+
+/**
+*  For enums with a raw value such as ```enum: Int```, adding this protocol makes the enum storable.
+*
+*  You should not need to implement any of the methods or properties in this protocol.
+*  Enums without a raw value e.g. with associated types are not supported.
+*/
+public protocol StorableRawEnum: Storable {
+    typealias StorableRawType: StorableDefaultType
+
+    /// Provided automatically for enum's that have a raw value
+    var rawValue: StorableRawType { get }
+    init?(rawValue: StorableRawType)
+}
+
+public extension StorableRawEnum {
+    init?(warehouse: Warehouseable) {
+        if let value: StorableRawType = warehouse.get("rawValue") {
+            self.init(rawValue: value)
+            return
+        }
+        return nil
+    }
+
+    func toDictionary() -> [String: AnyObject] {
+        if let value = rawValue as? AnyObject {
+            return ["rawValue": value]
+        } else {
+            return [: ]
+        }
+    }
+}
