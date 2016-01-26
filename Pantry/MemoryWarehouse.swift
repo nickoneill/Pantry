@@ -59,7 +59,7 @@ extension MemoryWarehouse: Warehouseable {
                 return nil
         }
 
-        let warehouse = JSONWarehouse(context: result)
+        let warehouse = MemoryWarehouse(context: result, inMemoryIdentifier: inMemoryIdentifier)
         return T(warehouse: warehouse)
     }
 
