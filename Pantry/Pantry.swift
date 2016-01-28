@@ -206,7 +206,6 @@ public class Pantry {
 
     public static func itemExistsForKey(key: String) -> Bool {
         let warehouse = getWarehouse(key)
-
         return warehouse.cacheExists()
     }
 
