@@ -204,6 +204,11 @@ public class Pantry {
         warehouse.removeCache()
     }
 
+    public static func itemExistsForKey(key: String) -> Bool {
+        let warehouse = getWarehouse(key)
+        return warehouse.cacheExists()
+    }
+
     static func unpack<T: Storable>(dictionary: Dictionary<String, AnyObject>) -> T? {
         let warehouse = getWarehouse(dictionary)
         
