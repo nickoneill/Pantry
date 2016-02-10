@@ -121,6 +121,10 @@ public class JSONWarehouse: Warehouseable, WarehouseCacheable {
         try! NSFileManager.defaultManager().removeItemAtURL(cacheFileURL())
     }
     
+    static func removeAllCache() {
+        try! NSFileManager.defaultManager().removeItemAtURL(JSONWarehouse.cacheDirectory)
+    }
+    
     func loadCache() -> AnyObject? {
 
         guard context == nil else {
@@ -159,13 +163,17 @@ public class JSONWarehouse: Warehouseable, WarehouseCacheable {
         }
     }
     
-    func cacheFileURL() -> NSURL {
+    static var cacheDirectory: NSURL {
         let url = NSFileManager.defaultManager().URLsForDirectory(.CachesDirectory, inDomains: .UserDomainMask).first!
         
         let writeDirectory = url.URLByAppendingPathComponent("com.thatthinginswift.pantry")
-        let cacheLocation = writeDirectory.URLByAppendingPathComponent(self.key)
-        
-        try! NSFileManager.defaultManager().createDirectoryAtURL(writeDirectory, withIntermediateDirectories: true, attributes: nil)
+        return writeDirectory
+    }
+    
+    func cacheFileURL() -> NSURL {
+        let cacheDirectory = JSONWarehouse.cacheDirectory
+        let cacheLocation = cacheDirectory.URLByAppendingPathComponent(self.key)
+        try! NSFileManager.defaultManager().createDirectoryAtURL(cacheDirectory, withIntermediateDirectories: true, attributes: nil)
         
         return cacheLocation
     }

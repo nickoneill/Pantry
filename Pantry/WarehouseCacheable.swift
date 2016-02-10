@@ -11,6 +11,7 @@ import Foundation
 protocol WarehouseCacheable {
     func write(object: AnyObject, expires: StorageExpiry)
     func removeCache()
+    static func removeAllCache()
     func loadCache() -> AnyObject?
     func cacheExists() -> Bool
 }
