@@ -37,11 +37,13 @@ class PantryTests: XCTestCase {
         let string: String = "Hello"
         let int: Int = 4
         let float: Float = 10.2
+        let double: Double = 20.6
         
         Pantry.pack(string, key: "ourTestString")
         Pantry.pack(int, key: "ourTestInt")
         Pantry.pack(float, key: "ourTestFloat")
-        
+        Pantry.pack(double, key: "ourTestDouble")
+
         if let unpackedString: String = Pantry.unpack("ourTestString") {
             XCTAssert(unpackedString == "Hello", "default string was incorrect")
         } else {
@@ -56,6 +58,11 @@ class PantryTests: XCTestCase {
             XCTAssert(unpackedFloat == 10.2, "default float was incorrect")
         } else {
             XCTFail("no default float could be unpacked")
+        }
+        if let unpackedDouble: Double = Pantry.unpack("ourTestDouble") {
+            XCTAssert(unpackedDouble == 20.6, "default double was incorrect")
+        } else {
+            XCTFail("no default double could be unpacked")
         }
     }
 

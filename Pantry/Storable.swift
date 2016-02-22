@@ -91,7 +91,7 @@ public enum StorageExpiry {
 /**
 Default storable types
 
-Default types are `Bool`, `String`, `Int`, `Float`
+Default types are `Bool`, `String`, `Int`, `Float`, `Double`
 */
 public protocol StorableDefaultType {
 }
@@ -100,6 +100,7 @@ extension Bool: StorableDefaultType { }
 extension String: StorableDefaultType { }
 extension Int: StorableDefaultType { }
 extension Float: StorableDefaultType { }
+extension Double: StorableDefaultType { }
 
 // MARK: Enums with Raw Values
 
