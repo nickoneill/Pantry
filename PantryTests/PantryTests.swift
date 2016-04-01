@@ -38,11 +38,13 @@ class PantryTests: XCTestCase {
         let int: Int = 4
         let float: Float = 10.2
         let double: Double = 20.6
-        
+        let date: NSDate = NSDate(timeIntervalSince1970: 1459355217)
+
         Pantry.pack(string, key: "ourTestString")
         Pantry.pack(int, key: "ourTestInt")
         Pantry.pack(float, key: "ourTestFloat")
         Pantry.pack(double, key: "ourTestDouble")
+        Pantry.pack(date, key: "ourTestDate")
 
         if let unpackedString: String = Pantry.unpack("ourTestString") {
             XCTAssert(unpackedString == "Hello", "default string was incorrect")
@@ -62,6 +64,12 @@ class PantryTests: XCTestCase {
         if let unpackedDouble: Double = Pantry.unpack("ourTestDouble") {
             XCTAssert(unpackedDouble == 20.6, "default double was incorrect")
         } else {
+            XCTFail("no default double could be unpacked")
+        }
+        if let unpackedDate: NSDate = Pantry.unpack("ourTestDate") {
+            XCTAssert(unpackedDate.timeIntervalSince1970 == 1459355217 , "default date was incorrect")
+        }
+        else {
             XCTFail("no default double could be unpacked")
         }
     }
