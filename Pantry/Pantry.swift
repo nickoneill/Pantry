@@ -234,8 +234,8 @@ public class Pantry {
         let warehouse = getWarehouse(key)
         
         if warehouse.cacheExists() {
-            let data: NSData? = warehouse.get("NSKeyedArchiverData")
-            
+            let dataString: String? = warehouse.get("NSKeyedArchiverDataString")
+            let data = dataString.flatMap { NSData(base64EncodedString: $0, options: []) }
             return data.flatMap { NSKeyedUnarchiver.unarchiveObjectWithData($0) } as? T
         }
         
