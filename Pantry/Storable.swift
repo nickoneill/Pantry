@@ -137,3 +137,10 @@ public extension StorableRawEnum {
         }
     }
 }
+
+internal extension NSCoding {
+    func toDictionary() -> [String: AnyObject] {
+        let data = NSKeyedArchiver.archivedDataWithRootObject(self)
+        return ["NSKeyedArchiverData": data]
+    }
+}

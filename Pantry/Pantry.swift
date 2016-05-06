@@ -115,6 +115,37 @@ public class Pantry {
         warehouse.write(result, expires: .Never)
     }
 
+    /**
+     Packs a generic object that conforms to the `NSCoding` protocol
+     - parameter object: Default object that will be stored
+     - parameter key: The object's key
+     - parameter expires: The storage expiration. Defaults to `Never`
+     
+     - SeeAlso: `NSCoding`
+     */
+    public static func pack<T: NSCoding>(object: T, key: String, expires: StorageExpiry = .Never) {
+        let warehouse = getWarehouse(key)
+        
+        warehouse.write(object.toDictionary(), expires: expires)
+    }
+    
+    /**
+     Packs a collection of generic objects that conform to the `NSCoding` protocol.
+     - parameter objects: Collection of objects that will be stored
+     - parameter key: The object's key
+     
+     - SeeAlso: `NSCoding`
+     */
+    public static func pack<T: NSCoding>(objects: [T], key: String) {
+        let warehouse = getWarehouse(key)
+        
+        var result = [AnyObject]()
+        for object in objects {
+            result.append(object.toDictionary())
+        }
+        
+        warehouse.write(result, expires: .Never)
+    }
 
     // MARK: unpack generics
     
@@ -193,6 +224,24 @@ public class Pantry {
 
         return cache
     }
+    
+    /**
+     Unpacks an object that conforms to the `NSCoding` protocol
+     - parameter key: The object's key
+     - returns: T?
+     */
+    public static func unpack<T: NSCoding>(key: String) -> T? {
+        let warehouse = getWarehouse(key)
+        
+        if warehouse.cacheExists() {
+            let data: NSData? = warehouse.get("NSKeyedArchiverData")
+            
+            return data.flatMap { NSKeyedUnarchiver.unarchiveObjectWithData($0) } as? T
+        }
+        
+        return nil
+    }
+
 
     /**
      Expire a given object
