@@ -11,7 +11,7 @@ import Foundation
 extension Mirror {
     /**
      Dictionary representation
-     Returns the dictioanry representation of the current `Mirror`
+     Returns the dictionary representation of the current `Mirror`
      
      _Adapted from [@IanKeen](https://gist.github.com/IanKeen/3a6c3b9a42aaf9fea982)_
      - returns: [String: AnyObject]
