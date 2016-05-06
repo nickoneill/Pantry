@@ -101,8 +101,6 @@ extension String: StorableDefaultType { }
 extension Int: StorableDefaultType { }
 extension Float: StorableDefaultType { }
 extension Double: StorableDefaultType { }
-extension NSDate: StorableDefaultType { }
-extension NSData: StorableDefaultType { }
 
 // MARK: Enums with Raw Values
 
@@ -141,6 +139,7 @@ public extension StorableRawEnum {
 internal extension NSCoding {
     func toDictionary() -> [String: AnyObject] {
         let data = NSKeyedArchiver.archivedDataWithRootObject(self)
-        return ["NSKeyedArchiverData": data]
+        let dataString = data.base64EncodedStringWithOptions([])
+        return ["NSKeyedArchiverDataString": dataString]
     }
 }
