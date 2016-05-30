@@ -54,7 +54,7 @@ public class Pantry {
      - parameter objects: Generic collection of objects that will be stored
      - parameter key: The objects' key
      */
-    public static func pack<T: Storable>(objects: [T], key: String) {
+    public static func pack<T: Storable>(objects: [T], key: String, expires: StorageExpiry = .Never) {
         let warehouse = getWarehouse(key)
         
         var result = [AnyObject]()
@@ -62,7 +62,7 @@ public class Pantry {
             result.append(object.toDictionary())
         }
 
-        warehouse.write(result, expires: .Never)
+        warehouse.write(result, expires: expires)
     }
 
     /**
@@ -86,7 +86,7 @@ public class Pantry {
 
      - SeeAlso: `StorableDefaultType`
      */
-    public static func pack<T: StorableDefaultType>(objects: [T], key: String) {
+    public static func pack<T: StorableDefaultType>(objects: [T], key: String, expires: StorageExpiry = .Never) {
         let warehouse = getWarehouse(key)
         
         var result = [AnyObject]()
@@ -94,7 +94,7 @@ public class Pantry {
             result.append(object as! AnyObject)
         }
         
-        warehouse.write(result, expires: .Never)
+        warehouse.write(result, expires: expires)
     }
 
     /**
@@ -104,7 +104,7 @@ public class Pantry {
 
      - SeeAlso: `StorableDefaultType`
      */
-    public static func pack<T: StorableDefaultType>(objects: [T?], key: String) {
+    public static func pack<T: StorableDefaultType>(objects: [T?], key: String, expires: StorageExpiry = .Never) {
         let warehouse = getWarehouse(key)
         
         var result = [AnyObject]()
@@ -112,7 +112,7 @@ public class Pantry {
             result.append(object as! AnyObject)
         }
         
-        warehouse.write(result, expires: .Never)
+        warehouse.write(result, expires: expires)
     }
 
 
