@@ -203,6 +203,15 @@ public class Pantry {
 
         warehouse.removeCache()
     }
+    
+    /// Deletes all the cache
+    ///
+    /// - Note: This will clear in-memory as well as JSON cache
+    public static func removeAllCache() {
+        ///Blindly remove all the data!
+        MemoryWarehouse.removeAllCache()
+        JSONWarehouse.removeAllCache()
+    }
 
     public static func itemExistsForKey(key: String) -> Bool {
         let warehouse = getWarehouse(key)
