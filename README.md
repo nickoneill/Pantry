@@ -106,17 +106,21 @@ print(autopersist) // Hello!
 ```
 
 ### Structs
-Add the `Storable` protocol to any struct you want stored and then ensure they comply by implementing an init method that gets each property from the warehouse:
+Add the `Storable` protocol to any struct you want stored and then ensure they comply by implementing an `init` method that gets each property from the warehouse, and a `toDictionary` method that converts the other way:
 ```swift
 struct Basic: Storable {
     let name: String
     let age: Float
     let number: Int
 
-    init(warehouse: JSONWarehouse) {
+    init(warehouse: Warehouseable) {
         self.name = warehouse.get("name") ?? "default"
         self.age = warehouse.get("age") ?? 20.5
         self.number = warehouse.get("number") ?? 10
+    }
+
+    func toDictionary() -> [String : AnyObject] {
+        return [ "name": self.name, "age": self.age, "number": self.number ]
     }
 }
 ```
@@ -133,6 +137,10 @@ class ModelBase: Storable {
     required init(warehouse: Warehouseable) {
         self.id = warehouse.get("id") ?? "default_id"
     }
+
+    func toDictionary() -> [String : AnyObject] {
+        return [ "id": self.id ]
+    }
 }
 
 class BasicClassModel: ModelBase {
@@ -146,6 +154,14 @@ class BasicClassModel: ModelBase {
         self.number = warehouse.get("number") ?? 10
         
         super.init(warehouse: warehouse)
+    }
+
+    func toDictionary() -> [String : AnyObject] {
+        var dictionary = super.toDictionary()
+        dictionary["name"] = self.name
+        dictionary["age"] = self.age
+        dictionary["number"] = self.number
+        return dictionary
     }
 }
 ```
