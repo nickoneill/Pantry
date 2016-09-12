@@ -113,8 +113,13 @@ open class JSONWarehouse: Warehouseable, WarehouseCacheable {
         
         storableDictionary["expires"] = expires.toDate().timeIntervalSince1970 as AnyObject?
         storableDictionary["storage"] = object
-        
-        let _ = (storableDictionary as NSDictionary).writeToURL(cacheLocation, atomically: true)
+
+        do {
+            let data = try JSONSerialization.data(withJSONObject: storableDictionary, options: .prettyPrinted)
+            try data.write(to: cacheLocation, options: .atomic)
+        } catch {
+            debugPrint("\(error)")
+        }
     }
     
     func removeCache() {
@@ -135,23 +140,30 @@ open class JSONWarehouse: Warehouseable, WarehouseCacheable {
         }
 
         let cacheLocation = cacheFileURL()
-        
-        if let metaDictionary = NSDictionary(contentsOfURL: cacheLocation),
-            let cache = metaDictionary["storage"] {
-                return cache
+
+        if let data = try? Data(contentsOf: cacheLocation),
+            let metaDictionary = try? JSONSerialization.jsonObject(with: data) as? [String: AnyObject],
+            let cache = metaDictionary?["storage"] {
+            return cache as AnyObject?
+        }
+
+        if let data = try? Data(contentsOf: cacheLocation),
+        let metaDictionary = try? JSONSerialization.jsonObject(with: data) as? [String: AnyObject],
+            let cache = metaDictionary?["storage"] {
+            return cache as AnyObject?
         }
 
         return nil
     }
     
     func cacheExists() -> Bool {
-
-        guard NSFileManager.defaultManager().fileExistsAtPath(cacheFileURL().path!),
-            let metaDictionary = NSDictionary(contentsOfURL: cacheFileURL()) else {
+        guard FileManager.default.fileExists(atPath: cacheFileURL().path),
+            let data = try? Data(contentsOf: cacheFileURL()),
+            let metaDictionary = try? JSONSerialization.jsonObject(with: data) as? [String: AnyObject] else {
                 return false
         }
 
-        guard let expires = metaDictionary["expires"] as? NSTimeInterval else {
+        guard let expires = metaDictionary?["expires"] as? TimeInterval else {
             // no expire time means old cache, never expires
             return true
         }
