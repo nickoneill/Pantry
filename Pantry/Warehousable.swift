@@ -16,7 +16,7 @@ public protocol Warehouseable: class {
 
      - SeeAlso: `StorableDefaultType`
      */
-    func get<T: StorableDefaultType>(valueKey: String) -> T?
+    func get<T: StorableDefaultType>(_ valueKey: String) -> T?
 
     /**
      Retrieve a collection of `StorableDefaultType`s for a given key
@@ -25,7 +25,7 @@ public protocol Warehouseable: class {
 
      - SeeAlso: `StorableDefaultType`
      */
-    func get<T: StorableDefaultType>(valueKey: String) -> [T]?
+    func get<T: StorableDefaultType>(_ valueKey: String) -> [T]?
 
 
     /**
@@ -35,7 +35,7 @@ public protocol Warehouseable: class {
 
      - SeeAlso: `Storable`
      */
-    func get<T: Storable>(valueKey: String) -> T?
+    func get<T: Storable>(_ valueKey: String) -> T?
 
     /**
      Retrieve a collection of generic objects conforming to `Storable` for a given key
@@ -44,7 +44,7 @@ public protocol Warehouseable: class {
 
      - SeeAlso: `Storable`
      */
-    func get<T: Storable>(valueKey: String) -> [T]?
+    func get<T: Storable>(_ valueKey: String) -> [T]?
 
 
 }

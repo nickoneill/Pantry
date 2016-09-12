@@ -62,11 +62,11 @@ public extension Storable {
  */
 public enum StorageExpiry {
     /// the storage never expires
-    case Never
+    case never
     /// the storage expires after a given timeout in seconds (`NSTimeInterval`)
-    case Seconds(NSTimeInterval)
+    case seconds(TimeInterval)
     /// the storage expires at a given date (`NSDate`)
-    case Date(NSDate)
+    case date(Foundation.Date)
 
     /**
      Expiry date
@@ -74,13 +74,13 @@ public enum StorageExpiry {
      Returns the date of the storage expiration
      - returns NSDate
      */
-    func toDate() -> NSDate {
+    func toDate() -> Foundation.Date {
         switch self {
-        case Never:
-            return NSDate.distantFuture()
-        case Seconds(let timeInterval):
-            return NSDate(timeIntervalSinceNow: timeInterval)
-        case Date(let date):
+        case .never:
+            return Foundation.Date.distantFuture
+        case .seconds(let timeInterval):
+            return Foundation.Date(timeIntervalSinceNow: timeInterval)
+        case .date(let date):
             return date
         }
     }
@@ -91,7 +91,7 @@ public enum StorageExpiry {
 /**
 Default storable types
 
-Default types are `Bool`, `String`, `Int`, `Float`, `Double`, `NSDate`
+Default types are `Bool`, `String`, `Int`, `Float`, `Double`, `Date`
 */
 public protocol StorableDefaultType {
 }
@@ -112,7 +112,7 @@ extension NSDate: StorableDefaultType { }
 *  Enums without a raw value e.g. with associated types are not supported.
 */
 public protocol StorableRawEnum: Storable {
-    typealias StorableRawType: StorableDefaultType
+    associatedtype StorableRawType: StorableDefaultType
 
     /// Provided automatically for enum's that have a raw value
     var rawValue: StorableRawType { get }
@@ -129,10 +129,6 @@ public extension StorableRawEnum {
     }
 
     func toDictionary() -> [String: AnyObject] {
-        if let value = rawValue as? AnyObject {
-            return ["rawValue": value]
-        } else {
-            return [: ]
-        }
+        return ["rawValue": rawValue as AnyObject]
     }
 }

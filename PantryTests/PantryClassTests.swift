@@ -9,24 +9,25 @@
 import XCTest
 @testable import Pantry
 
-var classToken: dispatch_once_t = 0
+var classToken: Int = 0
 
 class PantryClassTests: XCTestCase {
-    override func setUp() {
-        super.setUp()
-        
-        dispatch_once(&classToken) {
-            let testFolder = JSONWarehouse(key: "classes").cacheFileURL().URLByDeletingLastPathComponent!
+    private static var __once: () = {
+            let testFolder = JSONWarehouse(key: "classes").cacheFileURL().deletingLastPathComponent()
             print("testing in",testFolder)
             
             // remove old files before our test
-            let urls = try? NSFileManager.defaultManager().contentsOfDirectoryAtURL(testFolder, includingPropertiesForKeys: nil, options: [.SkipsSubdirectoryDescendants, .SkipsHiddenFiles])
+            let urls = try? FileManager.default.contentsOfDirectory(at: testFolder, includingPropertiesForKeys: nil, options: [.skipsSubdirectoryDescendants, .skipsHiddenFiles])
             if let urls = urls {
                 for url in urls {
-                    let _ = try? NSFileManager.defaultManager().removeItemAtURL(url)
+                    let _ = try? FileManager.default.removeItem(at: url)
                 }
             }
-        }
+        }()
+    override func setUp() {
+        super.setUp()
+        
+        _ = PantryClassTests.__once
     }
     
     override func tearDown() {

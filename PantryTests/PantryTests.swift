@@ -9,24 +9,25 @@
 import XCTest
 @testable import Pantry
 
-var token: dispatch_once_t = 0
+var token: Int = 0
 
 class PantryTests: XCTestCase {
-    override func setUp() {
-        super.setUp()
-        
-        dispatch_once(&token) {
-            let testFolder = JSONWarehouse(key: "basic").cacheFileURL().URLByDeletingLastPathComponent!
+    private static var __once: () = {
+            let testFolder = JSONWarehouse(key: "basic").cacheFileURL().deletingLastPathComponent()
             print("testing in",testFolder)
             
             // remove old files before our test
-            let urls = try? NSFileManager.defaultManager().contentsOfDirectoryAtURL(testFolder, includingPropertiesForKeys: nil, options: [.SkipsSubdirectoryDescendants, .SkipsHiddenFiles])
+            let urls = try? FileManager.default.contentsOfDirectory(at: testFolder, includingPropertiesForKeys: nil, options: [.skipsSubdirectoryDescendants, .skipsHiddenFiles])
             if let urls = urls {
                 for url in urls {
-                    let _ = try? NSFileManager.defaultManager().removeItemAtURL(url)
+                    let _ = try? FileManager.default.removeItem(at: url)
                 }
             }
-        }
+        }()
+    override func setUp() {
+        super.setUp()
+        
+        _ = PantryTests.__once
     }
     
     override func tearDown() {
@@ -38,7 +39,7 @@ class PantryTests: XCTestCase {
         let int: Int = 4
         let float: Float = 10.2
         let double: Double = 20.6
-        let date: NSDate = NSDate(timeIntervalSince1970: 1459355217)
+        let date: Date = Date(timeIntervalSince1970: 1459355217)
 
         Pantry.pack(string, key: "ourTestString")
         Pantry.pack(int, key: "ourTestInt")
@@ -66,7 +67,7 @@ class PantryTests: XCTestCase {
         } else {
             XCTFail("no default double could be unpacked")
         }
-        if let unpackedDate: NSDate = Pantry.unpack("ourTestDate") {
+        if let unpackedDate: Date = Pantry.unpack("ourTestDate") {
             XCTAssert(unpackedDate.timeIntervalSince1970 == 1459355217 , "default date was incorrect")
         }
         else {

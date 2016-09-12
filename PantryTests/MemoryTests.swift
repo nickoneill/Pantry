@@ -26,7 +26,7 @@ class MemoryTests: XCTestCase {
         let int: Int = 4
         let float: Float = 10.2
         let double: Double = 12.7
-        let date: NSDate = NSDate(timeIntervalSince1970: 1459355217)
+        let date: Date = Date(timeIntervalSince1970: 1459355217)
 
         Pantry.pack(string, key: "ourTestString")
         Pantry.pack(int, key: "ourTestInt")
@@ -55,7 +55,7 @@ class MemoryTests: XCTestCase {
         else {
             XCTFail("no default double could be unpacked")
         }
-        if let unpackedDate: NSDate = Pantry.unpack("ourTestDate") {
+        if let unpackedDate: Date = Pantry.unpack("ourTestDate") {
             XCTAssert(unpackedDate.timeIntervalSince1970 == 1459355217 , "default date was incorrect")
         }
         else {

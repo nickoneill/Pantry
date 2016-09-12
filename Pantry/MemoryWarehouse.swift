@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class MemoryWarehouse {
+open class MemoryWarehouse {
     var key: String
     var context: AnyObject?
     let inMemoryIdentifier: String
@@ -29,7 +29,7 @@ public class MemoryWarehouse {
 
 extension MemoryWarehouse: Warehouseable {
 
-    public func get<T: StorableDefaultType>(valueKey: String) -> T? {
+    public func get<T: StorableDefaultType>(_ valueKey: String) -> T? {
 
         guard let dictionary = loadCache(),
             let result = dictionary[valueKey] as? T else {
@@ -38,7 +38,7 @@ extension MemoryWarehouse: Warehouseable {
         return result
     }
 
-    public func get<T: StorableDefaultType>(valueKey: String) -> [T]? {
+    public func get<T: StorableDefaultType>(_ valueKey: String) -> [T]? {
 
         guard let dictionary = loadCache() as? Dictionary<String, AnyObject>,
             let result = dictionary[valueKey] as? Array<AnyObject> else {
@@ -52,7 +52,7 @@ extension MemoryWarehouse: Warehouseable {
         return unpackedItems
     }
 
-    public func get<T: Storable>(valueKey: String) -> T? {
+    public func get<T: Storable>(_ valueKey: String) -> T? {
 
         guard let dictionary = loadCache() as? Dictionary<String, AnyObject>,
             let result = dictionary[valueKey] else {
@@ -63,7 +63,7 @@ extension MemoryWarehouse: Warehouseable {
         return T(warehouse: warehouse)
     }
 
-    public func get<T: Storable>(valueKey: String) -> [T]? {
+    public func get<T: Storable>(_ valueKey: String) -> [T]? {
 
         guard let dictionary = loadCache() as? Dictionary<String, AnyObject>,
             let result = dictionary[valueKey] as? Array<AnyObject> else {
@@ -73,7 +73,7 @@ extension MemoryWarehouse: Warehouseable {
         var unpackedItems = [T]()
 
         for case let item as Dictionary<String, AnyObject> in result {
-            let warehouse = MemoryWarehouse(context: item, inMemoryIdentifier: inMemoryIdentifier)
+            let warehouse = MemoryWarehouse(context: item as AnyObject, inMemoryIdentifier: inMemoryIdentifier)
             if let item = T(warehouse: warehouse) {
                 unpackedItems.append(item)
             }
@@ -85,19 +85,19 @@ extension MemoryWarehouse: Warehouseable {
 
 extension MemoryWarehouse: WarehouseCacheable {
 
-    public func write(object: AnyObject, expires: StorageExpiry) {
+    public func write(_ object: AnyObject, expires: StorageExpiry) {
         var storableDictionary = [String: AnyObject]()
 
-        storableDictionary["expires"] = expires.toDate().timeIntervalSince1970
+        storableDictionary["expires"] = expires.toDate().timeIntervalSince1970 as AnyObject?
         storableDictionary["storage"] = object
 
         var memoryCache = MemoryWarehouse.globalCache[inMemoryIdentifier] ?? [String: AnyObject]()
-        memoryCache[key] = storableDictionary
+        memoryCache[key] = storableDictionary as AnyObject?
         MemoryWarehouse.globalCache[inMemoryIdentifier] = memoryCache
     }
 
     func removeCache() {
-        MemoryWarehouse.globalCache.removeValueForKey(key)
+        MemoryWarehouse.globalCache.removeValue(forKey: key)
     }
     
     static func removeAllCache() {
@@ -113,7 +113,7 @@ extension MemoryWarehouse: WarehouseCacheable {
         if let memoryCache = MemoryWarehouse.globalCache[inMemoryIdentifier],
             let cacheItem = memoryCache[key],
             let item = cacheItem["storage"] {
-                return item
+                return item as AnyObject?
         }
 
         return nil
