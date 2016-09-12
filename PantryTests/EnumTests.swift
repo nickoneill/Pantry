@@ -13,7 +13,7 @@ class EnumTests: XCTestCase {
 
     private static var __once: () = {
             let testFolder = JSONWarehouse(key: "basic").cacheFileURL().deletingLastPathComponent()
-            print("testing in",testFolder)
+            print("testing in", testFolder)
 
             // remove old files before our test
             let urls = try? FileManager.default.contentsOfDirectory(at: testFolder, includingPropertiesForKeys: nil, options: [.skipsSubdirectoryDescendants, .skipsHiddenFiles])

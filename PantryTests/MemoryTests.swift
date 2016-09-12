@@ -31,7 +31,7 @@ class MemoryTests: XCTestCase {
         Pantry.pack(string, key: "ourTestString")
         Pantry.pack(int, key: "ourTestInt")
         Pantry.pack(float, key: "ourTestFloat")
-        Pantry.pack(double,key: "ourTestDouble")
+        Pantry.pack(double, key: "ourTestDouble")
         Pantry.pack(date, key: "ourTestDate")
 
         if let unpackedString: String = Pantry.unpack("ourTestString") {
@@ -50,15 +50,13 @@ class MemoryTests: XCTestCase {
             XCTFail("no default float could be unpacked")
         }
         if let unpackedDouble: Double = Pantry.unpack("ourTestDouble") {
-            XCTAssert(unpackedDouble == 12.7 , "default double was incorrect")
-        }
-        else {
+            XCTAssert(unpackedDouble == 12.7, "default double was incorrect")
+        } else {
             XCTFail("no default double could be unpacked")
         }
         if let unpackedDate: Date = Pantry.unpack("ourTestDate") {
-            XCTAssert(unpackedDate.timeIntervalSince1970 == 1459355217 , "default date was incorrect")
-        }
-        else {
+            XCTAssert(unpackedDate.timeIntervalSince1970 == 1459355217, "default date was incorrect")
+        } else {
             XCTFail("no default double could be unpacked")
         }
     }

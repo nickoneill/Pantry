@@ -14,7 +14,7 @@ var token: Int = 0
 class PantryTests: XCTestCase {
     private static var __once: () = {
             let testFolder = JSONWarehouse(key: "basic").cacheFileURL().deletingLastPathComponent()
-            print("testing in",testFolder)
+            print("testing in", testFolder)
             
             // remove old files before our test
             let urls = try? FileManager.default.contentsOfDirectory(at: testFolder, includingPropertiesForKeys: nil, options: [.skipsSubdirectoryDescendants, .skipsHiddenFiles])
@@ -68,17 +68,16 @@ class PantryTests: XCTestCase {
             XCTFail("no default double could be unpacked")
         }
         if let unpackedDate: Date = Pantry.unpack("ourTestDate") {
-            XCTAssert(unpackedDate.timeIntervalSince1970 == 1459355217 , "default date was incorrect")
-        }
-        else {
+            XCTAssert(unpackedDate.timeIntervalSince1970 == 1459355217, "default date was incorrect")
+        } else {
             XCTFail("no default double could be unpacked")
         }
     }
 
     func testDefaultArray() {
         let defaultStrings = ["Default","Types","Strings"]
-        let defaultInts = [0,1,2,3,4]
-        let defaultFloats: [Float] = [10.2,31.5,28.3]
+        let defaultInts = [0, 1, 2, 3, 4]
+        let defaultFloats: [Float] = [10.2, 31.5, 28.3]
         
         Pantry.pack(defaultStrings, key: "default_strings_array")
         Pantry.pack(defaultInts, key: "default_ints_array")
@@ -401,12 +400,5 @@ class PantryTests: XCTestCase {
             XCTFail("no basic struct could be unpacked")
         }
     }
-    
-//    func testPerformanceExample() {
-//        // This is an example of a performance test case.
-//        self.measureBlock {
-//            // Put the code you want to measure the time of here.
-//        }
-//    }
-    
+
 }

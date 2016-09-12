@@ -8,19 +8,19 @@
 
 import Foundation
 
-/** 
-JSONWarehouse serializes and deserializes data 
+/**
+JSONWarehouse serializes and deserializes data
 
 A `JSONWarehouse` is passed in the init function of a struct that conforms to `Storable`
 */
 open class JSONWarehouse: Warehouseable, WarehouseCacheable {
     var key: String
     var context: Any?
-    
+
     public init(key: String) {
         self.key = key
     }
-    
+
     public init(context: Any) {
         self.key = ""
         self.context = context
@@ -106,7 +106,7 @@ open class JSONWarehouse: Warehouseable, WarehouseCacheable {
 
         return unpackedItems
     }
-    
+
     func write(_ object: Any, expires: StorageExpiry) {
         let cacheLocation = cacheFileURL()
         var storableDictionary: [String: Any] = [:]
@@ -126,7 +126,7 @@ open class JSONWarehouse: Warehouseable, WarehouseCacheable {
         do {
             try FileManager.default.removeItem(at: cacheFileURL())
         } catch {
-            print("error removing cache",error)
+            print("error removing cache", error)
         }
     }
     

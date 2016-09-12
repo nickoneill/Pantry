@@ -112,7 +112,7 @@ extension MemoryWarehouse: WarehouseCacheable {
 
         if let memoryCache = MemoryWarehouse.globalCache[inMemoryIdentifier],
         let cacheItem = memoryCache[key] as? [String: Any],
-            let item = cacheItem["storage"]  {
+            let item = cacheItem["storage"] {
                 return item
         }
 
