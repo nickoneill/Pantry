@@ -14,10 +14,10 @@ extension Mirror {
      Returns the dictioanry representation of the current `Mirror`
      
      _Adapted from [@IanKeen](https://gist.github.com/IanKeen/3a6c3b9a42aaf9fea982)_
-     - returns: [String: AnyObject]
+     - returns: [String: Any]
      */
-    func toDictionary() -> [String: AnyObject] {
-        let output = self.children.reduce([:]) { (result: [String: AnyObject], child) in
+    func toDictionary() -> [String: Any] {
+        let output = self.children.reduce([:]) { (result: [String: Any], child) in
             guard let key = child.label else { return result }
             var actualValue = child.value
             var childMirror = Mirror(reflecting: child.value)
@@ -30,26 +30,26 @@ extension Mirror {
             if let style = childMirror.displayStyle, style == .collection {
                 // collections need to be unwrapped, children tested and
                 // toDictionary called on each
-                let converted: [AnyObject] = childMirror.children
+                let converted: [Any] = childMirror.children
                     .map { collectionChild in
                         if let convertable = collectionChild.value as? Storable {
-                            return convertable.toDictionary() as AnyObject
+                            return convertable.toDictionary() as Any
                         } else {
-                            return collectionChild.value as AnyObject
+                            return collectionChild.value as Any
                         }
                 }
-                return combine(result, addition: [key: converted as AnyObject])
+                return combine(result, addition: [key: converted as Any])
                 
             } else {
                 // non-collection types, toDictionary or just cast default types
                 if let value = actualValue as? Storable {
-                    return combine(result, addition: [key: value.toDictionary() as AnyObject])
+                    return combine(result, addition: [key: value.toDictionary() as Any])
                 } else {
                     if let style = childMirror.displayStyle, style == .optional,
                         childMirror.children.first == nil {
                         actualValue = NSNull()
                     }
-                    return combine(result, addition: [key: actualValue as AnyObject])
+                    return combine(result, addition: [key: actualValue as Any])
                 }
             }
         }
@@ -61,8 +61,8 @@ extension Mirror {
     }
     
     // convenience for combining dictionaries
-    fileprivate func combine(_ from: [String: AnyObject], addition: [String: AnyObject]) -> [String: AnyObject] {
-        var result = [String: AnyObject]()
+    fileprivate func combine(_ from: [String: Any], addition: [String: Any]) -> [String: Any] {
+        var result = [String: Any]()
         [from, addition].forEach { dict in
             dict.forEach { result[$0.0] = $0.1 }
         }

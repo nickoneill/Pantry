@@ -40,9 +40,9 @@ public protocol Storable {
      Dictionary representation  
 
      Returns the dictioanry representation of the current struct
-     - returns: [String: AnyObject]
+     - returns: [String: Any]
      */
-    func toDictionary() -> [String: AnyObject]
+    func toDictionary() -> [String: Any]
 }
 
 public extension Storable {
@@ -50,9 +50,9 @@ public extension Storable {
      Dictionary representation
      Returns the dictioanry representation of the current struct
      
-     - returns: [String: AnyObject]
+     - returns: [String: Any]
      */
-    func toDictionary() -> [String: AnyObject] {
+    func toDictionary() -> [String: Any] {
         return Mirror(reflecting: self).toDictionary()
     }
 }
@@ -112,8 +112,8 @@ extension Date: Storable {
         return nil
     }
 
-    public func toDictionary() -> [String: AnyObject] {
-        return ["timeSince1970": self.timeIntervalSince1970 as AnyObject]
+    public func toDictionary() -> [String: Any] {
+        return ["timeSince1970": self.timeIntervalSince1970 as Any]
     }
 }
 
@@ -142,7 +142,7 @@ public extension StorableRawEnum {
         return nil
     }
 
-    func toDictionary() -> [String: AnyObject] {
-        return ["rawValue": rawValue as AnyObject]
+    func toDictionary() -> [String: Any] {
+        return ["rawValue": rawValue as Any]
     }
 }

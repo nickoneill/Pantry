@@ -46,7 +46,7 @@ open class Pantry {
     open static func pack<T: Storable>(_ object: T, key: String, expires: StorageExpiry = .never) {
         let warehouse = getWarehouse(key)
         
-        warehouse.write(object.toDictionary() as AnyObject, expires: expires)
+        warehouse.write(object.toDictionary() as Any, expires: expires)
     }
 
     /**
@@ -57,12 +57,12 @@ open class Pantry {
     open static func pack<T: Storable>(_ objects: [T], key: String, expires: StorageExpiry = .never) {
         let warehouse = getWarehouse(key)
         
-        var result = [AnyObject]()
+        var result = [Any]()
         for object in objects {
-            result.append(object.toDictionary() as AnyObject)
+            result.append(object.toDictionary() as Any)
         }
 
-        warehouse.write(result as AnyObject, expires: expires)
+        warehouse.write(result as Any, expires: expires)
     }
 
     /**
@@ -76,7 +76,7 @@ open class Pantry {
     open static func pack<T: StorableDefaultType>(_ object: T, key: String, expires: StorageExpiry = .never) {
         let warehouse = getWarehouse(key)
         
-        warehouse.write(object as AnyObject, expires: expires)
+        warehouse.write(object as Any, expires: expires)
     }
 
     /**
@@ -89,12 +89,12 @@ open class Pantry {
     open static func pack<T: StorableDefaultType>(_ objects: [T], key: String, expires: StorageExpiry = .never) {
         let warehouse = getWarehouse(key)
         
-        var result = [AnyObject]()
+        var result = [Any]()
         for object in objects {
-            result.append(object as AnyObject)
+            result.append(object as Any)
         }
         
-        warehouse.write(result as AnyObject, expires: expires)
+        warehouse.write(result as Any, expires: expires)
     }
 
     /**
@@ -107,12 +107,12 @@ open class Pantry {
     open static func pack<T: StorableDefaultType>(_ objects: [T?], key: String, expires: StorageExpiry = .never) {
         let warehouse = getWarehouse(key)
         
-        var result = [AnyObject]()
+        var result = [Any]()
         for object in objects {
-            result.append(object as AnyObject)
+            result.append(object as Any)
         }
         
-        warehouse.write(result as AnyObject, expires: expires)
+        warehouse.write(result as Any, expires: expires)
     }
 
 
@@ -142,12 +142,12 @@ open class Pantry {
         let warehouse = getWarehouse(key)
 
         guard warehouse.cacheExists(),
-            let cache = warehouse.loadCache() as? Array<AnyObject> else {
+            let cache = warehouse.loadCache() as? Array<Any> else {
             return nil
         }
         
         var unpackedItems = [T]()
-        for case let item as Dictionary<String, AnyObject> in cache  {
+        for case let item as [String: Any] in cache  {
             if let unpackedItem: T = unpack(item) {
                 unpackedItems.append(unpackedItem)
             }
@@ -166,7 +166,7 @@ open class Pantry {
         let warehouse = getWarehouse(key)
         
         guard warehouse.cacheExists(),
-            let cache = warehouse.loadCache() as? Array<AnyObject> else {
+            let cache = warehouse.loadCache() as? Array<Any> else {
                 return nil
         }
         
@@ -218,8 +218,8 @@ open class Pantry {
         return warehouse.cacheExists()
     }
 
-    static func unpack<T: Storable>(_ dictionary: Dictionary<String, AnyObject>) -> T? {
-        let warehouse = getWarehouse(dictionary as AnyObject)
+    static func unpack<T: Storable>(_ dictionary: [String: Any]) -> T? {
+        let warehouse = getWarehouse(dictionary as Any)
         
         return T(warehouse: warehouse)
     }
@@ -232,7 +232,7 @@ open class Pantry {
         }
     }
 
-    static func getWarehouse(_ forContext: AnyObject) -> Warehouseable {
+    static func getWarehouse(_ forContext: Any) -> Warehouseable {
         if let inMemoryIdentifier = Pantry.enableInMemoryModeWithIdentifier {
             return MemoryWarehouse(context: forContext, inMemoryIdentifier: inMemoryIdentifier)
         } else {

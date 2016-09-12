@@ -15,13 +15,13 @@ A `JSONWarehouse` is passed in the init function of a struct that conforms to `S
 */
 open class JSONWarehouse: Warehouseable, WarehouseCacheable {
     var key: String
-    var context: AnyObject?
+    var context: Any?
     
     public init(key: String) {
         self.key = key
     }
     
-    public init(context: AnyObject) {
+    public init(context: Any) {
         self.key = ""
         self.context = context
     }
@@ -35,7 +35,7 @@ open class JSONWarehouse: Warehouseable, WarehouseCacheable {
      */
     open func get<T: StorableDefaultType>(_ valueKey: String) -> T? {
 
-        guard let dictionary = loadCache(),
+        guard let dictionary = loadCache() as? [String: Any],
             let result = dictionary[valueKey] as? T else {
                 return nil
         }
@@ -51,8 +51,8 @@ open class JSONWarehouse: Warehouseable, WarehouseCacheable {
      */
     open func get<T: StorableDefaultType>(_ valueKey: String) -> [T]? {
 
-        guard let dictionary = loadCache() as? Dictionary<String, AnyObject>,
-            let result = dictionary[valueKey] as? Array<AnyObject> else {
+        guard let dictionary = loadCache() as? [String: Any],
+            let result = dictionary[valueKey] as? [Any] else {
                 return nil
         }
 
@@ -73,7 +73,7 @@ open class JSONWarehouse: Warehouseable, WarehouseCacheable {
      */
     open func get<T: Storable>(_ valueKey: String) -> T? {
 
-        guard let dictionary = loadCache() as? Dictionary<String, AnyObject>,
+        guard let dictionary = loadCache() as? [String: Any],
             let result = dictionary[valueKey] else {
                 return nil
         }
@@ -91,14 +91,14 @@ open class JSONWarehouse: Warehouseable, WarehouseCacheable {
      */
     open func get<T: Storable>(_ valueKey: String) -> [T]? {
 
-        guard let dictionary = loadCache() as? Dictionary<String, AnyObject>,
-            let result = dictionary[valueKey] as? Array<AnyObject> else {
+        guard let dictionary = loadCache() as? [String: Any],
+            let result = dictionary[valueKey] as? [Any] else {
                 return nil
         }
 
         var unpackedItems = [T]()
-        for case let item as Dictionary<String, AnyObject> in result {
-            let warehouse = JSONWarehouse(context: item as AnyObject)
+        for case let item as [String: Any] in result {
+            let warehouse = JSONWarehouse(context: item)
             if let item = T(warehouse: warehouse) {
                 unpackedItems.append(item)
             }
@@ -107,11 +107,11 @@ open class JSONWarehouse: Warehouseable, WarehouseCacheable {
         return unpackedItems
     }
     
-    func write(_ object: AnyObject, expires: StorageExpiry) {
+    func write(_ object: Any, expires: StorageExpiry) {
         let cacheLocation = cacheFileURL()
-        var storableDictionary = [String: AnyObject]()
+        var storableDictionary: [String: Any] = [:]
         
-        storableDictionary["expires"] = expires.toDate().timeIntervalSince1970 as AnyObject?
+        storableDictionary["expires"] = expires.toDate().timeIntervalSince1970
         storableDictionary["storage"] = object
 
         do {
@@ -134,7 +134,7 @@ open class JSONWarehouse: Warehouseable, WarehouseCacheable {
         try! FileManager.default.removeItem(at: JSONWarehouse.cacheDirectory)
     }
     
-    func loadCache() -> AnyObject? {
+    func loadCache() -> Any? {
         guard context == nil else {
             return context
         }
@@ -142,15 +142,15 @@ open class JSONWarehouse: Warehouseable, WarehouseCacheable {
         let cacheLocation = cacheFileURL()
 
         if let data = try? Data(contentsOf: cacheLocation),
-            let metaDictionary = try? JSONSerialization.jsonObject(with: data) as? [String: AnyObject],
+            let metaDictionary = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
             let cache = metaDictionary?["storage"] {
-            return cache as AnyObject?
+            return cache
         }
 
         if let data = try? Data(contentsOf: cacheLocation),
-        let metaDictionary = try? JSONSerialization.jsonObject(with: data) as? [String: AnyObject],
+        let metaDictionary = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
             let cache = metaDictionary?["storage"] {
-            return cache as AnyObject?
+            return cache
         }
 
         return nil
@@ -159,7 +159,7 @@ open class JSONWarehouse: Warehouseable, WarehouseCacheable {
     func cacheExists() -> Bool {
         guard FileManager.default.fileExists(atPath: cacheFileURL().path),
             let data = try? Data(contentsOf: cacheFileURL()),
-            let metaDictionary = try? JSONSerialization.jsonObject(with: data) as? [String: AnyObject] else {
+            let metaDictionary = try? JSONSerialization.jsonObject(with: data) as? [String: Any] else {
                 return false
         }
 
