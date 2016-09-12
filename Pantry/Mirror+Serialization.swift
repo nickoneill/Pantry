@@ -45,6 +45,10 @@ extension Mirror {
                 if let value = actualValue as? Storable {
                     return combine(result, addition: [key: value.toDictionary() as AnyObject])
                 } else {
+                    if let style = childMirror.displayStyle, style == .optional,
+                        childMirror.children.first == nil {
+                        actualValue = NSNull()
+                    }
                     return combine(result, addition: [key: actualValue as AnyObject])
                 }
             }
