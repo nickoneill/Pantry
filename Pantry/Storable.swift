@@ -101,7 +101,21 @@ extension String: StorableDefaultType { }
 extension Int: StorableDefaultType { }
 extension Float: StorableDefaultType { }
 extension Double: StorableDefaultType { }
-extension NSDate: StorableDefaultType { }
+
+// MARK: Provide Storable implementation compatible with JSONSerialization
+extension Date: Storable {
+    public init?(warehouse: Warehouseable) {
+        if let value: TimeInterval = warehouse.get("timeSince1970") {
+            self.init(timeIntervalSince1970: value)
+            return
+        }
+        return nil
+    }
+
+    public func toDictionary() -> [String: AnyObject] {
+        return ["timeSince1970": self.timeIntervalSince1970 as AnyObject]
+    }
+}
 
 // MARK: Enums with Raw Values
 
