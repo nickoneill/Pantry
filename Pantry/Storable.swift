@@ -112,7 +112,7 @@ extension NSDate: StorableDefaultType { }
 *  Enums without a raw value e.g. with associated types are not supported.
 */
 public protocol StorableRawEnum: Storable {
-    typealias StorableRawType: StorableDefaultType
+    associatedtype StorableRawType: StorableDefaultType
 
     /// Provided automatically for enum's that have a raw value
     var rawValue: StorableRawType { get }
