@@ -27,12 +27,14 @@ class MemoryTests: XCTestCase {
         let float: Float = 10.2
         let double: Double = 12.7
         let date: NSDate = NSDate(timeIntervalSince1970: 1459355217)
+        let data: NSData = NSData(base64EncodedString: "R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7", options: [])!
 
         Pantry.pack(string, key: "ourTestString")
         Pantry.pack(int, key: "ourTestInt")
         Pantry.pack(float, key: "ourTestFloat")
         Pantry.pack(double,key: "ourTestDouble")
         Pantry.pack(date, key: "ourTestDate")
+        Pantry.pack(data, key: "ourTestData")
 
         if let unpackedString: String = Pantry.unpack("ourTestString") {
             XCTAssert(unpackedString == "Hello", "default string was incorrect")
@@ -59,7 +61,13 @@ class MemoryTests: XCTestCase {
             XCTAssert(unpackedDate.timeIntervalSince1970 == 1459355217 , "default date was incorrect")
         }
         else {
-            XCTFail("no default double could be unpacked")
+            XCTFail("no default date could be unpacked")
+        }
+        if let unpackedData: NSData = Pantry.unpack("ourTestData") {
+            XCTAssert(unpackedData.base64EncodedStringWithOptions([]) == "R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7", "default data was incorrect")
+        }
+        else {
+            XCTFail("no default data could be unpacked")
         }
     }
 

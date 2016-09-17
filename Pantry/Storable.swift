@@ -39,7 +39,7 @@ public protocol Storable {
     /**
      Dictionary representation  
 
-     Returns the dictioanry representation of the current struct
+     Returns the dictionary representation of the current struct
      - returns: [String: AnyObject]
      */
     func toDictionary() -> [String: AnyObject]
@@ -48,7 +48,7 @@ public protocol Storable {
 public extension Storable {
     /**
      Dictionary representation
-     Returns the dictioanry representation of the current struct
+     Returns the dictionary representation of the current struct
      
      - returns: [String: AnyObject]
      */
@@ -91,7 +91,7 @@ public enum StorageExpiry {
 /**
 Default storable types
 
-Default types are `Bool`, `String`, `Int`, `Float`, `Double`, `NSDate`
+Default types are `Bool`, `String`, `Int`, `Float`, `Double`, `NSDate`, `NSData`
 */
 public protocol StorableDefaultType {
 }
@@ -101,7 +101,6 @@ extension String: StorableDefaultType { }
 extension Int: StorableDefaultType { }
 extension Float: StorableDefaultType { }
 extension Double: StorableDefaultType { }
-extension NSDate: StorableDefaultType { }
 
 // MARK: Enums with Raw Values
 
@@ -134,5 +133,13 @@ public extension StorableRawEnum {
         } else {
             return [: ]
         }
+    }
+}
+
+internal extension NSCoding {
+    func toDictionary() -> [String: AnyObject] {
+        let data = NSKeyedArchiver.archivedDataWithRootObject(self)
+        let dataString = data.base64EncodedStringWithOptions([])
+        return ["NSKeyedArchiverDataString": dataString]
     }
 }
