@@ -55,7 +55,7 @@ Pantry requires iOS 8+ and is compatible with **Swift 2** projects. Objective-C 
 
 Installation for [Carthage](https://github.com/Carthage/Carthage) is simple enough:
 
-`github "nickoneill/Pantry" ~> 0.2.1`
+`github "nickoneill/Pantry" ~> 0.2.2`
 
 As for [CocoaPods](https://cocoapods.org), use this to get the latest release:
 
