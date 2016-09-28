@@ -126,7 +126,11 @@ public class JSONWarehouse: Warehouseable, WarehouseCacheable {
     }
     
     static func removeAllCache() {
-        try! NSFileManager.defaultManager().removeItemAtURL(JSONWarehouse.cacheDirectory)
+        do {
+            try NSFileManager.defaultManager().removeItemAtURL(JSONWarehouse.cacheDirectory)
+        } catch {
+            print("error removing all cache",error)
+        }
     }
     
     func loadCache() -> AnyObject? {
