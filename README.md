@@ -4,7 +4,7 @@
 
 <p align="center">
     <img src="https://img.shields.io/badge/platform-iOS%208%2B-blue.svg?style=flat" alt="Platform: iOS 8+" />
-    <a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/language-swift2-f48041.svg?style=flat" alt="Language: Swift 2" /></a>
+    <a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/language-swift3-f48041.svg?style=flat" alt="Language: Swift 3" /></a>
     <a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" alt="Carthage compatible" /></a>
     <a href="https://cocoapods.org/pods/Pantry"><img src="https://cocoapod-badges.herokuapp.com/v/Pantry/badge.png" alt="CocoaPods compatible" /></a>
     <a href="http://cocoadocs.org/docsets/Pantry"><img src="https://img.shields.io/cocoapods/metrics/doc-percent/Pantry.svg" alt="Docs" /></a>
@@ -17,7 +17,7 @@
   • <a href="#license">License</a>
 </p>
 
-#### Pantry is new! Please join us in [issues](https://github.com/nickoneill/Pantry/issues) if you'd like to help us get to 1.0. And read about more [use cases for Pantry](https://medium.com/ios-os-x-development/the-missing-light-persistence-layer-for-swift-35ce75d02d47).
+#### Please join us in [issues](https://github.com/nickoneill/Pantry/issues) if you'd like to help us get to 1.0. And read about more [use cases for Pantry](https://medium.com/ios-os-x-development/the-missing-light-persistence-layer-for-swift-35ce75d02d47).
 
 Pantry is a lightweight way to persist structs containing user data, cached content or other relevant objects for later retrieval.
 
@@ -49,13 +49,13 @@ Check out [the tests](https://github.com/nickoneill/Pantry/blob/master/PantryTes
 
 ## Compatibility
 
-Pantry requires iOS 8+ and is compatible with **Swift 2** projects. Objective-C support is unlikely.
+Pantry requires iOS 8+ and is compatible with **Swift 3** projects. Please use release `0.2.2` for the final Swift 2.x supported version, or the `swift2` branch. Objective-C support is unlikely.
 
 ## Installation
 
 Installation for [Carthage](https://github.com/Carthage/Carthage) is simple enough:
 
-`github "nickoneill/Pantry" ~> 0.2.2`
+`github "nickoneill/Pantry" ~> 0.3`
 
 As for [CocoaPods](https://cocoapods.org), use this to get the latest release:
 
