@@ -132,7 +132,7 @@ open class JSONWarehouse: Warehouseable, WarehouseCacheable {
     
     static func removeAllCache() {
         do {
-            try NSFileManager.defaultManager().removeItemAtURL(JSONWarehouse.cacheDirectory)
+            try FileManager.default.removeItem(at: JSONWarehouse.cacheDirectory)
         } catch {
             print("error removing all cache",error)
         }
@@ -192,12 +192,14 @@ open class JSONWarehouse: Warehouseable, WarehouseCacheable {
     func cacheFileURL() -> URL {
         let cacheDirectory = JSONWarehouse.cacheDirectory
 
-        let cacheLocation = cacheDirectory.URLByAppendingPathComponent(self.key)
-        try! NSFileManager.defaultManager().createDirectoryAtURL(cacheDirectory, withIntermediateDirectories: true, attributes: nil)
-        #if swift(>=2.3)
-            return cacheLocation!
-        #else
-            return cacheLocation
-        #endif
+        let cacheLocation = cacheDirectory.appendingPathComponent(self.key)
+
+        do {
+            try FileManager.default.createDirectory(at: cacheDirectory, withIntermediateDirectories: true, attributes: nil)
+        } catch {
+            print("couldn't create directories to \(cacheLocation)")
+        }
+
+        return cacheLocation
     }
 }
