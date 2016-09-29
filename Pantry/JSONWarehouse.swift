@@ -8,20 +8,20 @@
 
 import Foundation
 
-/** 
-JSONWarehouse serializes and deserializes data 
+/**
+JSONWarehouse serializes and deserializes data
 
 A `JSONWarehouse` is passed in the init function of a struct that conforms to `Storable`
 */
-public class JSONWarehouse: Warehouseable, WarehouseCacheable {
+open class JSONWarehouse: Warehouseable, WarehouseCacheable {
     var key: String
-    var context: AnyObject?
-    
+    var context: Any?
+
     public init(key: String) {
         self.key = key
     }
-    
-    public init(context: AnyObject) {
+
+    public init(context: Any) {
         self.key = ""
         self.context = context
     }
@@ -33,9 +33,9 @@ public class JSONWarehouse: Warehouseable, WarehouseCacheable {
 
      - SeeAlso: `StorableDefaultType`
      */
-    public func get<T: StorableDefaultType>(valueKey: String) -> T? {
+    open func get<T: StorableDefaultType>(_ valueKey: String) -> T? {
 
-        guard let dictionary = loadCache(),
+        guard let dictionary = loadCache() as? [String: Any],
             let result = dictionary[valueKey] as? T else {
                 return nil
         }
@@ -49,10 +49,10 @@ public class JSONWarehouse: Warehouseable, WarehouseCacheable {
 
      - SeeAlso: `StorableDefaultType`
      */
-    public func get<T: StorableDefaultType>(valueKey: String) -> [T]? {
+    open func get<T: StorableDefaultType>(_ valueKey: String) -> [T]? {
 
-        guard let dictionary = loadCache() as? Dictionary<String, AnyObject>,
-            let result = dictionary[valueKey] as? Array<AnyObject> else {
+        guard let dictionary = loadCache() as? [String: Any],
+            let result = dictionary[valueKey] as? [Any] else {
                 return nil
         }
 
@@ -71,9 +71,9 @@ public class JSONWarehouse: Warehouseable, WarehouseCacheable {
 
      - SeeAlso: `Storable`
      */
-    public func get<T: Storable>(valueKey: String) -> T? {
+    open func get<T: Storable>(_ valueKey: String) -> T? {
 
-        guard let dictionary = loadCache() as? Dictionary<String, AnyObject>,
+        guard let dictionary = loadCache() as? [String: Any],
             let result = dictionary[valueKey] else {
                 return nil
         }
@@ -89,15 +89,15 @@ public class JSONWarehouse: Warehouseable, WarehouseCacheable {
 
      - SeeAlso: `Storable`
      */
-    public func get<T: Storable>(valueKey: String) -> [T]? {
+    open func get<T: Storable>(_ valueKey: String) -> [T]? {
 
-        guard let dictionary = loadCache() as? Dictionary<String, AnyObject>,
-            let result = dictionary[valueKey] as? Array<AnyObject> else {
+        guard let dictionary = loadCache() as? [String: Any],
+            let result = dictionary[valueKey] as? [Any] else {
                 return nil
         }
 
         var unpackedItems = [T]()
-        for case let item as Dictionary<String, AnyObject> in result {
+        for case let item as [String: Any] in result {
             let warehouse = JSONWarehouse(context: item)
             if let item = T(warehouse: warehouse) {
                 unpackedItems.append(item)
@@ -106,22 +106,27 @@ public class JSONWarehouse: Warehouseable, WarehouseCacheable {
 
         return unpackedItems
     }
-    
-    func write(object: AnyObject, expires: StorageExpiry) {
+
+    func write(_ object: Any, expires: StorageExpiry) {
         let cacheLocation = cacheFileURL()
-        var storableDictionary = [String: AnyObject]()
+        var storableDictionary: [String: Any] = [:]
         
         storableDictionary["expires"] = expires.toDate().timeIntervalSince1970
         storableDictionary["storage"] = object
-        
-        let _ = (storableDictionary as NSDictionary).writeToURL(cacheLocation, atomically: true)
+
+        do {
+            let data = try JSONSerialization.data(withJSONObject: storableDictionary, options: .prettyPrinted)
+            try data.write(to: cacheLocation, options: .atomic)
+        } catch {
+            debugPrint("\(error)")
+        }
     }
     
     func removeCache() {
         do {
-            try NSFileManager.defaultManager().removeItemAtURL(cacheFileURL())
+            try FileManager.default.removeItem(at: cacheFileURL())
         } catch {
-            print("error removing cache",error)
+            print("error removing cache", error)
         }
     }
     
@@ -133,35 +138,41 @@ public class JSONWarehouse: Warehouseable, WarehouseCacheable {
         }
     }
     
-    func loadCache() -> AnyObject? {
-
+    func loadCache() -> Any? {
         guard context == nil else {
             return context
         }
 
         let cacheLocation = cacheFileURL()
-        
-        if let metaDictionary = NSDictionary(contentsOfURL: cacheLocation),
-            let cache = metaDictionary["storage"] {
-                return cache
+
+        if let data = try? Data(contentsOf: cacheLocation),
+            let metaDictionary = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+            let cache = metaDictionary?["storage"] {
+            return cache
+        }
+
+        if let data = try? Data(contentsOf: cacheLocation),
+        let metaDictionary = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+            let cache = metaDictionary?["storage"] {
+            return cache
         }
 
         return nil
     }
     
     func cacheExists() -> Bool {
-
-        guard NSFileManager.defaultManager().fileExistsAtPath(cacheFileURL().path!),
-            let metaDictionary = NSDictionary(contentsOfURL: cacheFileURL()) else {
+        guard FileManager.default.fileExists(atPath: cacheFileURL().path),
+            let data = try? Data(contentsOf: cacheFileURL()),
+            let metaDictionary = try? JSONSerialization.jsonObject(with: data) as? [String: Any] else {
                 return false
         }
 
-        guard let expires = metaDictionary["expires"] as? NSTimeInterval else {
+        guard let expires = metaDictionary?["expires"] as? TimeInterval else {
             // no expire time means old cache, never expires
             return true
         }
 
-        let nowInterval = NSDate().timeIntervalSince1970
+        let nowInterval = Date().timeIntervalSince1970
         
         if expires > nowInterval {
             return true
@@ -171,20 +182,16 @@ public class JSONWarehouse: Warehouseable, WarehouseCacheable {
         }
     }
     
-    static var cacheDirectory: NSURL {
-        let url = NSFileManager.defaultManager().URLsForDirectory(.CachesDirectory, inDomains: .UserDomainMask).first!
+    static var cacheDirectory: URL {
+        let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
         
-        let writeDirectory = url.URLByAppendingPathComponent("com.thatthinginswift.pantry")
-        #if swift(>=2.3)
-            return writeDirectory!
-        #else
-            return writeDirectory
-        #endif
-
+        let writeDirectory = url.appendingPathComponent("com.thatthinginswift.pantry")
+        return writeDirectory
     }
     
-    func cacheFileURL() -> NSURL {
+    func cacheFileURL() -> URL {
         let cacheDirectory = JSONWarehouse.cacheDirectory
+
         let cacheLocation = cacheDirectory.URLByAppendingPathComponent(self.key)
         try! NSFileManager.defaultManager().createDirectoryAtURL(cacheDirectory, withIntermediateDirectories: true, attributes: nil)
         #if swift(>=2.3)

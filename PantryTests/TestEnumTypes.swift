@@ -9,9 +9,9 @@
 import Foundation
 
 enum IntEnum: Int, StorableRawEnum {
-    case Case1 = 1
-    case Case2 = 2
-    case Case3 = 3
+    case case1 = 1
+    case case2 = 2
+    case case3 = 3
 }
 
 enum StringEnum: String, StorableRawEnum {
@@ -21,9 +21,9 @@ enum StringEnum: String, StorableRawEnum {
 }
 
 enum FloatEnum: Float, StorableRawEnum {
-    case Case1 = 1.0
-    case Case2 = 2.0
-    case Case3 = 3.0
+    case case1 = 1.0
+    case case2 = 2.0
+    case case3 = 3.0
 }
 
 struct StructWithEnum: Storable {
@@ -37,6 +37,6 @@ struct StructWithEnum: Storable {
     
     init(warehouse: Warehouseable) {
         self.lastName = warehouse.get("lastName")
-        self.cases = warehouse.get("cases") ?? .Case3
+        self.cases = warehouse.get("cases") ?? .case3
     }
 }
