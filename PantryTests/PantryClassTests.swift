@@ -9,24 +9,25 @@
 import XCTest
 @testable import Pantry
 
-var classToken: dispatch_once_t = 0
+var classToken: Int = 0
 
 class PantryClassTests: XCTestCase {
+    private static var __once: () = {
+            let testFolder = JSONWarehouse(key: "classes").cacheFileURL().deletingLastPathComponent()
+            print("testing in", testFolder)
+            
+            // remove old files before our test
+            let urls = try? FileManager.default.contentsOfDirectory(at: testFolder, includingPropertiesForKeys: nil, options: [.skipsSubdirectoryDescendants, .skipsHiddenFiles])
+            if let urls = urls {
+                for url in urls {
+                    let _ = try? FileManager.default.removeItem(at: url)
+                }
+            }
+        }()
     override func setUp() {
         super.setUp()
         
-        dispatch_once(&classToken) {
-            let testFolder = JSONWarehouse(key: "classes").cacheFileURL().URLByDeletingLastPathComponent!
-            print("testing in",testFolder)
-            
-            // remove old files before our test
-            let urls = try? NSFileManager.defaultManager().contentsOfDirectoryAtURL(testFolder, includingPropertiesForKeys: nil, options: [.SkipsSubdirectoryDescendants, .SkipsHiddenFiles])
-            if let urls = urls {
-                for url in urls {
-                    let _ = try? NSFileManager.defaultManager().removeItemAtURL(url)
-                }
-            }
-        }
+        _ = PantryClassTests.__once
     }
     
     override func tearDown() {
@@ -102,7 +103,7 @@ class PantryClassTests: XCTestCase {
     
     // nested arrays of default types
     func testClassNestedArray() {
-        let nested = NestedDefaultClass(names: ["Nested","Default","Array"], numbers: [1,3,5,7,9], ages: [31.5, 42.0, 23.1])
+        let nested = NestedDefaultClass(names: ["Nested", "Default", "Array"], numbers: [1, 3, 5, 7, 9], ages: [31.5, 42.0, 23.1])
         
         Pantry.pack(nested, key: "nested_default")
         

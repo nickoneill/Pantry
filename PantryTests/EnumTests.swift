@@ -11,21 +11,23 @@ import XCTest
 
 class EnumTests: XCTestCase {
 
+    private static var __once: () = {
+            let testFolder = JSONWarehouse(key: "basic").cacheFileURL().deletingLastPathComponent()
+            print("testing in", testFolder)
+
+            // remove old files before our test
+            let urls = try? FileManager.default.contentsOfDirectory(at: testFolder, includingPropertiesForKeys: nil, options: [.skipsSubdirectoryDescendants, .skipsHiddenFiles])
+            if let urls = urls {
+                for url in urls {
+                    let _ = try? FileManager.default.removeItem(at: url)
+                }
+            }
+        }()
+
     override func setUp() {
         super.setUp()
 
-        dispatch_once(&token) {
-            let testFolder = JSONWarehouse(key: "basic").cacheFileURL().URLByDeletingLastPathComponent!
-            print("testing in",testFolder)
-
-            // remove old files before our test
-            let urls = try? NSFileManager.defaultManager().contentsOfDirectoryAtURL(testFolder, includingPropertiesForKeys: nil, options: [.SkipsSubdirectoryDescendants, .SkipsHiddenFiles])
-            if let urls = urls {
-                for url in urls {
-                    let _ = try? NSFileManager.defaultManager().removeItemAtURL(url)
-                }
-            }
-        }
+        _ = EnumTests.__once
     }
 
     override func tearDown() {
@@ -33,16 +35,16 @@ class EnumTests: XCTestCase {
     }
 
     func testEnumStorable() {
-        let intEnum = IntEnum.Case1
+        let intEnum = IntEnum.case1
         let stringEnum = StringEnum.Case1
-        let floatEnum = FloatEnum.Case1
+        let floatEnum = FloatEnum.case1
 
         Pantry.pack(intEnum, key: "int_enum")
         Pantry.pack(stringEnum, key: "string_enum")
         Pantry.pack(floatEnum, key: "float_enum")
 
         if let unpackedIntEnum: IntEnum = Pantry.unpack("int_enum") {
-            XCTAssert(unpackedIntEnum == IntEnum.Case1)
+            XCTAssert(unpackedIntEnum == IntEnum.case1)
         } else {
             XCTFail("no enum storable could be unpacked")
         }
@@ -52,20 +54,20 @@ class EnumTests: XCTestCase {
             XCTFail("no enum storable could be unpacked")
         }
         if let unpackedFloatEnum: FloatEnum = Pantry.unpack("float_enum") {
-            XCTAssert(unpackedFloatEnum == FloatEnum.Case1)
+            XCTAssert(unpackedFloatEnum == FloatEnum.case1)
         } else {
             XCTFail("no enum storable could be unpacked")
         }
     }
     
     func testEnumInStruct() {
-        let myStruct = StructWithEnum(lastName: "Plisken", cases: IntEnum.Case2)
+        let myStruct = StructWithEnum(lastName: "Plisken", cases: IntEnum.case2)
         Pantry.pack(myStruct, key: "myStruct")
 
 
         if let unpacked: StructWithEnum = Pantry.unpack("myStruct") {
             XCTAssert(unpacked.lastName == "Plisken")
-            XCTAssert(unpacked.cases == IntEnum.Case2)
+            XCTAssert(unpacked.cases == IntEnum.case2)
         } else {
             XCTFail("no enum storable could be unpacked")
         }

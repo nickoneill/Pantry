@@ -10,16 +10,16 @@ import Foundation
 import Pantry
 
 class EmptyWarehouse: Warehouseable {
-    func get<T : Storable>(valueKey: String) -> [T]? {
+    func get<T: Storable>(_ valueKey: String) -> [T]? {
         return nil
     }
-    func get<T : Storable>(valueKey: String) -> T? {
+    func get<T: Storable>(_ valueKey: String) -> T? {
         return nil
     }
-    func get<T : StorableDefaultType>(valueKey: String) -> [T]? {
+    func get<T: StorableDefaultType>(_ valueKey: String) -> [T]? {
         return nil
     }
-    func get<T : StorableDefaultType>(valueKey: String) -> T? {
+    func get<T: StorableDefaultType>(_ valueKey: String) -> T? {
         return nil
     }
 }

@@ -40,9 +40,9 @@ public protocol Storable {
      Dictionary representation  
 
      Returns the dictioanry representation of the current struct
-     - returns: [String: AnyObject]
+     - returns: [String: Any]
      */
-    func toDictionary() -> [String: AnyObject]
+    func toDictionary() -> [String: Any]
 }
 
 public extension Storable {
@@ -50,9 +50,9 @@ public extension Storable {
      Dictionary representation
      Returns the dictioanry representation of the current struct
      
-     - returns: [String: AnyObject]
+     - returns: [String: Any]
      */
-    func toDictionary() -> [String: AnyObject] {
+    func toDictionary() -> [String: Any] {
         return Mirror(reflecting: self).toDictionary()
     }
 }
@@ -62,11 +62,11 @@ public extension Storable {
  */
 public enum StorageExpiry {
     /// the storage never expires
-    case Never
+    case never
     /// the storage expires after a given timeout in seconds (`NSTimeInterval`)
-    case Seconds(NSTimeInterval)
+    case seconds(TimeInterval)
     /// the storage expires at a given date (`NSDate`)
-    case Date(NSDate)
+    case date(Foundation.Date)
 
     /**
      Expiry date
@@ -74,13 +74,13 @@ public enum StorageExpiry {
      Returns the date of the storage expiration
      - returns NSDate
      */
-    func toDate() -> NSDate {
+    func toDate() -> Foundation.Date {
         switch self {
-        case Never:
-            return NSDate.distantFuture()
-        case Seconds(let timeInterval):
-            return NSDate(timeIntervalSinceNow: timeInterval)
-        case Date(let date):
+        case .never:
+            return Foundation.Date.distantFuture
+        case .seconds(let timeInterval):
+            return Foundation.Date(timeIntervalSinceNow: timeInterval)
+        case .date(let date):
             return date
         }
     }
@@ -91,7 +91,7 @@ public enum StorageExpiry {
 /**
 Default storable types
 
-Default types are `Bool`, `String`, `Int`, `Float`, `Double`, `NSDate`
+Default types are `Bool`, `String`, `Int`, `Float`, `Double`, `Date`
 */
 public protocol StorableDefaultType {
 }
@@ -101,7 +101,21 @@ extension String: StorableDefaultType { }
 extension Int: StorableDefaultType { }
 extension Float: StorableDefaultType { }
 extension Double: StorableDefaultType { }
-extension NSDate: StorableDefaultType { }
+
+// MARK: Provide Storable implementation compatible with JSONSerialization
+extension Date: Storable {
+    public init?(warehouse: Warehouseable) {
+        if let value: TimeInterval = warehouse.get("timeSince1970") {
+            self.init(timeIntervalSince1970: value)
+            return
+        }
+        return nil
+    }
+
+    public func toDictionary() -> [String: Any] {
+        return ["timeSince1970": self.timeIntervalSince1970 as Any]
+    }
+}
 
 // MARK: Enums with Raw Values
 
@@ -128,11 +142,7 @@ public extension StorableRawEnum {
         return nil
     }
 
-    func toDictionary() -> [String: AnyObject] {
-        if let value = rawValue as? AnyObject {
-            return ["rawValue": value]
-        } else {
-            return [: ]
-        }
+    func toDictionary() -> [String: Any] {
+        return ["rawValue": rawValue as Any]
     }
 }
