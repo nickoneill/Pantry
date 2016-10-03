@@ -253,6 +253,7 @@
 				TargetAttributes = {
 					D0577A511BEACF4A00A8B8FF = {
 						CreatedOnToolsVersion = 7.1;
+						LastSwiftMigration = 0800;
 					};
 					D0C0A3BC1BE2B80300FB703A = {
 						CreatedOnToolsVersion = 7.1;
@@ -393,6 +394,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.thatthinginswift.PantryExample;
 				PRODUCT_NAME = PantryExample;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -405,6 +407,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.thatthinginswift.PantryExample;
 				PRODUCT_NAME = PantryExample;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

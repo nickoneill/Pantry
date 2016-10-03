@@ -30,7 +30,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction func saveText() {
-        if let text = textField.text where !text.isEmpty {
+        if let text = textField.text , !text.isEmpty {
             Pantry.pack(text, key: "saved_text")
             textField.text = ""
             print("Stored text")
@@ -44,7 +44,7 @@ class ViewController: UIViewController {
         }
     }
 
-    @IBAction func segmentTapped(sender: UISegmentedControl) {
+    @IBAction func segmentTapped(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
             autopersist = "first"
