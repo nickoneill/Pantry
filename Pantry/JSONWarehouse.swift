@@ -114,8 +114,14 @@ open class JSONWarehouse: Warehouseable, WarehouseCacheable {
         storableDictionary["expires"] = expires.toDate().timeIntervalSince1970
         storableDictionary["storage"] = object
 
+        guard JSONSerialization.isValidJSONObject(storableDictionary) else {
+            debugPrint("Not a valid JSON object: \(object)")
+            return
+        }
+
         do {
             let data = try JSONSerialization.data(withJSONObject: storableDictionary, options: .prettyPrinted)
+
             try data.write(to: cacheLocation, options: .atomic)
         } catch {
             debugPrint("\(error)")
