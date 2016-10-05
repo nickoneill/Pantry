@@ -147,6 +147,15 @@ class PantryTests: XCTestCase {
         XCTAssert(unpacked == nil)
     }
 
+    func testNilValuesFails() {
+        let failing = FailingNil()
+        print(failing.toDictionary())
+        Pantry.pack(failing, key: "failing")
+
+        let unpacked: FailingNil? = Pantry.unpack("failing")
+        XCTAssert(unpacked == nil)
+    }
+
     func testStorableArray() {
         let first = Basic(name: "Nick", age: 31.5, number: 42)
         let second = Basic(name: "Rebecca", age: 28.3, number: 87)
