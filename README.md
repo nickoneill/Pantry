@@ -119,7 +119,7 @@ struct Basic: Storable {
         self.number = warehouse.get("number") ?? 10
     }
 
-    func toDictionary() -> [String : AnyObject] {
+    func toDictionary() -> [String : Any] {
         return [ "name": self.name, "age": self.age, "number": self.number ]
     }
 }
@@ -133,12 +133,12 @@ Classes are also supported and can be setup the same way Structs are however the
 ```swift
 class ModelBase: Storable {
     let id: String
-    
+
     required init(warehouse: Warehouseable) {
         self.id = warehouse.get("id") ?? "default_id"
     }
 
-    func toDictionary() -> [String : AnyObject] {
+    func toDictionary() -> [String : Any] {
         return [ "id": self.id ]
     }
 }
@@ -147,16 +147,16 @@ class BasicClassModel: ModelBase {
     let name: String
     let age: Float
     let number: Int
-    
+
     required init(warehouse: Warehouseable) {
         self.name = warehouse.get("name") ?? "default"
         self.age = warehouse.get("age") ?? 20.5
         self.number = warehouse.get("number") ?? 10
-        
+
         super.init(warehouse: warehouse)
     }
 
-    func toDictionary() -> [String : AnyObject] {
+    func toDictionary() -> [String : Any] {
         var dictionary = super.toDictionary()
         dictionary["name"] = self.name
         dictionary["age"] = self.age
