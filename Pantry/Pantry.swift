@@ -35,6 +35,9 @@ open class Pantry {
     // Set to a string identifier to enable in memory mode with no persistent caching. Useful for unit testing.
     open static var enableInMemoryModeWithIdentifier: String?
 
+    // This is where we should actually store things, flag for now so people can upgrade
+    open static var useApplicationSupportDirectory: Bool = false
+
     // MARK: pack generics
 
     /**

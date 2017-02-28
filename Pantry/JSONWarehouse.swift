@@ -122,7 +122,7 @@ open class JSONWarehouse: Warehouseable, WarehouseCacheable {
         do {
             let data = try JSONSerialization.data(withJSONObject: storableDictionary, options: .prettyPrinted)
 
-            try data.write(to: cacheLocation, options: .atomic)
+            try data.write(to: cacheLocation, options: [.atomic, .completeFileProtectionUnlessOpen])
         } catch {
             debugPrint("\(error)")
         }
@@ -189,8 +189,13 @@ open class JSONWarehouse: Warehouseable, WarehouseCacheable {
     }
     
     static var cacheDirectory: URL {
-        let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
-        
+        let url: URL
+        if Pantry.useApplicationSupportDirectory {
+            url = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
+        } else {
+            url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
+        }
+
         let writeDirectory = url.appendingPathComponent("com.thatthinginswift.pantry")
         return writeDirectory
     }
