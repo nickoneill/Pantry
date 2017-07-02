@@ -1,3 +1,5 @@
+## If you're planning on using Swift 4 in the near future, please consider using the new [Codable](https://developer.apple.com/documentation/swift/codable) protocols which provide the same functionality as Pantry in the core Swift library. Pantry will not be supported going forward.
+
 <p align="center">
     <img src="http://raquo.net/images/banner-pantry.png" alt="Storage" />
 </p>
