@@ -100,7 +100,7 @@ extension MemoryWarehouse: WarehouseCacheable {
         MemoryWarehouse.globalCache.removeValue(forKey: key)
     }
     
-    static func removeAllCache() {
+    static func removeAllCache(for storageType: StorageType) {
         MemoryWarehouse.globalCache = [:]
     }
 

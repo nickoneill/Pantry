@@ -17,6 +17,7 @@
 		658AA9001C0C6E0C00DD4834 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 658AA8FF1C0C6E0C00DD4834 /* Assets.xcassets */; };
 		658AA9051C0C6E1100DD4834 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 658AA9011C0C6E1100DD4834 /* LaunchScreen.storyboard */; };
 		658AA9061C0C6E1100DD4834 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 658AA9031C0C6E1100DD4834 /* Main.storyboard */; };
+		A5DD953320BEC8AB00784A82 /* StorageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DD953220BEC8AB00784A82 /* StorageType.swift */; };
 		AF3C06E51C3CAC9800234504 /* EnumTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3C06E31C3CAC1400234504 /* EnumTests.swift */; };
 		AF5486601C16360C00E00CD0 /* MemoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF54865F1C16360C00E00CD0 /* MemoryTests.swift */; };
 		AF5486621C16385500E00CD0 /* TestTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5486611C16385500E00CD0 /* TestTypes.swift */; };
@@ -65,6 +66,7 @@
 		658AA9071C0C6E1800DD4834 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = PantryExample/Info.plist; sourceTree = SOURCE_ROOT; };
 		658AA9081C0C7CC700DD4834 /* Storable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Storable.swift; path = Pantry/Storable.swift; sourceTree = SOURCE_ROOT; };
 		658AA90C1C0C823800DD4834 /* JSONWarehouse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JSONWarehouse.swift; path = Pantry/JSONWarehouse.swift; sourceTree = SOURCE_ROOT; };
+		A5DD953220BEC8AB00784A82 /* StorageType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StorageType.swift; path = Pantry/StorageType.swift; sourceTree = SOURCE_ROOT; };
 		AF3C06E31C3CAC1400234504 /* EnumTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnumTests.swift; path = PantryTests/EnumTests.swift; sourceTree = SOURCE_ROOT; };
 		AF5486561C160B2200E00CD0 /* Warehousable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Warehousable.swift; path = Pantry/Warehousable.swift; sourceTree = SOURCE_ROOT; };
 		AF5486591C16269A00E00CD0 /* MemoryWarehouse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MemoryWarehouse.swift; path = Pantry/MemoryWarehouse.swift; sourceTree = SOURCE_ROOT; };
@@ -148,6 +150,7 @@
 				658AA90C1C0C823800DD4834 /* JSONWarehouse.swift */,
 				658AA8F41C0C6D9B00DD4834 /* Pantry.h */,
 				658AA8F61C0C6DA200DD4834 /* Pantry.swift */,
+				A5DD953220BEC8AB00784A82 /* StorageType.swift */,
 				658AA9081C0C7CC700DD4834 /* Storable.swift */,
 				AF5486561C160B2200E00CD0 /* Warehousable.swift */,
 				AF54865C1C162B6A00E00CD0 /* WarehouseCacheable.swift */,
@@ -326,6 +329,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5DD953320BEC8AB00784A82 /* StorageType.swift in Sources */,
 				ECF52F611C53F3D000FBC6BA /* TestEnumTypes.swift in Sources */,
 				E3E39F201C19D574008989E9 /* MemoryWarehouse.swift in Sources */,
 				E3E39F211C19D574008989E9 /* JSONWarehouse.swift in Sources */,

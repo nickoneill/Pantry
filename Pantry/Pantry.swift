@@ -42,9 +42,10 @@ open class Pantry {
      - parameter object: Generic object that will be stored
      - parameter key: The object's key
      - parameter expires: The storage expiration. Defaults to `Never`
+     - parameter storageType: The storage type. Defaults to `.permanent`
      */
-    open static func pack<T: Storable>(_ object: T, key: String, expires: StorageExpiry = .never) {
-        let warehouse = getWarehouse(key)
+    open static func pack<T: Storable>(_ object: T, key: String, expires: StorageExpiry = .never, storageType: StorageType = .permanent) {
+        let warehouse = getWarehouse(key, storageType: storageType)
         
         warehouse.write(object.toDictionary() as Any, expires: expires)
     }
@@ -53,9 +54,10 @@ open class Pantry {
      Packs a generic collection of structs that conform to the `Storable` protocol
      - parameter objects: Generic collection of objects that will be stored
      - parameter key: The objects' key
+     - parameter storageType: The storage type. Defaults to `.permanent`
      */
-    open static func pack<T: Storable>(_ objects: [T], key: String, expires: StorageExpiry = .never) {
-        let warehouse = getWarehouse(key)
+    open static func pack<T: Storable>(_ objects: [T], key: String, expires: StorageExpiry = .never, storageType: StorageType = .permanent) {
+        let warehouse = getWarehouse(key, storageType: storageType)
         
         var result = [Any]()
         for object in objects {
@@ -70,11 +72,12 @@ open class Pantry {
      - parameter object: Default object that will be stored
      - parameter key: The object's key
      - parameter expires: The storage expiration. Defaults to `Never`
+     - parameter storageType: The storage type. Defaults to `.permanent`
      
      - SeeAlso: `StorableDefaultType`
      */
-    open static func pack<T: StorableDefaultType>(_ object: T, key: String, expires: StorageExpiry = .never) {
-        let warehouse = getWarehouse(key)
+    open static func pack<T: StorableDefaultType>(_ object: T, key: String, expires: StorageExpiry = .never, storageType: StorageType = .permanent) {
+        let warehouse = getWarehouse(key, storageType: storageType)
         
         warehouse.write(object as Any, expires: expires)
     }
@@ -83,11 +86,13 @@ open class Pantry {
      Packs a collection of default storage types.
      - parameter objects: Collection of objects that will be stored
      - parameter key: The object's key
+     - parameter expires: The storage expiration. Defaults to `Never`
+     - parameter storageType: The storage type. Defaults to `.permanent`
 
      - SeeAlso: `StorableDefaultType`
      */
-    open static func pack<T: StorableDefaultType>(_ objects: [T], key: String, expires: StorageExpiry = .never) {
-        let warehouse = getWarehouse(key)
+    open static func pack<T: StorableDefaultType>(_ objects: [T], key: String, expires: StorageExpiry = .never, storageType: StorageType = .permanent) {
+        let warehouse = getWarehouse(key, storageType: storageType)
         
         var result = [Any]()
         for object in objects {
@@ -101,11 +106,13 @@ open class Pantry {
      Packs a collection of optional default storage types.
      - parameter objects: Collection of optional objects that will be stored
      - parameter key: The object's key
+     - parameter expires: The storage expiration. Defaults to `Never`
+     - parameter storageType: The storage type. Defaults to `.permanent`
 
      - SeeAlso: `StorableDefaultType`
      */
-    open static func pack<T: StorableDefaultType>(_ objects: [T?], key: String, expires: StorageExpiry = .never) {
-        let warehouse = getWarehouse(key)
+    open static func pack<T: StorableDefaultType>(_ objects: [T?], key: String, expires: StorageExpiry = .never, storageType: StorageType = .permanent) {
+        let warehouse = getWarehouse(key, storageType: storageType)
         
         var result = [Any]()
         for object in objects {
@@ -121,10 +128,11 @@ open class Pantry {
     /**
     Unpacks a generic struct that conforms to the `Storable` protocol
     - parameter key: The object's key
+    - parameter storageType: The storage type. Defaults to `.permanent`
     - returns: T?
     */
-    open static func unpack<T: Storable>(_ key: String) -> T? {
-        let warehouse = getWarehouse(key)
+    open static func unpack<T: Storable>(_ key: String, storageType: StorageType = .permanent) -> T? {
+        let warehouse = getWarehouse(key, storageType: storageType)
         
         if warehouse.cacheExists() {
             return T(warehouse: warehouse)
@@ -136,10 +144,11 @@ open class Pantry {
     /**
      Unpacks a generic collection of structs that conform to the `Storable` protocol
      - parameter key: The objects' key
+     - parameter storageType: The storage type. Defaults to `.permanent`
      - returns: [T]?
      */
-    open static func unpack<T: Storable>(_ key: String) -> [T]? {
-        let warehouse = getWarehouse(key)
+    open static func unpack<T: Storable>(_ key: String, storageType: StorageType = .permanent) -> [T]? {
+        let warehouse = getWarehouse(key, storageType: storageType)
 
         guard warehouse.cacheExists(),
             let cache = warehouse.loadCache() as? Array<Any> else {
@@ -158,12 +167,13 @@ open class Pantry {
     /**
      Unpacks a collection of default storage types.
      - parameter key: The object's key
+     - parameter storageType: The storage type. Defaults to `.permanent`
      - returns: [T]?
 
      - SeeAlso: `StorableDefaultType`
      */
-    open static func unpack<T: StorableDefaultType>(_ key: String) -> [T]? {
-        let warehouse = getWarehouse(key)
+    open static func unpack<T: StorableDefaultType>(_ key: String, storageType: StorageType = .permanent) -> [T]? {
+        let warehouse = getWarehouse(key, storageType: storageType)
         
         guard warehouse.cacheExists(),
             let cache = warehouse.loadCache() as? Array<Any> else {
@@ -180,11 +190,12 @@ open class Pantry {
     /**
      Unacks a default storage type.
      - parameter key: The object's key
+     - parameter storageType: The storage type. Defaults to `.permanent`
 
      - SeeAlso: `StorableDefaultType`
      */
-    open static func unpack<T: StorableDefaultType>(_ key: String) -> T? {
-        let warehouse = getWarehouse(key)
+    open static func unpack<T: StorableDefaultType>(_ key: String, storageType: StorageType = .permanent) -> T? {
+        let warehouse = getWarehouse(key, storageType: storageType)
 
         guard warehouse.cacheExists(),
             let cache = warehouse.loadCache() as? T else {
@@ -197,46 +208,57 @@ open class Pantry {
     /**
      Expire a given object
      - parameter key: The object's key
+     - parameter storageType: The storage type. Defaults to `.permanent`
      */
-    open static func expire(_ key: String) {
-        let warehouse = getWarehouse(key)
+    open static func expire(_ key: String, storageType: StorageType = .permanent) {
+        let warehouse = getWarehouse(key, storageType: storageType)
 
         warehouse.removeCache()
     }
     
-    /// Deletes all the cache
-    ///
-    /// - Note: This will clear in-memory as well as JSON cache
-    open static func removeAllCache() {
+    /**
+     Deletes all the cache
+     - parameter storageType: The storage type. Defaults to `.permanent`
+ 
+     - Note: This will clear in-memory as well as JSON cache
+     */
+    open static func removeAllCache(for storageType: StorageType = .permanent) {
         ///Blindly remove all the data!
-        MemoryWarehouse.removeAllCache()
-        JSONWarehouse.removeAllCache()
+        MemoryWarehouse.removeAllCache(for: storageType)
+        JSONWarehouse.removeAllCache(for: storageType)
     }
 
-    open static func itemExistsForKey(_ key: String) -> Bool {
-        let warehouse = getWarehouse(key)
+    /**
+     Checks if an item exists for a given key
+     - parameter key: The object's key
+     - parameter storageType: The storage type. Defaults to `.permanent`
+     
+     - Note: This will clear in-memory as well as JSON cache
+     */
+    open static func itemExistsForKey(_ key: String, storageType: StorageType = .permanent) -> Bool {
+        let warehouse = getWarehouse(key, storageType: storageType)
         return warehouse.cacheExists()
     }
 
-    static func unpack<T: Storable>(_ dictionary: [String: Any]) -> T? {
-        let warehouse = getWarehouse(dictionary as Any)
+    static func unpack<T: Storable>(_ dictionary: [String: Any], storageType: StorageType = .permanent) -> T? {
+        let warehouse = getWarehouse(dictionary as Any, storageType: storageType)
         
         return T(warehouse: warehouse)
     }
 
-    static func getWarehouse(_ forKey: String) -> Warehouseable & WarehouseCacheable {
+    static func getWarehouse(_ forKey: String, storageType: StorageType) -> Warehouseable & WarehouseCacheable {
         if let inMemoryIdentifier = Pantry.enableInMemoryModeWithIdentifier {
             return MemoryWarehouse(key: forKey, inMemoryIdentifier: inMemoryIdentifier)
         } else {
-            return JSONWarehouse(key: forKey)
+            return JSONWarehouse(storageType: storageType, key: forKey)
         }
     }
 
-    static func getWarehouse(_ forContext: Any) -> Warehouseable {
+    static func getWarehouse(_ forContext: Any, storageType: StorageType) -> Warehouseable {
         if let inMemoryIdentifier = Pantry.enableInMemoryModeWithIdentifier {
             return MemoryWarehouse(context: forContext, inMemoryIdentifier: inMemoryIdentifier)
         } else {
-            return JSONWarehouse(context: forContext)
+            return JSONWarehouse(storageType: storageType, context: forContext)
         }
     }
 }
